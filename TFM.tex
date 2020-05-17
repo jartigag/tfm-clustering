@@ -1,0 +1,66 @@
+\documentclass{formato/UNIR}
+
+%--- Parámetros de entrada ---%
+\titulo{Caracterización de equipos informáticos según su comportamiento en una red empresarial}
+\autor{Javier Artiga Garijo}
+\director{Luis Miguel Garay Gallastegui}
+\fecha{[Fecha de Entrega]}
+\ciudad{Logroño}
+\universidad{Universidad Internacional de la Rioja (UNIR)}
+\escuela{Escuela Superior de Ingeniería y Tecnología}
+\master{Máster Universitario en Análisis y Visualización de Datos Masivos}
+\tipoTesis{Trabajo Fin de Máster}
+
+\keywords{Plabra clave 1, Palabra clave 2, Palabra Clave N} %Keywords en inglés
+\keywordsEs{Plabra clave 1, Palabra clave 2, Palaba Clave N} %Palabras clave en español
+
+
+%--- Archivo de configuracion global ---%
+\input{formato/conf}
+
+%---  Compilacion rapida ---%
+% Para ahorrar tiempo de compilación, comentar las secciones que no se quieran compilar
+% Carácter % enfrente de la sección.
+\includeonly{
+  contenido/TFM-00_Abstract,
+  contenido/TFM-01_Introduccion,
+  contenido/TFM-02_ObjetivosYMetodologia,
+  contenido/TFM-03_EstadoDelArte,
+  contenido/TFM-04_Desarrollo,
+  contenido/TFM-05_Resultados,
+  contenido/TFM-06_Conclusiones,
+  contenido/TFM-10_Bibliografia,
+  contenido/TFM-11_Apendice_1,
+%   contenido/TFM-11_Apendice_2 
+}
+
+%---------------------------------------------%
+%           Inicio del documento
+%---------------------------------------------%
+\begin{document}
+    %--- Páginas iniciales: portada, abstract, índice, lista de figuras y lista de tablas ---%. 
+    \frontmatter
+    \pagestyle{frontmatter}
+      \maketitle          % Portada
+      \tableofcontents    % Índice
+      \clearpage
+      \include{contenido/TFM-00_Abstract}  %Abtract
+      \listoffigures      % Índice de imágenes
+      \listoftables       % Índice de tablas
+    
+    %---    Cuerpo ---% 
+    \mainmatter
+    \pagestyle{mainmatter}
+    %Incluir aquí todos los capítulos (carpeta contenido)
+      \include{contenido/TFM-01_Introduccion}
+      \include{contenido/TFM-02_ObjetivosYMetodologia}
+      \include{contenido/TFM-03_EstadoDelArte}
+      \include{contenido/TFM-04_Desarrollo}
+      \include{contenido/TFM-05_Resultados}
+      \include{contenido/TFM-06_Conclusiones}
+      \include{contenido/TFM-10_Bibliografia}
+      \begin{appendices}
+        %Incluir aquí todos los apéndices (carpeta contenido).
+        \include{contenido/TFM-11_Apendice_1}
+      \end{appendices}
+\end{document}

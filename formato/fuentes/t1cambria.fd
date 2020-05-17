@@ -1,0 +1,10 @@
+\ProvidesFile{t1cambria.fd}
+\DeclareFontFamily{T1}{cambria}{}
+\DeclareFontShape{T1}{cambria}{m}{n}{ <-> Cambria-Regular}{}
+\pdfmapline{+Cambria-Regular\space <Cambria-Regular.ttf\space <T1-WGL4.enc}
+\DeclareFontShape{T1}{cambria}{b}{n}{ <-> Cambria-Bold}{}
+\pdfmapline{+Cambria-Bold\space <Cambria-Bold.ttf\space <T1-WGL4.enc}
+\DeclareFontShape{T1}{cambria}{m}{it}{ <-> Cambria-Italic}{}
+\pdfmapline{+Cambria-Italic\space <Cambria-Italic.ttf\space <T1-WGL4.enc}
+\DeclareFontShape{T1}{cambria}{b}{it}{ <-> Cambria-BoldIt}{}
+\pdfmapline{+Cambria-BoldIt\space <Cambria-BoldIt.ttf\space <T1-WGL4.enc}

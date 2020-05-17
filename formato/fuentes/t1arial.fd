@@ -1,0 +1,10 @@
+\ProvidesFile{t1arial.fd}
+\DeclareFontFamily{T1}{arial}{}
+\DeclareFontShape{T1}{arial}{m}{n}{ <-> Arial-Regular}{}
+\pdfmapline{+Arial-Regular\space <Arial-Regular.ttf\space <T1-WGL4.enc}
+\DeclareFontShape{T1}{arial}{b}{n}{ <-> Arial-Bold}{}
+\pdfmapline{+Arial-Bold\space <Arial-Bold.ttf\space <T1-WGL4.enc}
+\DeclareFontShape{T1}{arial}{m}{it}{ <-> Arial-Italic}{}
+\pdfmapline{+Arial-Italic\space <Arial-Italic.ttf\space <T1-WGL4.enc}
+\DeclareFontShape{T1}{arial}{b}{it}{ <-> Arial-BoldIt}{}
+\pdfmapline{+Arial-BoldIt\space <Arial-BoldIt.ttf\space <T1-WGL4.enc}

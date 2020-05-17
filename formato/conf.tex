@@ -1,0 +1,144 @@
+\makeatletter
+    \xdef\autorv{\@author}
+    \xdef\titulov{\@title}
+    \xdef\masterv{\@master}
+    \xdef\fechav{\@date}
+    \xdef\universidadv{\@universidad}
+    \xdef\escuelav{\@escuela}
+    \xdef\tipoTesisv{\@tipoTesis}
+    \xdef\directorv{\@director}
+    \xdef\ciudadv{\@ciudad}
+\makeatother
+
+%Referencias 
+\usepackage{footmisc}
+\usepackage{hyperref}
+\hypersetup{
+    pdftitle={\titulov},
+    pdfauthor={\autorv},
+    pdfsubject={\masterv},
+    pdfpagemode={UseOutlines},
+    bookmarksopen=true,
+    bookmarksopenlevel=0,
+    hypertexnames=false,
+    colorlinks=true,
+    pdfborder={0 0 0},
+    citecolor=blue,
+    linkcolor=blue,
+    urlcolor=blue,
+    pdfstartview={FitV},
+    breaklinks=true
+}
+
+%Metadatos
+\usepackage{hyperxmp}     
+\AtBeginDocument{\hypersetup{pdfkeywords={\keywordsESv}}}
+
+
+%Tablas (líneas horizonales toprule,bottomrule,midrule)
+\usepackage{booktabs}
+
+%Estructura del documento
+\usepackage[toc,page,title,titletoc]{appendix}
+\renewcommand*\appendixpagename{Apéndices}
+
+%Idioma
+\usepackage[spanish]{babel}
+\addto\captionsspanish{\renewcommand{\tablename}{Tabla}}
+\addto\captionsspanish{\renewcommand{\listtablename}{Índice de Tablas}}
+
+%Color azul UNIR
+\usepackage[dvipsnames]{xcolor}
+\definecolor{azul}{RGB}{81, 131, 187}
+\def\azul{\color{azul}}
+\def\an{\bfseries\azul}
+
+%Márgenes UNIR
+\RequirePackage{geometry}
+\geometry{
+	paper=a4paper,  
+	left=3.5cm,
+	right=1.5cm,
+	top=2.5cm, 
+	bottom=2.5cm,
+	headheight=0.75cm,
+	headsep=1.5cm,
+	footskip=1.5cm,
+	%showframe, % Ver marcos
+}
+
+% Cabeceras y pies de página UNIR
+\usepackage{lastpage}
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+\patchcmd{\chapter}{\thispagestyle{plain}}{\thispagestyle{fancy}}{}{}
+
+\fancypagestyle{mainmatter}{%
+    \fancyhead{}%
+    \lhead{{\color{azul}\autorv}}%
+    \chead{}%
+    \rhead{\masterv}%
+    \lfoot{{\color{azul}\titulov}}%
+    \cfoot{}%
+    \rfoot{\thepage\ of \getpagerefnumber{LastPage}}}
+
+\fancypagestyle{frontmatter}{%
+    \fancyhead{}%
+    \lhead{{\color{azul}\autorv}}%
+    \chead{}%
+    \rhead{\masterv}%
+    \lfoot{{\color{azul}\titulov}}%
+    \cfoot{}%
+    \rfoot{\thepage}}
+
+% Necesario para forzar encabezados y pies de página en la primera página de cada    
+%\usepackage{etoolbox}      
+\usepackage{setspace} % Espaciado entre líneas
+\setstretch{1.5}
+\usepackage[autostyle=true]{csquotes} % Referencias en UTF8
+
+% Dependiendo del compilador se utilizan fuentes true type o fuentes convertidas (TFM)
+\usepackage{array}
+\usepackage{ifluatex,ifxetex}
+\ifnum\ifluatex1\else\ifxetex1\else0\fi\fi
+    =1 %
+    \input{formato/fuentes/confTTF}
+\else
+    \input{formato/fuentes/confTFM}
+\fi
+
+%--- Portada ---%
+\renewcommand*{\maketitle}{%
+    \begin{titlepage}%
+        {\flushleft%
+            {\includegraphics[width=8.18cm]{./contenido/imagenes/logo-UNIR.pdf}}\par
+        }%
+        \vspace{1cm}
+        \begin{table}[h!]
+        \hyphenpenalty=10000
+        \setlength\arrayrulewidth{2pt}
+            \begin{tabularx}{14.5cm}{ L{0.074} !{\color{azul}\vline}  L{0.931} }
+                & \\
+                & \fontsize{14}{14}\selectfont \georgiab \universidadv\\
+                & \\
+                & \fontsize{18}{18}\selectfont \georgiab \escuelav \\
+                & \\
+                & \fontsize{14}{14}\selectfont  \georgiab\masterv \\
+                & \\ & \\ & \\
+                & \fontsize{32}{32}\selectfont \cambriamd \color{azul}   \titulov \\
+
+            \end{tabularx}
+        \end{table}
+        \vspace{0.5cm}
+        {\flushleft \fontsize{11}{11}\selectfont %
+            \georgiab \tipoTesisv\par
+                \vspace{0.5cm}
+                Presentado por: \georgiamd \autorv \par
+                \vspace{0.5cm}
+                \georgiab Director: \georgiamd \directorv \par
+                \vspace{3cm}
+                {\color{azul}%
+                \georgiab Ciudad: \georgiamd \ciudadv \par
+                \georgiab Fecha: \georgiamd \fechav \par}
+        }
+    \end{titlepage}}

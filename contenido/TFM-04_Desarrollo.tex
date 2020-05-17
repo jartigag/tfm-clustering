@@ -1,0 +1,87 @@
+\chapter{Desarrollo}\label{chap:desarrollo}
+\textbf{Desarrollo específico de la contribución}
+
+%Párrafo introductorio del capítulo
+[Párrafo introductorio del capítulo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus impedit sint cumque, omnis assumenda, molestias corporis repellat, reprehenderit, ullam labore aliquam. Velit ut, ab amet a recusandae, eaque similique alias!]
+
+\section{Presentación del entorno}\label{sec:presentaciondelentorno}
+
+En el escenario del proyecto (la red de un banco que es cliente de la empresa),
+
+\section{Extracción y filtrado}\label{sec:extraccionyfiltrado}
+
+El punto de interés para la captura se concentra por tanto en dos equipos por los que pasa el grueso del tráfico total: un Firewall Fortinet y un IPS PaloAlto.
+Como es habitual, estos equipos reportan todas sus acciones a través de logs, con varios niveles de granularidad e importancia.
+Incluyen también multitud de información aportada por los propios sistemas que enriquecen el valor de cada evento.
+Esto es razón para preferir los logs de firewall como fuente de información frente a una captura de tráfico en crudo, ya que
+lo que procesan los firewalls casi siempre es más relevante que el tráfico completo pero sin procesar.
+Además, el volumen de una captura de tráfico de estas características sería notablemente mayor y más difícil de manejar.
+
+Aunque el fin para el que sirven ambos equipos (análisis y protección frente a amenazas informáticas) sea similar, la estructura usada por cada uno en los logs que produce es completamente distinta.
+Los logs de Fortinet siguen un formato clave-valor con ciertas particularidades, mientras que los de PaloAlto tienen una serie de campos fijos que están delimitados por comas. A modo de ejemplo, las líneas adjuntadas a continuación corresponden a un evento del firewall Fortinet y otro del IPS PaloAlto, respectivamente (cada línea es un evento):
+
+\begingroup
+\makeatletter
+\@totalleftmargin=-1cm
+\begin{verbatim}
+
+1585572524|1585572524|2020-03-30T06:48:44.202297-06:00|10.2.0.11|6|local7|
+date=2020-03-30 time=06:48:44 devname="FW1_INTERNETCORP" devid="FG1809999"
+logid="1059028704" type="utm" subtype="app-ctrl" eventtype="app-ctrl-all"
+level="information" vd="root" eventtime=1585572524 appid=41470 user="NOM"
+group="GrupoOffice365" authserver="SV1" srcip=172.2.9.6 dstip=23.203.51.72
+srcport=54697 dstport=443 srcintf="p18" srcintfrole="undef" dstintf="p20"
+dstintfrole="wan" proto=6 service="HTTPS" direction="outgoing" policyid=124
+sessionid=325186437 applist="AC_CORREO" appcat="Collab" app="Microsoft.CDN"
+action="pass" hostname="img-prod-cms-rt-microsoft-com.akamaized.net"
+incidentserialno=1513678724 url="/" msg="Collaboration: Microsoft.CDN,"
+apprisk="elevated" scertcname="a248.e.akamai.net"
+
+1585659863|1585659863|2020-03-31T07:04:23.027791-06:00|10.2.0.73|6|local0|
+1,2020/03/31 07:04:23,001801037558,TRAFFIC,end,2049,2020/03/31 07:04:03,
+10.138.4.7,186.151.236.155,0.0.0.0,0.0.0.0,OUTBOUND,,,incomplete,vsys1,
+trust,untrust,ethernet1/10,ethernet1/9,Log-Panorama,2020/03/31 07:04:03,
+41602,1,55074,80,0,0,0x19,tcp,allow,132,132,0,2,2020/03/31 07:03:55,3,any,
+0,1307298109,0x80000,10.0.0.0-10.255.255.255,America,0,2,0,aged-out,13,0,0,
+0,,PA-3020-Z9,from-policy,,,0,,0,,N/A,0,0,0,0
+
+\end{verbatim}
+\endgroup
+
+Volumen de estos logs
+
+Otro hecho reseñable que afecta al formato es que se emplea \emph{syslog}\footnote{\url{https://tools.ietf.org/html/rfc5424}} como protocolo para trasladar los datos desde cada equipo hasta la sonda, de forma que se cuenta con ciertos campos adicionales a los enviados por los equipos.
+Para el tema que nos ocupa, el único campo que se extrae de esta cabecera es la marca de tiempo en la que ha llegado cada evento, conocida en el vocabulario informático como \emph{timestamp}.
+En cualquier caso, esta sección adicional dentro de los logs tiene también su propio formato, por lo cual también se deberá tratar de forma específica.
+En nuestra configuración (que aplica a la herramienta \emph{rsyslog}\footnote{\url{https://www.rsyslog.com/}}), la siguiente directiva establece cómo se vuelcan a fichero estos campos de syslog:
+
+\begin{verbatim}
+template(name="FORMATO_LOGS" type="string"
+string="%timereported:::date-unixtimestamp%|
+    %timegenerated:::date-unixtimestamp%
+    |%timegenerated:::date-rfc3339%|%fromhost-ip%
+    |%syslogseverity%|%syslogfacility-text%| %syslogtag%%msg%\n")
+\end{verbatim}
+
+Así que, en los \emph{scripts} que procesan los ficheros donde se han volcado los datos traídos mediante \emph{syslog}, la fecha de cada evento se obtiene a partir de este primer campo ``timereported:::date-unixtimestamp''.
+Esta primera parte del procesado, expresada en Python, se hace de la siguiente manera:
+
+\begin{minted}{python}
+for syslogline in sys.stdin:
+
+    try:
+
+        splitted_syslogline = syslogline.rstrip().split("|") # .rstrip() removes last "\n" character
+
+        tstamp_line = int(splitted_syslogline[0])
+\end{minted}
+
+Adelgazado de logs.
+
+Agregación de sesiones.
+
+\section{Preprocesado para el clustering}\label{sec:preprocesado}
+
+\section{Exploración de datos}\label{sec:exploraciondedatos}
+
+\section{Selección de características}\label{sec:selecciondecaracteristicas}

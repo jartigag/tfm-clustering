@@ -1,0 +1,146 @@
+\chapter{Estado del Arte}\label{chap:estadodelarte}
+\textbf{Contexto y estado del arte}
+
+%Párrafo introductorio del capítulo
+[Párrafo introductorio del capítulo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus impedit sint cumque, omnis assumenda, molestias corporis repellat, reprehenderit, ullam labore aliquam. Velit ut, ab amet a recusandae, eaque similique alias!]
+
+\section{Aprendizaje automático en la clasificación de tráfico}\label{sec:aprendizajeautomaticoenclasiftrafico}
+
+El aprendizaje automático puede resumirse como una colección de técnicas de gran potencial para la minería de datos y el descubrimiento de conocimiento \cite{NA08}.
+En concreto, a la hora de extraer este conocimiento, estas técnicas son especialmente eficaces buscando y describiendo patrones estructurales útiles en los datos.
+Además, la ventaja intrínseca de esta disciplina frente a la exploración que pueda efectuar un especialista es que, al poder definirse algorítmicamente el procedimiento para su aplicación, se hace posible implementar sistemas automatizados sobre equipos informáticos.
+
+Un sistema de \emph{machine learning} aprende automáticamente de la experiencia y perfecciona su base de conocimiento, entendiendo ``aprender'' como la acción de mejorar su rendimiento en el desempeño de una tarea determinada \cite{Simon_1983}.
+Esta mejora debe ser cuantificable objetivamente en base a lo que se denomina como medida de rendimiento.
+El sistema (como cualquier otro agente computacional en la rama de la inteligencia artificial) recibirá estímulos externos (en este caso, conjuntos de datos) y,
+en base a ellos y al conocimiento que recogen el algoritmo y los resultados de sus ejecuciones previas, producirá una salida que maximizará la medida de rendimiento establecida.
+
+En terminología de \emph{machine learning}, el conjunto de datos que se toma como entrada se compone de instancias.
+Una \emph{instancia} simboliza a un individuo específico de la población sobre la que se trabaja.
+Cada instancia se representa por sus valores en una serie de \emph{características} o atributos, que no son más que medidas sobre aspectos de interés para el escenario en cuestión.
+Un conjunto de instancias con ciertas características comunes pertenece a una \emph{clase} o concepto.
+De este modo, se aprende un concepto cuando, dada una instancia, se logra identificar correctamente con qué clase se corresponde.
+Este aprendizaje implica también que se es capaz tanto de generalizar la aplicación del nombre de la clase a todos los miembros de la misma como de discriminar a los miembros que pertenecen a otra clase.
+
+Atendiendo a la naturaleza de las clases resultantes, los tipos de aprendizaje se dividen en aprendizaje supervisado y no supervisado.
+El primer tipo es capaz de clasificar nuevas instancias en clases predefinidas.
+Por el contrario, el segundo clasifica las instancias en clases no definidas con anterioridad.
+La técnica de aprendizaje no supervisado principal es el \emph{clustering} o agrupamiento, que se explicará con detalle más adelante.
+
+En los últimos tiempos, el aprendizaje automático se ha venido usando cada vez más en la clasificación de tráfico IP \cite{Dainotti_2012}.
+Las técnicas de clasificación de tráfico siguen mejorando en acierto y eficiencia, pero
+la proliferación constante de aplicaciones en Internet con comportamientos muy variados, sumado a
+los incentivos que tienen ciertos agentes para enmascarar algunas aplicaciones y así evitar el filtrado o bloqueo en firewalls,
+son algunas de las razones por las que la clasificación de tráfico permanece como uno de los muchos problemas abiertos de Internet.
+Han quedado obsoletos métodos clásicos como la identificación de aplicaciones en base a sus puertos conocidos (aquellos registrados por la IANA), que resulta muy simple y rápida pero también poco fiable.
+En el otro extremo, las técnicas de ``Deep Packet Inspection'', que analizan en profundidad el funcionamiento de las aplicaciones desde la perspectiva de su uso de los protocolos o
+buscan datos específicos en paquetes IP para inferir a qué aplicación pertenecen, suponen una alta carga computacional y habitualmente requieren hardware específico.
+Además, el buen funcionamiento de un clasificador DPI está supeditado a dos condiciones: que pueda inspeccionar el contenido de los paquetes IP y que sepa cómo interpretar la sintaxis de cada aplicación.
+La primera condición queda comprometida por la estandarización de las conexiones cifradas,
+mientras que la viabilidad de la segunda se vería restringida por la complejidad de contar con un repositorio completo y constantemente actualizado del formato de los paquetes que puede generar cada aplicación.
+Ante estas técnicas también se presentan dificultades legales y relacionadas con la privacidad.
+
+Si se trata de clasificadores de tráfico, lo más común es encontrar planteamientos basados en flujos de tráfico.
+En ocasiones, la granularidad de la clasificación se afina hasta el uso de flujos bidireccionales (asumiendo que se tiene visibilidad de ambas direcciones), pero operar a este nivel entraña una complejidad bastante mayor.
+Un flujo se suele definir como una tupla de 5 elementos: protocolo de transporte (frecuentemente, TCP o UDP), direcciones IP de origen y destino, y puertos de origen y destino.
+Con este concepto como \emph{objeto} fundamental, tradicionalmente se han buscado patrones estadísticos en los atributos de los flujos que son observables desde una perspectiva externa (es decir, sin considerar el contenido o \emph{payload} de los paquetes).
+Ejemplos de estos atributos serían: tamaño de paquetes, tiempo entre llegadas, número de paquetes en cada dirección, duración total... resumido cada uno con el estadístico muestral que se considere adecuado.
+Con la popularización del aprendizaje automático, se ha podido llevar la búsqueda de patrones entre dichos atributos a nuevos grados de profundidad.
+
+Se trabaja también con otras variantes en cuanto a cómo agrupar los paquetes que se hayan intercambiado dos máquinas.
+Entre ellas, podrían destacarse las conexiones TCP o los servicios, definidos estos como el tráfico generado entre una pareja de IPs-puertos.
+En cualquiera de los casos anteriores, se pone el foco sobre flujos individuales, para después clasificarlos bajo categorías que comparten características.
+Este tipo de planteamientos no tienen tan en cuenta el conjunto de acciones que lleva a cabo un mismo equipo.
+Así, se corre el riesgo de perder información útil de cara a entender de forma completa qué es realmente lo que están haciendo los equipos de la red.
+
+Por otro lado, se encuentran los clasificadores de tráfico basados en el comportamiento del host.
+Sirva de referente el trabajo de \cite{KPF05}, donde se propuso un novedoso método que identificaba patrones en el comportamiento de los hosts a la altura de la capa de transporte.
+Se trataba de una aproximación multinivel que descartaba incluir datos sobre el payload, los puertos bien conocidos (aspectos que conllevan las problemáticas anteriormente comentadas) o cualquier otra información separada de la que ofrecían los colectores de flujos.
+Consistía por tanto en un clasificador ``a ciegas'' (\emph{``BLINd Classification'', abreviado como ``BLINC''}) que analizaba cada hosts desde tres perspectivas: social, funcional y aplicativa.
+La perspectiva social capturaba las interacciones del host con otros hosts, en términos de cuántos hosts se conectaban con qué hosts.
+La funcional los separaba según actuaran como proveedores de un servicio, consumidores o ambos.
+Se tenían en cuenta, por tanto, los roles del modelo cliente-servidor.
+Por último, en la perspectiva aplicativa se utilizaba la información de la capa de transporte con la intención de distinguir la aplicación en cuestión.
+
+Mediante la premisa de no tratar cada flujo como una entidad distinta, se conseguiría acumular la información necesaria para reconocer el verdadero comportamiento de cada host.
+Además de cumplir con la identificación de aplicaciones específicas, este método sería resistente a circunstancias de la red como congestión o cambios de rutas.
+Esto es así porque, a diferencia de otros métodos (véanse los mencionados sobre flujos), una aproximación centrada en el comportamiento de los hosts suele ser insensible a las variaciones que puedan presentar parámetros como los tiempos de llegada entre paquetes.
+En cuanto a resultados, los enfoques de aprendizaje automático basados en patrones de comunicación de los hosts alcanzan resultados comparables a los de técnicas de DPI, siendo notablemente más asequibles y menos invasivos con la privacidad.
+
+Es por todo lo anterior que en los sistemas de detección de intrusiones, que se van a desarrollar en la siguiente sección, priman los enfoques sobre el host en vez de sobre el flujo.
+
+\section{Detección de anomalías sobre actividad de red}\label{detectanomsobreactividadred}
+
+En la gestión y monitorización de una red empresarial cobra especial relevancia la seguridad.
+En este ámbito, la seguridad informática se centra en proteger la red corporativa de ataques que puedan comprometer su disponibilidad o la integridad de los equipos que la componen, así como
+bloquear acciones no autorizadas y evitar el uso indebido de los recursos que quedan expuestos al exterior.
+
+Las organizaciones toman numerosas medidas de seguridad frente a estas amenazas, tanto \emph{software} como \emph{hardware}.
+Dos ejemplos claros serían los antivirus y los firewalls, que podríamos englobar dentro de las aproximaciones a la seguridad basadas en firmas \cite{Alconzo_2019}.
+Sin embargo, estos métodos dependen de que el fabricante del producto de seguridad haya detectado el ataque previamente, haya generado una firma que lo identifique y haya distribuido la misma hasta el cliente final.
+Es decir, solo pueden ofrecer protección ante ataques conocidos y requieren que todos los pasos anteriores se hayan completado.
+
+En contraposición, existen los sistemas de seguridad basados en detección de anomalías.
+Este tipo de métodos asumen que el impacto de un ataque modificará el comportamiento de la red, así que construyen un modelo que represente el comportamiento normal de la red, especificado por ciertas métricas.
+A continuación, monitorizan el tráfico y fijan alarmas que se dispararán cuando el valor recogido en alguna de esas métricas de referencia se desvíe del rango considerado normal \cite{Boutaba_2018}.
+
+Habitualmente, este tipo de defensas basadas en detección de anomalías son complementarias a las basadas en firmas.
+Se sitúan en una segunda línea con el objetivo de detectar a tiempo síntomas tempranos de ciberataques, para así poder actuar antes de que causen daños.
+Ambos enfoques pueden encontrarse integrados en soluciones conocidas como IDS/IPS (\emph{Intrusion Detecion/Prevention System}).
+
+En \cite{Alconzo_2019} se resaltan acertadamente las bondades y debilidades de los métodos de detección de anomalías, al decir que ``son atractivos porque permiten la pronta detección de amenazas desconocidas (por ejemplo, zero-days).
+Estos métodos, sin embargo, puede que no detecten ataques sigilosos, insuficientemente amplios para perturbar la red.
+A veces también adolecen de un alto número de falsos positivos.''
+
+Continúa señalando cómo beneficia el aprendizaje automático a este tipo de sistemas: ``el \emph{machine learning} ha recibido una significativa atención en la detección de anomalías, debido a
+la autonomía y robustez que ofrece en el aprendizaje y también a la hora de adaptar el perfil de la normalidad según va cambiando.
+Con \emph{machine learning}, el sistema puede aprender patrones de comportamientos normales dentro de entornos, aplicaciones, grupos de usuarios y a lo largo del tiempo.
+Además, ofrece la capacidad de encontrar correlaciones complejas en los datos que no pueden deducirse de la mera observación''.
+
+Se concluye por tanto que la obtención de una representación completa de la normalidad, requisito no trivial en estos sistemas basados en detección de anomalías, puede tomarse como
+un problema de clasificación en instancias normales y no normales. Dicho problema puede abordarse mediante la técnica de aprendizaje no supervisado descrita a continuación.
+
+\section{Clustering}\label{clustering}
+
+El clustering se define en \cite{NA08} como la agrupación de instancias que tienen características \emph{cercanas} en forma de clusters, sin aplicar ninguna orientación previa.
+Esta técnica de aprendizaje automático no supervisado asocia a las instancias con propiedades similares bajo el mismo grupo,
+determinando dicha similaridad en un modelo que posibilite la medición de distancias específicas, como pueda ser el espacio euclídeo.
+Los grupos pueden ser exclusivos, si cada instancia pertenece a un único grupo; solapados, si una instancia puede pertenecer a varios grupos; o probabilísticos, si la pertenencia de una instancia a un grupo se expresa mediante una cierta probabilidad.
+
+El primer uso de clustering para detección de intrusiones se vio en \cite{Portnoy_2000}.
+La hipótesis en base a la cual los autores aplicaron clustering para esta tarea es que las conexiones entre datos normales crearán clusters más grandes y más densos.
+Si se lleva el análisis un paso más allá, para incrementar la precisión de la técnica, además de las consideraciones anteriores debe tenerse en cuenta la distancia entre clusters, como se demuestra en \cite{JSW+06}.
+
+Los tipos de algoritmos de clustering usados en clasificación de tráfico son variados.
+En \cite{MHL+04} se aplica por primera vez un algoritmo de clustering probabilístico como es \emph{Expectation Maximization} sobre flujos de tráfico.
+Considerando varias estadísticas sobre longitud de paquetes, tiempos entre llegadas, cantidad de bytes, duración de la conexión y número de permutaciones de modo ``transaccional'' a modo ``por lotes'' (y viceversa),
+se consigue una clasificación con baja granularidad.
+Otros estudios valoran más medidas estadísticas
+[Más algoritmos de clustering en clasif de tráfico:
+- AutoClass (Zander et al.):
+    - features: packet length stats (mean, variance in forward and backward directions), inter-arrival stats (mean, var. in f-b dirs), flow size (bytes), flow duration. Calculated on full flows
+    - classif level: (muy granular) 8 aplicaciones estudiadas
+- K-Means (Bernaille et al.):
+    - features: Packet lengths of the first few packets of bi-directional traffic flows
+    - features: (muy granular) 10 aplicaciones estudiadas
+]
+
+[Algoritmos de clustering en deección de anomalías:
+\cite{SPW12} % ((Unsupervised clustering approach for network anomaly detection))
+\cite{Leung_2005} % ((Unsupervised Anomaly Detection in Network Intrusion Detection Using Clusters))
+\cite{Kim_2018} % ((Multivariate network traffic analysis using clustered patterns))
+]
+
+Análisis de las características en tráfico de red para detección de anomalías:
+\cite{Iglesias2015} % Analysis of network traffic features for anomaly detection
+
+[Network-IDS basados en anomalías:
+\cite{GarciaTeodoro_2009} % Anomaly-based network intrusion detection: Techniques, systems and challenges
+\cite{Bhuyan_2014} % Anomaly-based network intrusion detection: Techniques, systems and challenges
+]
+
+[Extender las ideas y las referencias de:
+\cite{Bohara_2016} %Intrusion detection in enterprise systems by combining and clustering diverse monitor data
+]
+
+[Conclusiones sobre los trabajos previos]

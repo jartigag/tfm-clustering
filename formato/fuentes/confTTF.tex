@@ -1,0 +1,35 @@
+    % Fuentes comerciales TTF
+    %Fuentes TFM UNIR: Arial, Georgia y Cambria
+    \RequirePackage{fontspec}
+    
+    \setmainfont{Arial}[%
+    Path=./formato/fuentes/,
+    Extension=.ttf,
+    UprightFont =*-Regular,
+    BoldFont=*-Bold,
+    ItalicFont=*-Italic,
+    BoldItalicFont=*-BoldIt]
+    
+    \newfontfamily{\georgia}{Georgia}%
+    [Path = ./formato/fuentes/,
+    Extension = .ttf,
+    UprightFont = *-Regular,
+    BoldFont = *-Bold,
+    ItalicFont =*-Italic,
+    BoldItalicFont = *-BoldIt]
+    
+    \newfontfamily{\cambria}{Cambria}%
+    [Path = ./formato/fuentes/,
+    Extension = .ttf,
+    UprightFont = *-Regular,
+    BoldFont = *-Bold,
+    ItalicFont =*-Italic,
+    BoldItalicFont = *-BoldIt]
+    
+    \newcommand{\cambriamd}{\mdseries \cambria}
+    \newcommand{\georgiamd}{\mdseries \georgia}
+    \newcommand{\cambriab}{\bfseries \cambria}
+    \newcommand{\georgiab}{\bfseries \georgia}
+
+   
+  

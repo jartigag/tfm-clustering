@@ -1,0 +1,10 @@
+\ProvidesFile{t1georgia.fd}
+\DeclareFontFamily{T1}{georgia}{}
+\DeclareFontShape{T1}{georgia}{m}{n}{ <-> Georgia-Regular}{}
+\pdfmapline{+Georgia-Regular\space <Georgia-Regular.ttf\space <T1-WGL4.enc}
+\DeclareFontShape{T1}{georgia}{b}{n}{ <-> Georgia-Bold}{}
+\pdfmapline{+Georgia-Bold\space <Georgia-Bold.ttf\space <T1-WGL4.enc}
+\DeclareFontShape{T1}{georgia}{m}{it}{ <-> Georgia-Italic}{}
+\pdfmapline{+Georgia-Italic\space <Georgia-Italic.ttf\space <T1-WGL4.enc}
+\DeclareFontShape{T1}{georgia}{b}{it}{ <-> Georgia-BoldIt}{}
+\pdfmapline{+Georgia-BoldIt\space <Georgia-BoldIt.ttf\space <T1-WGL4.enc}

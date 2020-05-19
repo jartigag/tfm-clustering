@@ -10,7 +10,7 @@
     \xdef\ciudadv{\@ciudad}
 \makeatother
 
-%Referencias 
+%Referencias
 \usepackage{footmisc}
 \usepackage{hyperref}
 \hypersetup{
@@ -31,7 +31,7 @@
 }
 
 %Metadatos
-\usepackage{hyperxmp}     
+\usepackage{hyperxmp}
 \AtBeginDocument{\hypersetup{pdfkeywords={\keywordsESv}}}
 
 
@@ -56,10 +56,10 @@
 %Márgenes UNIR
 \RequirePackage{geometry}
 \geometry{
-	paper=a4paper,  
+	paper=a4paper,
 	left=3.5cm,
 	right=1.5cm,
-	top=2.5cm, 
+	top=2.5cm,
 	bottom=2.5cm,
 	headheight=0.75cm,
 	headsep=1.5cm,
@@ -91,8 +91,8 @@
     \cfoot{}%
     \rfoot{\thepage}}
 
-% Necesario para forzar encabezados y pies de página en la primera página de cada    
-%\usepackage{etoolbox}      
+% Necesario para forzar encabezados y pies de página en la primera página de cada
+%\usepackage{etoolbox}
 \usepackage{setspace} % Espaciado entre líneas
 \setstretch{1.5}
 \usepackage[autostyle=true]{csquotes} % Referencias en UTF8
@@ -142,3 +142,6 @@
                 \georgiab Fecha: \georgiamd \fechav \par}
         }
     \end{titlepage}}
+
+% Símbolos en ecuaciones un poco más grandes
+\usepackage{relsize}

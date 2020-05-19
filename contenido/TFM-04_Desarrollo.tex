@@ -145,17 +145,17 @@ La información de cada sesión se compone de:
     \item Contador y lista de eventos
 \end{itemize}
 
-Los niveles de anomalía y amenaza son unos índices simples que se han diseñado para resumir cualidades de la sesión de interés, como son
+Los niveles de anomalía y amenaza son unos índices simples que se han diseñado para resumir cualidades de interés acerca de la sesión, como son
 cuánto se aleja de la normalidad la cantidad de eventos prioritarios que se han visto y cómo son de peligrosas las amenazas recibidas.
-Se calculan con las fórmulas:
+Para cada sesión, se calculan sus niveles con las fórmulas:
 
 \begin{eqnarray*}
-    & N_{\textrm{anomalía}} = \sum \frac{1}{\textrm{prioridad\_evento}}\\
+    & \mathlarger{\mathlarger{\mathlarger{N}}}_{\textrm{anomalía}} = \mathlarger{\mathlarger{\mathlarger{\sum}}}_{i=1}^{n} \frac{1}{\textrm{prioridad}_{\textrm{evento}_i}}\\
     & \textrm{para eventos de prioridad }\leq4\textrm{ o eventos de tráfico que no son de inicio ni fin}
 \end{eqnarray*}
 
 \begin{eqnarray*}
-    & N_{\textrm{amenaza}} = \sum \frac{1}{\textrm{prioridad\_evento}}\\
+    & \mathlarger{\mathlarger{\mathlarger{N}}}_{\textrm{amenaza}} = \mathlarger{\mathlarger{\mathlarger{\sum}}}_{i=1}^{n} \frac{1}{\textrm{prioridad}_{\textrm{evento}_i}}\\
     & \textrm{para eventos de amenaza con prioridad }\leq4\textrm{ que no son bloqueados}
 \end{eqnarray*}
 
@@ -165,11 +165,11 @@ La recolección de esta información se realiza a través de la función adjunta
 Como puede verse, cuando se llama a esta función (lo cual ocurre ante todos los eventos de protocolo TCP o UDP que incluyan ID de sesión)
 se actualizan los parámetros relativos a la sesión actual, que están almacenados en un diccionario.
 A su vez, este diccionario se encuentra dentro del diccionario \texttt{sessions}.
-Este mantiene en memoria todas las sesiones que todavía no se han cerrado.
+Con él se mantienen en memoria todas las sesiones que todavía no se han cerrado.
 Cuando transcurre un \emph{bucket} de tiempo determinado (por defecto, 60 segundos), se comprueban todas las sesiones vigentes.
-Aquellas que tienen un evento de finalización se imprimen en un fichero y se borran del diccionario \texttt{sessions}.
-De este modo, cada 60 segundos se tienen nuevas sesiones completas (se alcanzan incluso más de 100 000 sesiones finalizadas cada minuto)
-que servirán de datos de entrada para el módulo de \emph{clustering}.
+Aquellas que tienen un evento de finalización se imprimen en un fichero y se retiran del diccionario \texttt{sessions}.
+De este modo, cada 60 segundos se tienen nuevas sesiones completas (en la práctica se alcanzan incluso más de 100 000 sesiones finalizadas cada minuto)
+que serán datos de entrada para el \emph{clustering}.
 
 \begin{minted}{python}
 def session_aggregation(dict_line, event_descript, event_tstamp):
@@ -201,7 +201,7 @@ def session_aggregation(dict_line, event_descript, event_tstamp):
         sessions[session_tuple]["counter"] = 0
         sessions[session_tuple]['max_prio'] = priority
         sessions[session_tuple]["bytes_sent"] = 0
-        sessions[session_tuple]["bytes_received"] = 0
+        sessions[session_tuple]["bytes_rcvd"] = 0
         sessions[session_tuple]['first_event_tstamp'] = int(event_tstamp)
 
     sessions[session_tuple]['last_event_tstamp'] = int(event_tstamp)
@@ -209,7 +209,7 @@ def session_aggregation(dict_line, event_descript, event_tstamp):
 
     if dict_line['type']=="TRAFFIC":
         sessions[session_tuple]["bytes_sent"] += int(dict_line['BYTES_SENT'])
-        sessions[session_tuple]["bytes_received"] += int(dict_line['BYTES_RECEIVED'])
+        sessions[session_tuple]["bytes_rcvd"] += int(dict_line['BYTES_RECEIVED'])
 
     if priority < sessions[session_tuple]['max_prio']:
     # lower prio value means more important (i.e., the most important priority is 1, or even 0 if priority=0 exists)
@@ -227,6 +227,23 @@ def session_aggregation(dict_line, event_descript, event_tstamp):
 
 \section{Preprocesado para el clustering}\label{sec:preprocesado}
 
-\section{Exploración de datos}\label{sec:exploraciondedatos}
+\section{Análisis de datos}\label{sec:analisisdedatos}
+
+Una vez extraídas las características, se procede a analizar la distribución de valores que presenta cada una de ellas en este \emph{dataset}.
+Dicha tarea permitirá entender mejor la importancia relativa de cada característica y cómo afectará a los algoritmos de \emph{clustering}.
+En concreto, se prestará especial atención a la forma, varianza y modalidades de las distribuciones.
+
+[Funciones de distribución acumulada para cada característica]
 
 \section{Selección de características}\label{sec:selecciondecaracteristicas}
+
+Como se apunta en ``Análisis de las características en tráfico de red para detección de anomalías'' \cite{Iglesias2015}, la meta que tiene la selección de características en la detección de anomalías es ``eliminar características fuertemente correladas, relevantes e irrelevantes para mejorar la calidad de la detección''.
+En este trabajo, los autores abordaron la selección de características de forma exhaustiva y rigurosa,
+mediante métodos multi-fase implementados con envolvedores (\emph{wrappers}, que buscan el subconjunto de características con mejores resultados), combinando filtrado y técnicas de regresión gradual.
+
+[Diferencia entre selección de feats. y extracción de feats.]
+
+También se considera la idea de \cite{Guyon_2003} cuando dice que ``el objetivo de la selección de variables es triple: mejorar el rendimiento de los predictores, posibilitar predictores más rápidos y eficientes en coste, y permitir una mejor comprensión del proceso subyacente que ha generado los datos''.
+
+
+\section{Parametrización}\label{sec:parametrizacion}

@@ -88,6 +88,20 @@ Habitualmente, este tipo de defensas basadas en detección de anomalías son com
 Se sitúan en una segunda línea con el objetivo de detectar a tiempo síntomas tempranos de ciberataques, para así poder actuar antes de que causen daños.
 Ambos enfoques pueden encontrarse integrados en soluciones conocidas como IDS/IPS (\emph{Intrusion Detecion/Prevention System}).
 
+Hablando en términos generales, pueden distinguirse tres fases básicas que cumplen todos los NIDS (\emph{Network} IDS) basados en anomalías \cite{GarciaTeodoro_2009}:
+\begin{itemize}
+    \item \emph{Parametrización}: las instancias del sistema objetivo se representan de forma adecuada para su tratamiento.
+    \item \emph{Entrenamiento}: se caracteriza el comportamiento normal del sistema, mediante un modelo que puede construirse con técnicas basadas en alguna de las categorías descritas después.
+    \item \emph{Detección}: se compara el modelo con el tráfico disponible, de forma que se dispara una alarma si una instancia se desvía.
+\end{itemize}
+
+Según cómo se modele el comportamiento normal del sistema \cite{Lazaveric_2005}, se pueden categorizar en técnicas basadas en estadística, en conocimiento o en aprendizaje automático.
+Las primeras no requieren un conocimiento previo sobre la actividad normal del sistema, pero la presunción que asumen de cuasi-estacionalidad es poco realista.
+Las segundas son robustas, pero el mantenimiento de datos de calidad resulta difícil y costoso.
+En cuanto a las técnicas basadas en aprendizaje automático, son flexibles y adaptables.
+También pueden capturar interdependencias entre las variables que no son fáciles de encontrar de otra forma.
+No obstante, estas técnicas tienen una dependencia importante de lo que se acepte como comportamiento normal.
+
 En \cite{Alconzo_2019} se resaltan acertadamente las bondades y debilidades de los métodos de detección de anomalías, al decir que ``son atractivos porque permiten la pronta detección de amenazas desconocidas (por ejemplo, zero-days).
 Estos métodos, sin embargo, puede que no detecten ataques sigilosos, insuficientemente amplios para perturbar la red.
 A veces también adolecen de un alto número de falsos positivos.''
@@ -131,11 +145,7 @@ Otros estudios valoran más medidas estadísticas
 \cite{Kim_2018} % ((Multivariate network traffic analysis using clustered patterns))
 ]
 
-Análisis de las características en tráfico de red para detección de anomalías:
-\cite{Iglesias2015} % Analysis of network traffic features for anomaly detection
-
 [Network-IDS basados en anomalías:
-\cite{GarciaTeodoro_2009} % Anomaly-based network intrusion detection: Techniques, systems and challenges
 \cite{Bhuyan_2014} % Anomaly-based network intrusion detection: Techniques, systems and challenges
 ]
 

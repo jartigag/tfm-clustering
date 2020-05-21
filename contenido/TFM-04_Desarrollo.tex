@@ -6,7 +6,7 @@
 
 \section{Presentación del entorno}\label{sec:presentaciondelentorno}
 
-En el escenario del proyecto (la red de un banco que es cliente de la empresa), [..]
+[En el escenario del proyecto (la red de un banco que es cliente de la empresa), ]
 
 \section{Extracción y filtrado}\label{sec:extraccionyfiltrado}
 
@@ -19,7 +19,8 @@ Además, el volumen de una captura de tráfico de estas características sería 
 
 Aunque el fin para el que sirven ambos equipos (análisis y protección frente a amenazas informáticas) sea similar,
 la estructura usada por cada uno en los logs que produce es completamente distinta.
-Los logs de Fortinet siguen un formato clave-valor con ciertas particularidades, mientras que los de PaloAlto tienen una serie de campos fijos que están delimitados por comas. A modo de ejemplo, las dos líneas adjuntadas a continuación corresponden a un evento del firewall Fortinet y otro del IPS PaloAlto, respectivamente (cada evento viene en una única línea):
+Los logs de Fortinet siguen un formato clave-valor con ciertas particularidades, mientras que los de PaloAlto tienen una serie de campos fijos que están delimitados por comas.
+A modo de ejemplo, las dos líneas adjuntadas a continuación corresponden a un evento del firewall Fortinet y otro del IPS PaloAlto, respectivamente (cada evento viene en una única línea):
 
 \begingroup
 \makeatletter
@@ -53,10 +54,14 @@ trust,untrust,ethernet1/10,ethernet1/9,Log-Panorama,2020/03/31 07:04:03,
 
 [Gráfica de volumen acumulado en el tiempo]
 
-Otro hecho reseñable que afecta al formato es que se emplea \emph{syslog}\footnote{\url{https://tools.ietf.org/html/rfc5424}} (el estándar de facto) como protocolo para trasladar los datos desde cada equipo hasta la sonda, de forma que se cuenta con ciertos campos adicionales a los enviados por los equipos.
-Para el tema que nos ocupa, los únicos campos que se extraen de esta cabecera son: la marca de tiempo en la que ha llegado cada evento, conocida en el vocabulario informático como \emph{timestamp}, y la prioridad del evento.
+Otro hecho reseñable que afecta al formato es que se emplea \emph{syslog}\footnote{\url{https://tools.ietf.org/html/rfc5424}} (el estándar de facto)
+como protocolo para trasladar los datos desde cada equipo hasta la sonda,
+de forma que se cuenta con ciertos campos adicionales a los enviados por los equipos.
+Para el tema que nos ocupa, los únicos campos que se extraen de esta cabecera son:
+la marca de tiempo en la que ha llegado cada evento, conocida en el vocabulario informático como \emph{timestamp}, y la prioridad del evento.
 En cualquier caso, esta sección adicional dentro de los logs tiene también su propio formato, por lo cual también se deberá tratar de forma específica.
-En nuestra configuración (que aplica a la herramienta \emph{rsyslog}\footnote{\url{https://www.rsyslog.com/}}), la siguiente directiva establece cómo se vuelcan a fichero estos campos de syslog:
+En nuestra configuración (que aplica a la herramienta \emph{rsyslog}\footnote{\url{https://www.rsyslog.com/}}),
+la siguiente directiva establece cómo se vuelcan a fichero estos campos de syslog:
 
 \begin{verbatim}
 template(name="FORMATO_LOGS" type="string"
@@ -66,7 +71,8 @@ string="%timereported:::date-unixtimestamp%
     |%syslogseverity%|%syslogfacility-text%| %syslogtag%%msg%\n")
 \end{verbatim}
 
-Así que, en los \emph{scripts} que procesan los ficheros donde se han volcado los datos traídos mediante \emph{syslog}, se obtiene la fecha de cada evento a partir de este primer campo ``timereported:::date-unixtimestamp'' y la prioridad a partir del quinto campo.
+Así que, en los \emph{scripts} que procesan los ficheros donde se han volcado los datos traídos mediante \emph{syslog},
+se obtiene la fecha de cada evento a partir de este primer campo ``timereported:::date-unixtimestamp'' y la prioridad a partir del quinto campo.
 Esta primera parte del procesado (que está programado en Python) se hace de la siguiente manera:
 
 \begin{minted}{python}
@@ -101,7 +107,8 @@ Establecidas las anteriores reglas, en Fortinet se convierten los campos con una
 \end{minted}
 
 Para el IPS PaloAlto, la extracción de los campos es más sencilla.
-Como cumplen con el formato CSV estandarizado\footnote{\url{https://tools.ietf.org/html/rfc4180}}, los valores se tienen en una lista con solo leer la línea a través de una función de la librería \texttt{csv}.
+Como cumplen con el formato CSV estandarizado\footnote{\url{https://tools.ietf.org/html/rfc4180}}, los valores se tienen en una lista
+con solo leer la línea a través de una función de la librería \texttt{csv}.
 En cuanto a las claves, en la documentación\footnote{\url{https://docs.paloaltonetworks.com/pan-os/8-1/pan-os-admin/monitoring/use-syslog-for-monitoring/syslog-field-descriptions.html}}
 de PaloAlto se explica que depende del tipo del evento.
 Por tanto, se asignan unas claves u otras consultando primero de qué tipo se trata.
@@ -229,7 +236,7 @@ def session_aggregation(dict_line, event_descript, event_tstamp):
 
 \section{Análisis de datos}\label{sec:analisisdedatos}
 
-Una vez extraídas las características, se procede a analizar la distribución de valores que presenta cada una de ellas en este \emph{dataset}.
+Una vez obtenidas las características, se procede a analizar la distribución de valores que presenta cada una de ellas en este \emph{dataset}.
 Dicha tarea permitirá entender mejor la importancia relativa de cada característica y cómo afectará a los algoritmos de \emph{clustering}.
 En concreto, se prestará especial atención a la forma, varianza y modalidades de las distribuciones.
 
@@ -237,13 +244,40 @@ En concreto, se prestará especial atención a la forma, varianza y modalidades 
 
 \section{Selección de características}\label{sec:selecciondecaracteristicas}
 
-Como se apunta en ``Análisis de las características en tráfico de red para detección de anomalías'' \cite{Iglesias2015}, la meta que tiene la selección de características en la detección de anomalías es ``eliminar características fuertemente correladas, relevantes e irrelevantes para mejorar la calidad de la detección''.
+Como se apunta en ``Análisis de las características en tráfico de red para detección de anomalías'' \cite{Iglesias_2015},
+la meta que tiene la selección de características en la detección de anomalías es
+``eliminar características fuertemente correladas, redundantes e irrelevantes para mejorar la calidad de la detección''.
 En este trabajo, los autores abordaron la selección de características de forma exhaustiva y rigurosa,
-mediante métodos multi-fase implementados con envolvedores (\emph{wrappers}, que buscan el subconjunto de características con mejores resultados), combinando filtrado y técnicas de regresión gradual.
+mediante métodos multi-fase implementados con envolvedores (\emph{wrappers}, que buscan el subconjunto de características con mejores resultados),
+combinando filtrado y técnicas de regresión gradual.
+Para nuestro caso, se ha optado por un procedimiento más sencillo, fundamentado en dos factores: la correlación entre características y la aportación de cada una al agrupamiento.
 
-[Diferencia entre selección de feats. y extracción de feats.]
+De acuerdo con la argumentación de \cite{Bohara_2016}, si las características de un conjunto están altamente correladas,
+contendrán información redundante y provocarán un incremento innecesario de la complejidad del algoritmo.
+Para evitar esta redundancia, en dichos conjuntos fuertemente correlados se seleccionará una única característica.
+La correlación puede determinarse empleando el coeficiente de correlación de Pearson.
+Se decide que dos características se tomarán como fuertemente correladas si su coeficiente de correlación es mayor de 0,99.
+Ya que se tiene un \emph{dataset} de tamaño bastante grande y el rango de valores de las características está acotado,
+se espera que el coeficiente de correlación de Pearson proporcione una estimación de la correlación suficientemente precisa.
 
-También se considera la idea de \cite{Guyon_2003} cuando dice que ``el objetivo de la selección de variables es triple: mejorar el rendimiento de los predictores, posibilitar predictores más rápidos y eficientes en coste, y permitir una mejor comprensión del proceso subyacente que ha generado los datos''.
+El otro aspecto a considerar es la contribución de cada característica en la fase de \emph{clustering}.
+Si, al analizar el vector de los pesos relativos que tiene cada característica sobre cada uno de los clusters,
+se aprecia que ciertas características tienen un papel poco activo en la clasificación,
+se simplificará el set de características eliminando aquellas que aportan débilmente al algoritmo.
 
+Es importante distinguir la sutil diferencia entre selección de características y extracción de características.
+Ambos son métodos para reducir la dimensionalidad, pero el proceso que siguen es distinto.
+La selección de características descarta características irrelevantes o redundantes para los procesos posteriores de representación y clasificación de datos.
+En cambio, la extracción de características consiste en proyectar el \emph{dataset} original en un nuevo espacio vectorial
+donde se minimice la dependencia lineal entre características, reduciendo por tanto el número de variables necesarias.
+Aunque estas técnicas (por ejemplo, el análisis de componentes principales o PCA) permiten ponderar la importancia de las características y por tanto seleccionarlas,
+debe destacarse que solo consideran relaciones lineares entre variables (ignorando cualquier otro tipo de interacción entre ellas).
+Por eso se puede afirmar que no es un método ideal para seleccionar características, si bien es cierto
+que pueden combinarse selección y extracción de características, eliminando características irrelevantes primero y proyectándolas en espacios optimizados después.
+
+También se valora la observación de \cite{Guyon_2003} cuando dice que ``el objetivo de la selección de variables es triple: mejorar el rendimiento de los predictores, posibilitar predictores más rápidos y eficientes en coste, y permitir una mejor comprensión del proceso subyacente que ha generado los datos''.
+La selección de características aquí expuesta busca cumplir con estas tres finalidades.
+
+[Explicar proceso de selección (filtrar feats. correladas y quedarse con las de más peso)]
 
 \section{Parametrización}\label{sec:parametrizacion}

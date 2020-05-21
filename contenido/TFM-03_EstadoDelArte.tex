@@ -95,12 +95,14 @@ Hablando en términos generales, pueden distinguirse tres fases básicas que cum
     \item \emph{Detección}: se compara el modelo con el tráfico disponible, de forma que se dispara una alarma si una instancia se desvía.
 \end{itemize}
 
-Según cómo se modele el comportamiento normal del sistema \cite{Lazaveric_2005}, se pueden categorizar en técnicas basadas en estadística, en conocimiento o en aprendizaje automático.
+Según cómo se modele el comportamiento normal del sistema \cite{Lazaveric_2005}, las técnicas pueden categorizarse en: basadas en estadística, en conocimiento o en aprendizaje automático.
 Las primeras no requieren un conocimiento previo sobre la actividad normal del sistema, pero la presunción que asumen de cuasi-estacionalidad es poco realista.
 Las segundas son robustas, pero el mantenimiento de datos de calidad resulta difícil y costoso.
 En cuanto a las técnicas basadas en aprendizaje automático, son flexibles y adaptables.
 También pueden capturar interdependencias entre las variables que no son fáciles de encontrar de otra forma.
 No obstante, estas técnicas tienen una dependencia importante de lo que se acepte como comportamiento normal.
+
+Para este trabajo, se ha elegido desarrollar un sistema de detección de anomalías basado en una técnica de aprendizaje automático como es el \emph{clustering}.
 
 En \cite{Alconzo_2019} se resaltan acertadamente las bondades y debilidades de los métodos de detección de anomalías, al decir que ``son atractivos porque permiten la pronta detección de amenazas desconocidas (por ejemplo, zero-days).
 Estos métodos, sin embargo, puede que no detecten ataques sigilosos, insuficientemente amplios para perturbar la red.
@@ -111,8 +113,8 @@ la autonomía y robustez que ofrece en el aprendizaje y también a la hora de ad
 Con \emph{machine learning}, el sistema puede aprender patrones de comportamientos normales dentro de entornos, aplicaciones, grupos de usuarios y a lo largo del tiempo.
 Además, ofrece la capacidad de encontrar correlaciones complejas en los datos que no pueden deducirse de la mera observación''.
 
-Se concluye por tanto que la obtención de una representación completa de la normalidad, requisito no trivial en estos sistemas basados en detección de anomalías, puede tomarse como
-un problema de clasificación en instancias normales y no normales. Dicho problema puede abordarse mediante la técnica de aprendizaje no supervisado descrita a continuación.
+Se concluye por tanto que la obtención de una representación completa de la normalidad, requisito no trivial en estos sistemas basados en detección de anomalías, puede tomarse como un problema de clasificación en instancias normales y no normales.
+Dicho problema puede abordarse mediante la técnica de aprendizaje no supervisado descrita a continuación.
 
 \section{Clustering}\label{clustering}
 
@@ -145,12 +147,8 @@ Otros estudios valoran más medidas estadísticas
 \cite{Kim_2018} % ((Multivariate network traffic analysis using clustered patterns))
 ]
 
-[Network-IDS basados en anomalías:
+[Network-IDS basados en anomalías. Medidas de validación de clusters:
 \cite{Bhuyan_2014} % Anomaly-based network intrusion detection: Techniques, systems and challenges
-]
-
-[Extender las ideas y las referencias de:
-\cite{Bohara_2016} %Intrusion detection in enterprise systems by combining and clustering diverse monitor data
 ]
 
 [Conclusiones sobre los trabajos previos]

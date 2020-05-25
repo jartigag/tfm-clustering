@@ -234,6 +234,16 @@ def session_aggregation(dict_line, event_descript, event_tstamp):
 
 \section{Preprocesado para el clustering}\label{sec:preprocesado}
 
+[Muestrear 1M sesiones con \{src,dst\}\_ip,proto,\{src,dst\}\_port,\{anom,threat\}\_levels,prio,count\_events:
+\begin{verbatim}
+$ shuf -n 1000000 FORTINET_INTERNET_CORP_10.251.0.101.1 | \
+    awk -F"···" '{print $5,$7,$9,$10,$11}' \
+    > datasets_clustering/FORTINET_INTERNET_CORP_10.251.0.101.23may
+\end{verbatim}
+]
+
+[Anonimizar adaptando las funciones de \cite{Labayen_2020}]
+
 \section{Análisis de datos}\label{sec:analisisdedatos}
 
 Una vez obtenidas las características, se procede a analizar la distribución de valores que presenta cada una de ellas en este \emph{dataset}.

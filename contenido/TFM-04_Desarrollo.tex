@@ -58,7 +58,8 @@ Otro hecho reseñable que afecta al formato es que se emplea \emph{syslog}\footn
 como protocolo para trasladar los datos desde cada equipo hasta la sonda,
 de forma que se cuenta con ciertos campos adicionales a los enviados por los equipos.
 Para el tema que nos ocupa, los únicos campos que se extraen de esta cabecera son:
-la marca de tiempo en la que ha llegado cada evento, conocida en el vocabulario informático como \emph{timestamp}, y la prioridad del evento.
+la marca de tiempo en la que ha llegado cada evento, conocida en el vocabulario informático como \emph{timestamp}, y lo que conoceremos como la prioridad del evento
+(que en la especificación de \emph{syslog} se denomina severidad, pero se ha creído que el término ``prioridad'' es más acertado en este entorno).
 En cualquier caso, esta sección adicional dentro de los logs tiene también su propio formato, por lo cual también se deberá tratar de forma específica.
 En nuestra configuración (que aplica a la herramienta \emph{rsyslog}\footnote{\url{https://www.rsyslog.com/}}),
 la siguiente directiva establece cómo se vuelcan a fichero estos campos de syslog:
@@ -234,15 +235,55 @@ def session_aggregation(dict_line, event_descript, event_tstamp):
 
 \section{Preprocesado para el clustering}\label{sec:preprocesado}
 
-[Muestrear 1M sesiones con \{src,dst\}\_ip,proto,\{src,dst\}\_port,\{anom,threat\}\_levels,prio,count\_events:
+A partir de los datos de sesiones finalizadas descritos anteriormente, se obtiene un dataset en el formato adecuado para aplicar algoritmos de clustering sobre él.
+Como se ha comentado, el volumen de datos es muy alto, así que como primera aproximación se extrae una muestra suficientemente grande pero operable a priori.
+También se empezará por los datos de sesiones vistas en el Fortinet, ya que, al ser el equipo que vigila las conexiones desde la red corporativa a Internet,
+resulta de más interés y presumiblemente tendrá una actividad más relevante de cara a clasificarla.
+
+La cantidad de sesiones diaria en el firewall Fortinet suele estar en torno a los 20 millones.
+Se practica un muestreo aleatorio simple que reduce los datos a un 5\%,
+de forma que el tamaño de la muestra (1 millón de sesiones) sea significativo para obtener unas primeras conclusiones pero su tratamiento no sea excesivamente costoso.
+
+Los datos se guardan en un fichero por día, rotándose a diario y conservándose así (en texto plano, dispuestos para ser importados a una base de datos) durante 14 días antes de eliminarse.
+Mediante el siguiente comando, se copian 1 millón de sesiones aleatorias, formadas por
+\{IP origen, IP destino, protocolo, puerto origen, puerto destino, nivel de anomalía, nivel de amenaza, máxima prioridad, cantidad de eventos\},
+y se repite para los 7 ficheros de una semana:
+
 \begin{verbatim}
 $ shuf -n 1000000 FORTINET_INTERNET_CORP_10.251.0.101.1 | \
-    awk -F"···" '{print $5,$7,$9,$10,$11}' \
+    awk -F"···" '{print $5,$6,$7,$8,$9,$10,$11,$12,$13}' \
     > datasets_clustering/FORTINET_INTERNET_CORP_10.251.0.101.23may
 \end{verbatim}
-]
 
-[Anonimizar adaptando las funciones de \cite{Labayen_2020}]
+El siguiente paso consiste en agrupar los datos por IP de origen, que será la característica identificativa de cada \emph{datapoint}.
+Para cada valor de IP de origen, se contabilizan cuántos valores distintos se observan en el resto de variables.
+Como resultado de esta transformación, se tiene una matriz con 9 columnas y \emph{n} filas, siendo \emph{n} el número de IPs de origen distintas presentes en la muestra de ese día.
+Cada valor de esta matriz resume las sesiones que un host (identificado por su IP de origen) ha mantenido, a través de las siguientes métricas:
+
+\begin{verbatim}
+len(data[src_ip]['dst_ip']),       len(data[src_ip]['proto']),
+len(data[src_ip]['src_port']),     len(data[src_ip]['dst_port']),
+mean(data[src_ip]['anom_level']),  mean(data[src_ip]['threat_level']),
+min(data[src_ip]['max_prio']),     sum(data[src_ip]['count_events'])
+\end{verbatim}
+
+Es decir, las cuatro primeras variables cuentan el número de IPs destino, protocolos, puertos origen y puertos destino que corresponden a una IP origen.
+Las dos variables siguientes, que son los niveles de anomalía y amenaza, se hallan calculando la media de cada nivel.
+La variable ``máxima prioridad'' corresponde al valor de prioridad más bajo de un evento visto para esta IP origen.
+Nótese que los niveles de proridad en \emph{syslog} (más precisamente, lo que \emph{syslog} llama ``severidad'') son descendentes,
+siendo 0 el nivel de emergencia, 1 el nivel de alerta, 2 el nivel crítico, 3 error, 4 peligro, 5 aviso, 6 información y por último, como menos importante, 7 depuración.
+Por tanto, respetando la definición original de estos niveles de prioridad de los eventos,
+se debe tomar como prioridad de máxima importancia aquella prioridad de evento mínima de todas las vistas con esta IP origen.
+Finalmente, la variable \texttt{count\_events} es la suma de eventos que el firewall ha asociado a una misma IP origen.
+
+Procediendo de la manera detallada hasta ahora sobre los datos recogidos entre el lunes 25 de mayo de 2020 y el domingo 31,
+se tienen 7 matrices de 9 variables por unas 4800 filas (equivalentes al total de IPs origen distintas) cada día,
+apreciándose un descenso de la cantidad de orígenes únicos en torno al fin de semana
+(4700 filas distintas el viernes y alrededor de 3000 filas tanto sábado como domingo).
+En total, se dispone de prácticamente 30 000 muestras.
+Con este material se puede abordar el prototipado del método de \emph{clustering} sobre el que se fundamenta este proyecto.
+
+[Anonimizar IPs? Puedo usar las funciones de \cite{Labayen_2020}]
 
 \section{Análisis de datos}\label{sec:analisisdedatos}
 

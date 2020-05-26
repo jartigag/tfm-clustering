@@ -4,9 +4,28 @@
 %Párrafo introductorio del capítulo
 [Párrafo introductorio del capítulo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus impedit sint cumque, omnis assumenda, molestias corporis repellat, reprehenderit, ullam labore aliquam. Velit ut, ab amet a recusandae, eaque similique alias!]
 
-\section{Presentación del entorno}\label{sec:presentaciondelentorno}
+\section{Presentación del escenario}\label{sec:presentaciondelescenario}
 
-[En el escenario del proyecto (la red de un banco que es cliente de la empresa), ]
+En el escenario del proyecto (la red de un banco que es cliente de la empresa), el tráfico atraviesa distintos equipos de seguridad según el entorno al que corresponda.
+Si se trata de tráfico que procede de los usuarios externos conectándose a servicios públicos del banco (expuestos a Internet), se cursa a través de una batería de equipos formada por:
+un IPS\footnote{\emph{Intrusion Prevention System}} PaloAlto, un WAF\footnote{\emph{Web Application Firewall}} de marca Fortinet, balanceadores F5, otros firewalls Checkpoint y, finalmente, los servidores.
+En caso de ser tráfico desde la red corporativa hacia Internet, los equipos en este camino son el IPS PaloAlto mencionado (pero en esta ocasión está funcionando solo como IDS\footnote{\emph{Intrusion Detection System}}) y un Firewall Fortinet, en este orden.
+Si son conexiones internas entre diferentes organizaciones, se procesa con otro firewall Fortinet independiente, etc.
+
+\begin{figure}[h]
+    \centering
+    \captionsetup{width=10cm}
+    \includegraphics[width=12cm]{contenido/img/diagrama_red.pdf}
+    \caption{Diagrama de equipos de red}
+    \label{fig:diagramared}
+\end{figure}
+
+El objetivo de este trabajo se centra en la clasificación de los equipos de la red empresarial, así que se pondrá la atención sobre el segundo itinerario descrito: el tráfico desde la red hacia Internet.
+En especial, se quiere exprimir la información que proporciona el Firewall Fortinet de ``Internet Corporativo'', ya que es principalmente quien reacciona con mecanismos de prevención o bloqueos ante las acciones iniciadas en la red corporativa.
+Como se ha explicado, al estar el IPS actuando como IDS en este ámbito y además procesando tráfico de otras redes y en otras direcciones, su información nos interesa menos.
+Sin embargo, si en un momento dado del desarrollo de este método de \emph{clustering} se cree beneficioso incorporar los eventos que arroja el IPS sobre las sesiones de los hosts de la red,
+será necesario que se hayan analizado correctamente y puedan extraerse con facilidad.
+Por eso, en la siguiente sección se detalla cómo se han estudiado los logs de ambos.
 
 \section{Extracción y filtrado}\label{sec:extraccionyfiltrado}
 
@@ -50,9 +69,9 @@ trust,untrust,ethernet1/10,ethernet1/9,Log-Panorama,2020/03/31 07:04:03,
 \end{verbatim}
 \endgroup
 
-[Volumen de estos logs]
+[Figura: Volumen de estos logs]
 
-[Gráfica de volumen acumulado en el tiempo]
+[Figura: Gráfica de volumen acumulado en el tiempo]
 
 Otro hecho reseñable que afecta al formato es que se emplea \emph{syslog}\footnote{\url{https://tools.ietf.org/html/rfc5424}} (el estándar de facto)
 como protocolo para trasladar los datos desde cada equipo hasta la sonda,
@@ -236,7 +255,7 @@ def session_aggregation(dict_line, event_descript, event_tstamp):
 \section{Preprocesado para el clustering}\label{sec:preprocesado}
 
 A partir de los datos de sesiones finalizadas descritos anteriormente, se obtiene un dataset en el formato adecuado para aplicar algoritmos de clustering sobre él.
-Como se ha comentado, el volumen de datos es muy alto, así que como primera aproximación se extrae una muestra suficientemente grande pero operable a priori.
+Ya se ha señalado que el volumen de datos es muy alto, así que como primera aproximación se extraerá una muestra suficientemente grande pero operable a priori.
 También se empezará por los datos de sesiones vistas en el Fortinet, ya que, al ser el equipo que vigila las conexiones desde la red corporativa a Internet,
 resulta de más interés y presumiblemente tendrá una actividad más relevante de cara a clasificarla.
 
@@ -291,7 +310,7 @@ Una vez obtenidas las características, se procede a analizar la distribución d
 Dicha tarea permitirá entender mejor la importancia relativa de cada característica y cómo afectará a los algoritmos de \emph{clustering}.
 En concreto, se prestará especial atención a la forma, varianza y modalidades de las distribuciones.
 
-[Funciones de distribución acumulada para cada característica]
+[Figura: Funciones de distribución acumulada para cada característica]
 
 \section{Selección de características}\label{sec:selecciondecaracteristicas}
 
@@ -322,7 +341,7 @@ La selección de características descarta características irrelevantes o redun
 En cambio, la extracción de características consiste en proyectar el \emph{dataset} original en un nuevo espacio vectorial
 donde se minimice la dependencia lineal entre características, reduciendo por tanto el número de variables necesarias.
 Aunque estas técnicas (por ejemplo, el análisis de componentes principales o PCA) permiten ponderar la importancia de las características y por tanto seleccionarlas,
-debe destacarse que solo consideran relaciones lineares entre variables (ignorando cualquier otro tipo de interacción entre ellas).
+debe destacarse que solo consideran relaciones lineales entre variables (ignorando cualquier otro tipo de interacción entre ellas).
 Por eso se puede afirmar que no es un método ideal para seleccionar características, si bien es cierto
 que pueden combinarse selección y extracción de características, eliminando características irrelevantes primero y proyectándolas en espacios optimizados después.
 

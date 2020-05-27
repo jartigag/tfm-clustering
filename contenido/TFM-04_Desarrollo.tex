@@ -186,7 +186,7 @@ Para cada sesión, se calculan sus niveles con las fórmulas:
     & \textrm{para eventos de amenaza con prioridad }\leq4\textrm{ que no son bloqueados}
 \end{eqnarray*}
 
-Tanto estas como el resto de características cuantificables pueden resultar de interés a la hora de aplicar \emph{clustering} sobre un dataset derivado de este procesado.
+Tanto estas como el resto de características cuantificables pueden resultar de interés a la hora de aplicar \emph{clustering} sobre un \emph{dataset} derivado de este procesado.
 
 La recolección de esta información se realiza a través de la función adjunta.
 Como puede verse, cuando se llama a esta función (lo cual ocurre ante todos los eventos de protocolo TCP o UDP que incluyan ID de sesión)
@@ -254,7 +254,7 @@ def session_aggregation(dict_line, event_descript, event_tstamp):
 
 \section{Preprocesado para el clustering}\label{sec:preprocesado}
 
-A partir de los datos de sesiones finalizadas descritos anteriormente, se obtiene un dataset en el formato adecuado para aplicar algoritmos de clustering sobre él.
+A partir de los datos de sesiones finalizadas descritos anteriormente, se debe obtener un \emph{dataset} en el formato adecuado para aplicar algoritmos de \emph{clustering} sobre él.
 Ya se ha señalado que el volumen de datos es muy alto, así que como primera aproximación se extraerá una muestra suficientemente grande pero operable a priori.
 También se empezará por los datos de sesiones vistas en el Fortinet, ya que, al ser el equipo que vigila las conexiones desde la red corporativa a Internet,
 resulta de más interés y presumiblemente tendrá una actividad más relevante de cara a clasificarla.
@@ -306,7 +306,7 @@ Con este material se puede abordar el prototipado del método de \emph{clusterin
 
 \section{Análisis de datos}\label{sec:analisisdedatos}
 
-Una vez obtenidas las características, se procede a analizar la distribución de valores que presenta cada una de ellas en este \emph{dataset}.
+Una vez obtenidas las características, se pasa a analizar la distribución de valores que presenta cada una de ellas en este \emph{dataset}.
 Dicha tarea permitirá entender mejor la importancia relativa de cada característica y cómo afectará a los algoritmos de \emph{clustering}.
 En concreto, se prestará especial atención a la forma, varianza y modalidades de las distribuciones.
 
@@ -331,7 +331,7 @@ Ya que se tiene un \emph{dataset} de tamaño bastante grande y el rango de valor
 se espera que el coeficiente de correlación de Pearson proporcione una estimación de la correlación suficientemente precisa.
 
 El otro aspecto a considerar es la contribución de cada característica en la fase de \emph{clustering}.
-Si, al analizar el vector de los pesos relativos que tiene cada característica sobre cada uno de los clusters,
+Si, al analizar el vector de los pesos relativos que tiene cada característica sobre cada uno de los \emph{clusters},
 se aprecia que ciertas características tienen un papel poco activo en la clasificación,
 se simplificará el set de características eliminando aquellas que aportan débilmente al algoritmo.
 

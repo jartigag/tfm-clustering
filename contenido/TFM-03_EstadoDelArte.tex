@@ -64,8 +64,10 @@ Por último, en la perspectiva aplicativa se utilizaba la información de la cap
 
 Mediante la premisa de no tratar cada flujo como una entidad distinta, se conseguiría acumular la información necesaria para reconocer el verdadero comportamiento de cada host.
 Además de cumplir con la identificación de aplicaciones específicas, este método sería resistente a circunstancias de la red como congestión o cambios de rutas.
-Esto es así porque, a diferencia de otros métodos (véanse los mencionados sobre flujos), una aproximación centrada en el comportamiento de los hosts suele ser insensible a las variaciones que puedan presentar parámetros como los tiempos de llegada entre paquetes.
-En cuanto a resultados, los enfoques de aprendizaje automático basados en patrones de comunicación de los hosts alcanzan resultados comparables a los de técnicas de DPI, siendo notablemente más asequibles y menos invasivos con la privacidad.
+Esto es así porque, a diferencia de otros métodos (véanse los mencionados sobre flujos), una aproximación centrada en el comportamiento de los hosts
+suele ser insensible a las variaciones que puedan presentar parámetros como los tiempos de llegada entre paquetes.
+En cuanto a resultados, los enfoques de aprendizaje automático basados en patrones de comunicación de los hosts alcanzan resultados comparables a los de técnicas de DPI,
+siendo notablemente más asequibles y menos invasivos con la privacidad.
 
 Es por todo lo anterior que en los sistemas de detección de intrusiones, que se van a desarrollar en la siguiente sección, priman los enfoques sobre el host en vez de sobre el flujo.
 
@@ -104,7 +106,8 @@ No obstante, estas técnicas tienen una dependencia importante de lo que se acep
 
 Para este trabajo, se ha elegido desarrollar un sistema de detección de anomalías basado en una técnica de aprendizaje automático como es el \emph{clustering}.
 
-En \cite{Alconzo_2019} se resaltan acertadamente las bondades y debilidades de los métodos de detección de anomalías, al decir que ``son atractivos porque permiten la pronta detección de amenazas desconocidas (por ejemplo, zero-days).
+En \cite{Alconzo_2019} se resaltan acertadamente las bondades y debilidades de los métodos de detección de anomalías, al decir que
+``son atractivos porque permiten la pronta detección de amenazas desconocidas (por ejemplo, zero-days).
 Estos métodos, sin embargo, puede que no detecten ataques sigilosos, insuficientemente amplios para perturbar la red.
 A veces también adolecen de un alto número de falsos positivos.''
 
@@ -113,42 +116,51 @@ la autonomía y robustez que ofrece en el aprendizaje y también a la hora de ad
 Con \emph{machine learning}, el sistema puede aprender patrones de comportamientos normales dentro de entornos, aplicaciones, grupos de usuarios y a lo largo del tiempo.
 Además, ofrece la capacidad de encontrar correlaciones complejas en los datos que no pueden deducirse de la mera observación''.
 
-Se concluye por tanto que la obtención de una representación completa de la normalidad, requisito no trivial en estos sistemas basados en detección de anomalías, puede tomarse como un problema de clasificación en instancias normales y no normales.
+Se concluye por tanto que la obtención de una representación completa de la normalidad, requisito no trivial en estos sistemas basados en detección de anomalías,
+puede tomarse como un problema de clasificación en instancias normales y no normales.
 Dicho problema puede abordarse mediante la técnica de aprendizaje no supervisado descrita a continuación.
 
 \section{Clustering}\label{clustering}
 
-El clustering se define en \cite{NA08} como la agrupación de instancias que tienen características \emph{cercanas} en forma de clusters, sin aplicar ninguna orientación previa.
+El \emph{clustering} se define en \cite{NA08} como la agrupación de instancias que tienen características \emph{cercanas} en forma de \emph{clusters}, sin aplicar ninguna orientación previa.
 Esta técnica de aprendizaje automático no supervisado asocia a las instancias con propiedades similares bajo el mismo grupo,
 determinando dicha similaridad en un modelo que posibilite la medición de distancias específicas, como pueda ser el espacio euclídeo.
-Los grupos pueden ser exclusivos, si cada instancia pertenece a un único grupo; solapados, si una instancia puede pertenecer a varios grupos; o probabilísticos, si la pertenencia de una instancia a un grupo se expresa mediante una cierta probabilidad.
+Los grupos pueden ser exclusivos, si cada instancia pertenece a un único grupo;
+solapados, si una instancia puede pertenecer a varios grupos;
+o probabilísticos, si la pertenencia de una instancia a un grupo se expresa mediante una cierta probabilidad.
 
-El primer uso de clustering para detección de intrusiones se vio en \cite{Portnoy_2000}.
-La hipótesis en base a la cual los autores aplicaron clustering para esta tarea es que las conexiones entre datos normales crearán clusters más grandes y más densos.
-Si se lleva el análisis un paso más allá, para incrementar la precisión de la técnica, además de las consideraciones anteriores debe tenerse en cuenta la distancia entre clusters, como se demuestra en \cite{JSW+06}.
+El primer uso de \emph{clustering} para detección de intrusiones se vio en \cite{Portnoy_2000}.
+La hipótesis en base a la cual los autores aplicaron \emph{clustering} para esta tarea es que las conexiones entre datos normales crearán \emph{clusters} más grandes y más densos.
+Si se lleva el análisis un paso más allá, para incrementar la precisión de la técnica, además de las consideraciones anteriores
+debe tenerse en cuenta la distancia entre \emph{clusters}, como se demuestra en \cite{JSW+06}.
 
-Los tipos de algoritmos de clustering usados en clasificación de tráfico son variados.
-En \cite{MHL+04} se aplica por primera vez un algoritmo de clustering probabilístico como es \emph{Expectation Maximization} sobre flujos de tráfico.
-Considerando varias estadísticas sobre longitud de paquetes, tiempos entre llegadas, cantidad de bytes, duración de la conexión y número de permutaciones de modo ``transaccional'' a modo ``por lotes'' (y viceversa),
-se consigue una clasificación con baja granularidad.
-Otros estudios valoran más medidas estadísticas
-[Más algoritmos de clustering en clasif de tráfico:
-- AutoClass (Zander et al.):
-    - features: packet length stats (mean, variance in forward and backward directions), inter-arrival stats (mean, var. in f-b dirs), flow size (bytes), flow duration. Calculated on full flows
-    - classif level: (muy granular) 8 aplicaciones estudiadas
-- K-Means (Bernaille et al.):
-    - features: Packet lengths of the first few packets of bi-directional traffic flows
-    - features: (muy granular) 10 aplicaciones estudiadas
-]
+Los tipos de algoritmos de \emph{clustering} usados en clasificación de tráfico son variados.
+Encontramos en \cite{MHL+04} la primera aplicación de un algoritmo de \emph{clustering} probabilístico como es \emph{Expectation Maximization} sobre flujos de tráfico.
+Considerando varias estadísticas sobre longitud de paquetes, tiempos entre llegadas, cantidad de bytes, duración de la conexión y
+número de permutaciones entre conexiones de tipo ``transaccional'' y de tipo ``por lotes'', se consigue una clasificación de aplicaciones con baja granularidad.
+En \cite{ZNA05}, se usan estadísticas similares y un método de selección de características para encontrar el conjunto de características óptimo
+que aplicar a la entrada del algoritmo de \emph{clustering} ``AutoClass''.
+Así lograron diferenciar con alta granularidad entre ocho aplicaciones previamente estudiadas, demostrando una precisión media del 86\%.
 
-[Algoritmos de clustering en detección de anomalías:
-\cite{Syarif_2012} % ((Unsupervised clustering approach for network anomaly detection))
-\cite{Leung_2005} % ((Unsupervised Anomaly Detection in Network Intrusion Detection Using Clusters))
-\cite{Kim_2018} % ((Multivariate network traffic analysis using clustered patterns))
-]
+Otros estudios valoraban muchas menos variables.
+En \cite{BTA+06}, tan solo se miraban la longitud y dirección de los primeros cinco paquetes de cada flujo (excluyendo el \emph{handshake} y los ACKs sin \emph{payload})
+para decidir mediante K-Means a cuál de las diez aplicaciones contempladas pertenecía cada flujo.
+Permitía una temprana identificación de la aplicación con una precisión cercana al 80\%, extensible hasta el 85\% con mejoras posteriores \cite{BTS06} \cite{BT07}.
 
-[Network-IDS basados en anomalías. Medidas de validación de clusters:
-\cite{Bhuyan_2014} % Anomaly-based network intrusion detection: Techniques, systems and challenges
-]
+Para la detección de anomalías también se usan habitualmente algoritmos de \emph{clustering}.
+Se advierte en \cite{Leung_2005} del alto coste de tener datos etiquetados a priori,
+por lo que se aborda la detección de anomalías mediante técnicas de aprendizaje automático no supervisado.
+Esta decisión se fundamenta en dos presunciones sobre los datos.
+La primera, que la mayoría de las conexiones de red serán tráfico normal, y solo un pequeño porcentaje del tráfico será malicioso \cite{Portnoy_2000}.
+La segunda, que el tráfico de un ataque será estadísticamente distinto al tráfico normal \cite{Javitz_1993}.
+Estos trabajos citados, junto con otros muchos como los que se recogen y comparan entre sí en \cite{Bhuyan_2014} a través de varias medidas de validez de los \emph{clusters},
+demuestran la utilidad de la técnica del \emph{clustering} en esta tarea.
+
+Comprobada la idoneidad del \emph{clustering} para detectar anomalías, en \cite{Syarif_2012} se prueban varios algoritmos de \emph{clustering} frente a varios algoritmos clasificadores.
+Se resalta que, como se ha apuntado anteriormente, los algoritmos clasificadores (como aprendizaje automático supervisado que son) son incapaces de detectar formas de intrusión o ataques no identificados previamente.
+Se elaboraron experimentos sobre un conocido \emph{dataset} (el \emph{dataset} de detección de intrusiones de la KDD Cup '99).
+Sus resultados revelaron que las técnicas de ML supervisado testeadas (Naive Bayes, reglas de inducción, árboles de decisión y KNN) no alcanzaban el 64\% de precisión ante intrusiones desconocidas.
+Por el contrario, las técnicas de ML no-supervisado lograron tasas de detección del 80\%, aunque los falsos positivos superaban el 20\%.
+Estas técnicas eran los siguientes algoritmos de \emph{clustering}: K-Means, \emph{k-medoids} \cite{Velmurugan_2010}, \emph{Expectation Maximization} \cite{Lu_2009} y detección de \emph{outliers} basada en distancia \cite{Orair_2010}.
 
 [Conclusiones sobre los trabajos previos]

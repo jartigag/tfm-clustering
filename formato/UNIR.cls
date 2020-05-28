@@ -18,7 +18,7 @@
 \newcommand*{\apa}[1]{\citeauthor{#1} (\citeyear{#1})}
 
 
-% Conveniencia: negrita con comando \n (para preservar identado de tablas con negrita)  
+% Conveniencia: negrita con comando \n (para preservar identado de tablas con negrita)
 \def\n{\bfseries}
 \def\glmtr{\guillemotright}
 \def\glmtl{\guillemotleft}

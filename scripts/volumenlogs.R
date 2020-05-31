@@ -4,4 +4,7 @@ dates <- as.Date(c("18-05-2020", "19-05-2020", "20-05-2020", "21-05-2020", "22-0
 plot(dates, raw/10^9, type="l", lty=2, ylab="Volumen de datos (GB)", xlab="Fecha (en mayo de 2020)", xaxt="n", ylim=range(c(raw, extracted)/10^9), main="Procesado de los logs del firewall Fortinet");
 lines(dates, extracted/10^9, type="l", col="blue");
 axis(1, dates, format(dates, "%a %d"));
-legend("right",lty=c(2,1), col=c("black","blue"), bty="n", legend=c("En bruto", "Resultado de la extracción"))
+legend("right",lty=c(2,1), col=c("black","blue"), bty="n", legend=c("En bruto", "Resultado de\nla extracción\nde sesiones"))
+
+# Save Plot as PDF:
+#   PDF Size: 6.00x7.00 inches

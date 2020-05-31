@@ -38,16 +38,15 @@ Además, el volumen de una captura de tráfico sería notablemente mayor y más 
 
 \begin{figure}[h]
     \centering
-    \captionsetup{width=12cm}
-    \includegraphics[width=9cm]{contenido/fig/volumen_logs.pdf}
+    \includegraphics[width=0.6\textwidth]{contenido/fig/volumen_logs.pdf}
     \caption{Volumen de logs en bruto y tras ser procesados, en una semana}
     \label{fig:volumenlogs}
 \end{figure}
 
-La cantidad de datos recibida en los logs sigue siendo alta, pero necesita ser procesada para obtener datos útiles.
+La cantidad de datos recibida en los logs sigue siendo alta, pero además necesita ser procesada para obtener datos útiles.
 En los párrafos siguientes se explica cómo se han extraído los datos de sesión que se usarán como materia prima para tener finalmente unos datos de entrada al algoritmo de \emph{clustering}.
 Se ha tomado una semana de muestra para trabajar con un periodo acotado.
-Nótese en \ref{fig:volumenlogs} la reducción de volumen en sucesivas etapas hasta aislar únicamente información valiosa.
+Nótese en la figura \ref{fig:volumenlogs} la reducción en esta primera etapa del volumen de los datos, que seguirán transformándose en sucesivas fases hasta mantener únicamente la información valiosa para la tarea que nos ocupa.
 
 Aunque el fin para el que sirven ambos equipos (análisis y protección frente a amenazas informáticas) sea similar,
 la estructura usada por cada uno en los logs que produce es completamente distinta.
@@ -319,7 +318,20 @@ Una vez obtenidas las características, se pasa a analizar la distribución de v
 Dicha tarea permitirá entender mejor la importancia relativa de cada característica y cómo afectará a los algoritmos de \emph{clustering}.
 En concreto, se prestará especial atención a la forma, varianza y modalidades de las distribuciones.
 
-[Figura: Funciones de distribución acumulada para cada característica]
+%\begin{figure}[h]
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_dst_ip.pdf}
+    \includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_dst_port.pdf}
+    \includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_events.pdf}
+    %\subfigure[]{\includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_dst_ip.pdf}}
+    %\subfigure[]{\includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_dst_port.pdf}}
+    %\subfigure[]{\includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_events.pdf}}
+    \caption{Funciones de distribución acumulada por número de IPs destino, puertos destino y eventos}
+    \label{fig:ecdfcountdstip}
+\end{figure}
+
+[Describir distribución de cada variable y comentar conclusiones]
 
 \section{Selección de características}\label{sec:selecciondecaracteristicas}
 
@@ -359,4 +371,8 @@ La selección de características aquí expuesta busca cumplir con estas tres fi
 
 [Explicar proceso de selección (filtrar feats. correladas y quedarse con las de más peso)]
 
-\section{Parametrización}\label{sec:parametrizacion}
+\section{Parametrización para los algoritmos de clustering}\label{sec:parametrizacion}
+
+\section{Análisis del clustering}\label{sec:analisisdelclustering}
+
+\section{Evaluación experimental}\label{sec:evaluacionexperimental}

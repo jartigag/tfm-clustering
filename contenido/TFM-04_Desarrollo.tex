@@ -318,7 +318,6 @@ Una vez obtenidas las características, se pasa a analizar la distribución de v
 Dicha tarea permitirá entender mejor la importancia relativa de cada característica y cómo afectará a los algoritmos de \emph{clustering}.
 En concreto, se prestará especial atención a la forma, varianza y modalidades de las distribuciones.
 
-%\begin{figure}[h]
 \begin{figure}[h]
     \centering
     \includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_dst_ip.pdf}
@@ -331,7 +330,19 @@ En concreto, se prestará especial atención a la forma, varianza y modalidades 
     \label{fig:ecdfcountdstip}
 \end{figure}
 
-[Describir distribución de cada variable y comentar conclusiones]
+La figura \ref{fig:ecdfcountdstip} muestra la función de distribución acumulada para varias características elegidas entre los datos disponibles.
+Se han superpuesto las siete líneas de los días de la semana extraída, de forma que se evidencia la estabilidad de estas distribuciones a lo largo de los días.
+Se representa cada variable sin normalizar, con lo que se obtiene una idea del rango de valores en el que se encuentra cada una.
+Cuando se pase a computar los \emph{clusters}, se normalizarán para evitar que los atributos con escalas mayores dominen las distancias.
+
+En el caso del número de eventos, se aprecia que es la distribución que más se acerca a una gaussiana, con una varianza un poco mayor en los días del fin de semana
+(son los que quedan por debajo porque tienen más varianza y una media algo superior, coloreados con un gris algo más oscuro).
+Pero, por lo general, las distribuciones que presenta el resto de características no son gaussianas y muestran asimetría positiva (los valores se concentran a la izquierda).
+
+Por tanto, se espera que las colas de las distribuciones (es decir, los puntos con valores más altos) sean de más interés en el \emph{clustering}.
+También se espera que los algoritmos sitúen a la gran mayoría de puntos dentro de unos pocos \emph{clusters} bastante densos.
+
+[PCA? En \cite{Bohara_2016} explica por qué las componentes ppales, que representan la mayor parte de la varianza, pueden no capturar comportamientos anóms.]
 
 \section{Selección de características}\label{sec:selecciondecaracteristicas}
 

@@ -2,8 +2,8 @@
 
 Este capítulo se centra en explicar cómo se ha llevado a cabo el desarrollo específico de la contribución.
 Se empezará por una presentación del escenario real que ha servido de fuente de datos, detallando cómo se han extraído y filtrado los datos.
-Una vez visto cómo se ha reducido el volumen y se ha obtenido la información de interés, se expondrán los pasos de análisis y preprocesado previos al \emph{clustering}, así como su parametrización.
-Se hará hincapié también en la forma mediante la cual se han seleccionado las características más importantes para la aplicación de este algoritmo.
+Una vez vista la manera de reducir el volumen y obtener la información de interés, se expondrán los pasos de análisis y preprocesado previos al \emph{clustering}, así como su parametrización.
+Se hará hincapié también en de qué manera se seleccionan las características más importantes para aplicar algoritmos.
 
 \section{Presentación del escenario}\label{sec:presentaciondelescenario}
 
@@ -37,22 +37,22 @@ Esto es razón para preferir los logs de firewall como fuente de información fr
 lo que procesan los firewalls casi siempre es más relevante que el tráfico completo pero sin procesar.
 Además, el volumen de una captura de tráfico sería notablemente mayor y más difícil de manejar.
 
-\begin{figure}[h]
-    \centering
-    \includegraphics[width=0.6\textwidth]{contenido/fig/volumen_logs.pdf}
-    \caption{Volumen de logs en bruto y tras ser procesados, en una semana}
-    \label{fig:volumenlogs}
-\end{figure}
-
 La cantidad de datos recibida en los logs sigue siendo alta, pero además necesita ser procesada para obtener datos útiles.
 En los párrafos siguientes se explica cómo se han extraído los datos de sesión que se usarán como materia prima para tener finalmente unos datos de entrada al algoritmo de \emph{clustering}.
 Se ha tomado una semana de muestra para trabajar con un periodo acotado.
 Nótese en la figura \ref{fig:volumenlogs} la reducción en esta primera etapa del volumen de los datos, que seguirán transformándose en sucesivas fases hasta mantener únicamente la información valiosa para la tarea que nos ocupa.
 
+\begin{figure}[h]
+    \centering
+    \includegraphics[width=0.55\textwidth]{contenido/fig/volumen_logs.pdf}
+    \caption{Volumen de logs en bruto y tras ser procesados, en una semana}
+    \label{fig:volumenlogs}
+\end{figure}
+
 Aunque el fin para el que sirven ambos equipos (análisis y protección frente a amenazas informáticas) sea similar,
 la estructura usada por cada uno en los logs que produce es completamente distinta.
 Los logs de Fortinet siguen un formato clave-valor con ciertas particularidades, mientras que los de PaloAlto tienen una serie de campos fijos que están delimitados por comas.
-A modo de ejemplo, las dos líneas adjuntadas a continuación corresponden a un evento del firewall Fortinet y otro del IPS PaloAlto, respectivamente (cada evento viene en una única línea):
+A modo de ejemplo, las dos líneas adjuntadas a continuación corresponden a un evento del firewall Fortinet y otro del IPS PaloAlto, respectivamente (viene un evento por línea):
 
 \begingroup
 \makeatletter
@@ -76,8 +76,7 @@ apprisk="elevated" scertcname="a248.e.akamai.net"
 10.138.4.7,186.151.236.155,0.0.0.0,0.0.0.0,OUTBOUND,,,incomplete,vsys1,
 trust,untrust,ethernet1/10,ethernet1/9,Log-Panorama,2020/03/31 07:04:03,
 41602,1,55074,80,0,0,0x19,tcp,allow,132,132,0,2,2020/03/31 07:03:55,3,any,
-0,1307298109,0x80000,10.0.0.0-10.255.255.255,America,0,2,0,aged-out,13,0,0,
-0,,PA-3020-Z9,from-policy,,,0,,0,,N/A,0,0,0,0
+0,1307298109,0x80000,10.0.0.0-10.255.255.255,America,0,2,0,aged-out
 
 \end{verbatim}
 \endgroup

@@ -1,8 +1,9 @@
 \chapter{Desarrollo}\label{chap:desarrollo}
-\textbf{Desarrollo específico de la contribución}
 
-%Párrafo introductorio del capítulo
-[Párrafo introductorio del capítulo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Natus impedit sint cumque, omnis assumenda, molestias corporis repellat, reprehenderit, ullam labore aliquam. Velit ut, ab amet a recusandae, eaque similique alias!]
+Este capítulo se centra en explicar cómo se ha llevado a cabo el desarrollo específico de la contribución.
+Se empezará por una presentación del escenario real que ha servido de fuente de datos, detallando cómo se han extraído y filtrado los datos.
+Una vez visto cómo se ha reducido el volumen y se ha obtenido la información de interés, se expondrán los pasos de análisis y preprocesado previos al \emph{clustering}, así como su parametrización.
+Se hará hincapié también en la forma mediante la cual se han seleccionado las características más importantes para la aplicación de este algoritmo.
 
 \section{Presentación del escenario}\label{sec:presentaciondelescenario}
 
@@ -20,7 +21,7 @@ Si son conexiones internas entre diferentes organizaciones, se procesa con otro 
     \label{fig:diagramared}
 \end{figure}
 
-El objetivo de este trabajo se centra en la clasificación de los equipos de la red empresarial, así que se pondrá la atención sobre el segundo itinerario descrito: el tráfico desde la red hacia Internet.
+El objetivo de este trabajo se centra en la clasificación de los equipos de la red empresarial, así que se pondrá la atención sobre el segundo itinerario descrito, de color amarillo en la figura \ref{fig:diagramared}: el tráfico desde la red hacia Internet.
 En especial, se quiere exprimir la información que proporciona el firewall Fortinet de ``Internet Corporativo'', ya que es principalmente quien reacciona con mecanismos de prevención o bloqueos ante las acciones iniciadas en la red corporativa.
 Como se ha explicado, al estar el IPS actuando como IDS en este ámbito y además procesando tráfico de otras redes y en otras direcciones, su información nos interesa menos.
 Sin embargo, si en un momento dado del desarrollo de este método de \emph{clustering} se cree beneficioso incorporar los eventos que arroja el IPS sobre las sesiones de los hosts de la red,
@@ -344,6 +345,8 @@ También se espera que los algoritmos sitúen a la gran mayoría de puntos dentr
 
 [PCA? En \cite{Bohara_2016} explica por qué las componentes ppales, que representan la mayor parte de la varianza, pueden no capturar comportamientos anóms.]
 
+[Normalización]
+
 \section{Selección de características}\label{sec:selecciondecaracteristicas}
 
 Como se apunta en ``Análisis de las características en tráfico de red para detección de anomalías'' \cite{Iglesias_2015},
@@ -383,6 +386,8 @@ La selección de características aquí expuesta busca cumplir con estas tres fi
 [Explicar proceso de selección (filtrar feats. correladas y quedarse con las de más peso)]
 
 \section{Parametrización para los algoritmos de clustering}\label{sec:parametrizacion}
+[Se puede hablar de: método del codo (cambios bruscos en la evolución de la inercia) para KMeans (y para más?),
+                     método de la silueta, elección de la distancia, método del gap, dendograma]
 
 \section{Análisis del clustering}\label{sec:analisisdelclustering}
 

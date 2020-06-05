@@ -1,5 +1,5 @@
 scripts/.ipynb_checkpoints/
-data/
+data*/
 .tmp/
 *.swp
 *.vim

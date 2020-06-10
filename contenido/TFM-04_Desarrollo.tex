@@ -7,17 +7,17 @@ Se hará hincapié también en de qué manera se seleccionan las característica
 
 \section{Presentación del escenario}\label{sec:presentaciondelescenario}
 
-En el escenario del proyecto (la red de un banco que es cliente de la empresa), el tráfico atraviesa distintos equipos de seguridad según el entorno al que corresponda.
+En el escenario del proyecto (la red de un banco), el tráfico atraviesa distintos equipos de seguridad según el entorno al que corresponda.
 Si se trata de tráfico que procede de los usuarios externos conectándose a servicios públicos del banco (expuestos a Internet), se cursa a través de una batería de equipos formada por:
-un IPS\footnote{\emph{Intrusion Prevention System}} PaloAlto, un WAF\footnote{\emph{Web Application Firewall}} de marca Fortinet, balanceadores F5, otros firewalls Checkpoint y, finalmente, los servidores.
-En caso de ser tráfico desde la red corporativa hacia Internet, los equipos en este camino son el IPS PaloAlto mencionado (pero en esta ocasión está funcionando solo como IDS\footnote{\emph{Intrusion Detection System}}) y un firewall Fortinet, en este orden.
+un IPS PaloAlto, un WAF\footnote{\emph{Web Application Firewall}} de marca Fortinet, balanceadores F5, otros firewalls Checkpoint y, finalmente, los servidores.
+En caso de ser tráfico desde la red corporativa hacia Internet, los equipos en este camino son el IPS PaloAlto mencionado (pero en esta ocasión está funcionando solo como IDS) y un firewall Fortinet, en este orden.
 Si son conexiones internas entre diferentes organizaciones, se procesa con otro firewall Fortinet independiente, etc.
 
 \begin{figure}[h]
     \centering
-    \captionsetup{width=10cm}
+    \captionsetup{width=12cm}
     \includegraphics[width=12cm]{contenido/fig/diagrama_red.pdf}
-    \caption{Diagrama de equipos de red}
+    \caption{Diagrama del tratamiento de conexiones entrantes y salientes}
     \label{fig:diagramared}
 \end{figure}
 
@@ -81,7 +81,7 @@ trust,untrust,ethernet1/10,ethernet1/9,Log-Panorama,2020/03/31 07:04:03,
 \end{verbatim}
 \endgroup
 
-Otro hecho reseñable que afecta al formato es que se emplea \emph{syslog}\footnote{\url{https://tools.ietf.org/html/rfc5424}} (el estándar de facto)
+Otro hecho reseñable que afecta al formato es que se emplea \emph{syslog} \cite{RFC5424} (el estándar de facto)
 como protocolo para trasladar los datos desde cada equipo hasta el punto de recolección,
 de forma que se cuenta con ciertos campos adicionales a los enviados por los equipos.
 Para el tema que nos ocupa, los únicos campos que se extraen de esta cabecera son:
@@ -135,7 +135,7 @@ Establecidas las anteriores reglas, en Fortinet se convierten los campos con una
 \end{minted}
 
 Para el IPS PaloAlto, la extracción de los campos es más sencilla.
-Como cumplen con el formato CSV estandarizado\footnote{\url{https://tools.ietf.org/html/rfc4180}}, los valores se tienen en una lista
+Como cumplen con el formato CSV estandarizado \cite{RFC4180}, los valores se tienen en una lista
 con solo leer la línea a través de una función de la librería \texttt{csv}.
 En cuanto a las claves, en la documentación\footnote{\url{https://docs.paloaltonetworks.com/pan-os/8-1/pan-os-admin/monitoring/use-syslog-for-monitoring/syslog-field-descriptions.html}}
 de PaloAlto se explica que depende del tipo del evento.
@@ -182,7 +182,10 @@ La información de cada sesión se compone de:
 
 Los niveles de anomalía y amenaza son unos índices simples que se han diseñado para resumir cualidades de interés acerca de la sesión, como son
 cuánto se aleja de la normalidad la cantidad de eventos prioritarios que se han visto y cómo son de peligrosas las amenazas recibidas.
-Para cada sesión, se calculan sus niveles con las fórmulas:
+Se entiende como ``evento'' una entrada de log, que está relacionada con una sesión concreta.
+Puede comprobarse cómo es un evento en las líneas de logs del firewall Fortinet y del IPS PaloAlto que aparecían como ejemplos al principio de \hyperref[sec:extraccionyfiltrado]{esta sección}.
+
+Para cada sesión, se calculan sus niveles sumando los \(n\) eventos que le corresponden, según las siguientes fórmulas:
 
 \begin{eqnarray*}
     & \mathlarger{\mathlarger{\mathlarger{N}}}_{\textrm{anomalía}} = \mathlarger{\mathlarger{\mathlarger{\sum}}}_{i=1}^{n} \frac{1}{\textrm{prioridad}_{\textrm{evento}_i}}\\
@@ -197,14 +200,15 @@ Para cada sesión, se calculan sus niveles con las fórmulas:
 Tanto estas como el resto de características cuantificables pueden resultar de interés a la hora de aplicar \emph{clustering} sobre un \emph{dataset} derivado de este procesado.
 
 La recolección de esta información se realiza a través de la función adjunta.
-Como puede verse, cuando se llama a esta función (lo cual ocurre ante todos los eventos de protocolo TCP o UDP que incluyan ID de sesión)
+Como puede verse, cuando se llama a esta función (lo cual ocurre ante todos los eventos de protocolo TCP o UDP)
 se actualizan los parámetros relativos a la sesión actual, que están almacenados en un diccionario.
 A su vez, este diccionario se encuentra dentro del diccionario \texttt{sessions}.
 Con él se mantienen en memoria todas las sesiones que todavía no se han cerrado.
 Cuando transcurre un \emph{bucket} de tiempo determinado (por defecto, 60 segundos), se comprueban todas las sesiones vigentes.
 Aquellas que tienen un evento de finalización se imprimen en un fichero y se retiran del diccionario \texttt{sessions}.
-De este modo, cada 60 segundos se tienen nuevas sesiones completas (en la práctica se alcanzan incluso más de 100 000 sesiones finalizadas cada minuto)
-que serán datos de entrada para el \emph{clustering}.
+De este modo, cada 60 segundos se tienen los datos de nuevas sesiones completadas (en la práctica se alcanzan incluso más de 100 000 sesiones finalizadas cada minuto).
+
+Esta serie de datos por sesión se denominará ``vector de características de la sesión'', y todos ellos serán el contenido en bruto a partir del cual se formará la entrada para el \emph{clustering}.
 
 \begin{minted}{python}
 def session_aggregation(dict_line, event_descript, event_tstamp):
@@ -262,7 +266,7 @@ def session_aggregation(dict_line, event_descript, event_tstamp):
 
 \section{Preprocesado para el clustering}\label{sec:preprocesado}
 
-A partir de los datos de sesiones finalizadas descritos anteriormente, se debe obtener un \emph{dataset} en el formato adecuado para aplicar algoritmos de \emph{clustering} sobre él.
+A partir de los vectores de características de sesión descritos anteriormente, se debe obtener un \emph{dataset} en el formato adecuado para poder aplicar algoritmos de \emph{clustering} sobre él.
 Ya se ha señalado que el volumen de datos es muy alto, así que como primera aproximación se extraerá una muestra suficientemente grande pero operable a priori.
 También se empezará por los datos de sesiones vistas en el Fortinet, ya que, al ser el equipo que vigila las conexiones desde la red corporativa a Internet,
 resulta de más interés y presumiblemente tendrá una actividad más relevante de cara a clasificarla.
@@ -309,8 +313,6 @@ apreciándose un descenso de la cantidad de orígenes únicos en torno al fin de
 (4700 filas distintas el viernes y alrededor de 3000 filas tanto sábado como domingo).
 En total, se dispone de prácticamente 30 000 muestras.
 Con este material se puede abordar el prototipado del método de \emph{clustering} sobre el que se fundamenta este proyecto.
-
-[Anonimizar IPs? Puedo usar las funciones de \cite{Labayen_2020}]
 
 \section{Análisis de datos}\label{sec:analisisdedatos}
 

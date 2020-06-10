@@ -35,8 +35,9 @@ Las técnicas de clasificación de tráfico siguen mejorando en acierto y eficie
 la proliferación constante de aplicaciones en Internet con comportamientos muy variados, sumado a
 los incentivos que tienen ciertos agentes para enmascarar algunas aplicaciones y así evitar el filtrado o bloqueo en firewalls,
 son algunas de las razones por las que la clasificación de tráfico permanece como uno de los muchos problemas abiertos de Internet.
-Han quedado obsoletos métodos clásicos como la identificación de aplicaciones en base a sus puertos conocidos (aquellos registrados por la IANA), que resulta muy simple y rápida pero también poco fiable.
-En el otro extremo, las técnicas de ``Deep Packet Inspection'', que analizan en profundidad el funcionamiento de las aplicaciones desde la perspectiva de su uso de los protocolos o
+Han quedado obsoletos métodos clásicos como la identificación de aplicaciones en base a sus puertos conocidos de nivel de transporte TCP/UDP (aquellos registrados por la IANA),
+que resulta muy simple y rápida pero también poco fiable.
+En el otro extremo, las técnicas de ``Deep Packet Inspection''\cite{Finamore_2011}, que analizan en profundidad el funcionamiento de las aplicaciones desde la perspectiva de su uso de los protocolos o
 buscan datos específicos en paquetes IP para inferir a qué aplicación pertenecen, suponen una alta carga computacional y habitualmente requieren hardware específico.
 Además, el buen funcionamiento de un clasificador DPI está supeditado a dos condiciones: que pueda inspeccionar el contenido de los paquetes IP y que sepa cómo interpretar la sintaxis de cada aplicación.
 La primera condición queda comprometida por la estandarización de las conexiones cifradas,
@@ -63,16 +64,16 @@ Consistía por tanto en un clasificador ``a ciegas'' (\emph{``BLINd Classificati
 La perspectiva social capturaba las interacciones del host con otros hosts, en términos de cuántos hosts se conectaban con qué hosts.
 La funcional los separaba según actuaran como proveedores de un servicio, consumidores o ambos.
 Se tenían en cuenta, por tanto, los roles del modelo cliente-servidor.
-Por último, en la perspectiva aplicativa se utilizaba la información de la capa de transporte con la intención de distinguir la aplicación en cuestión.
+Por último, en la perspectiva aplicativa se utilizaba la información por encima de la capa de transporte con la intención de distinguir la aplicación en cuestión.
 
-Mediante la premisa de no tratar cada flujo como una entidad distinta, se conseguiría acumular la información necesaria para reconocer el verdadero comportamiento de cada host.
+Mediante la premisa de no tratar cada flujo como una entidad distinta, se conseguiría acumular la información necesaria para reconocer el verdadero comportamiento de cada equipo informático final.
 Además de cumplir con la identificación de aplicaciones específicas, este método sería resistente a circunstancias de la red como congestión o cambios de rutas.
 Esto es así porque, a diferencia de otros métodos (véanse los mencionados sobre flujos), una aproximación centrada en el comportamiento de los hosts
 suele ser insensible a las variaciones que puedan presentar parámetros como los tiempos de llegada entre paquetes.
-En cuanto a resultados, los enfoques de aprendizaje automático basados en patrones de comunicación de los hosts alcanzan resultados comparables a los de técnicas de DPI,
-siendo notablemente más asequibles y menos invasivos con la privacidad.
+En cuanto a resultados, sobre sistemas de detección de anomalías se suelen aplicar enfoques de aprendizaje automático basados en patrones de comunicación entre los equipos informáticos.
+Estos alcanzan resultados comparables a los de técnicas de DPI sobre firewalls, siendo notablemente más asequibles y menos invasivos con la privacidad.
 
-Es por todo lo anterior que en los sistemas de detección de intrusiones, que se van a desarrollar en la siguiente sección, priman los enfoques sobre el host en vez de sobre el flujo.
+Es por todo lo anterior que en los sistemas de detección de anomalías, que se van a desarrollar en la siguiente sección, priman los enfoques sobre el equipo informático final en vez de sobre el flujo.
 
 \section{Detección de anomalías sobre actividad de red}\label{detectanomsobreactividadred}
 
@@ -90,7 +91,7 @@ Este tipo de métodos asumen que el impacto de un ataque modificará el comporta
 A continuación, monitorizan el tráfico y fijan alarmas que se dispararán cuando el valor recogido en alguna de esas métricas de referencia se desvíe del rango considerado normal \cite{Boutaba_2018}.
 
 Habitualmente, este tipo de defensas basadas en detección de anomalías son complementarias a las basadas en firmas.
-Se sitúan en una segunda línea con el objetivo de detectar a tiempo síntomas tempranos de ciberataques, para así poder actuar antes de que causen daños.
+Se sitúan en una segunda línea con el objetivo de detectar a tiempo síntomas tempranos de ciberataques de tipo \emph{zero-day}, para así poder actuar antes de que causen daños.
 Ambos enfoques pueden encontrarse integrados en soluciones conocidas como IDS/IPS (\emph{Intrusion Detecion/Prevention System}).
 
 Hablando en términos generales, pueden distinguirse tres fases básicas que cumplen todos los NIDS (\emph{Network} IDS) basados en anomalías \cite{GarciaTeodoro_2009}:
@@ -110,7 +111,7 @@ No obstante, estas técnicas tienen una dependencia importante de lo que se acep
 Para este trabajo, se ha elegido desarrollar un sistema de detección de anomalías basado en una técnica de aprendizaje automático como es el \emph{clustering}.
 
 En \cite{Alconzo_2019} se resaltan acertadamente las bondades y debilidades de los métodos de detección de anomalías, al decir que
-``son atractivos porque permiten la pronta detección de amenazas desconocidas (por ejemplo, zero-days).
+``son atractivos porque permiten la pronta detección de amenazas desconocidas (por ejemplo,\emph{zero-days}).
 Estos métodos, sin embargo, puede que no detecten ataques sigilosos, insuficientemente amplios para perturbar la red.
 A veces también adolecen de un alto número de falsos positivos.''
 
@@ -162,8 +163,8 @@ demuestran la utilidad de la técnica del \emph{clustering} en esta tarea.
 Comprobada la idoneidad del \emph{clustering} para detectar anomalías, en \cite{Syarif_2012} se prueban varios algoritmos de \emph{clustering} frente a varios algoritmos clasificadores.
 Se resalta que, como se ha apuntado anteriormente, los algoritmos clasificadores (como aprendizaje automático supervisado que son) son incapaces de detectar formas de intrusión o ataques no identificados previamente.
 Se elaboraron experimentos sobre un conocido \emph{dataset} (el \emph{dataset} de detección de intrusiones de la KDD Cup '99).
-Sus resultados revelaron que las técnicas de ML supervisado testeadas (Naive Bayes, reglas de inducción, árboles de decisión y KNN) no alcanzaban el 64\% de precisión ante intrusiones desconocidas.
-Por el contrario, las técnicas de ML no-supervisado lograron tasas de detección del 80\%, aunque los falsos positivos superaban el 20\%.
+Sus resultados revelaron que las técnicas de \emph{machine learning} supervisado testeadas (Naive Bayes, reglas de inducción, árboles de decisión y KNN) no alcanzaban el 64\% de precisión ante intrusiones desconocidas.
+Por el contrario, las técnicas de \emph{machine learning} no-supervisado lograron tasas de detección del 80\%, aunque los falsos positivos superaban el 20\%.
 Estas técnicas eran los siguientes algoritmos de \emph{clustering}: K-Means, \emph{k-medoids} \cite{Velmurugan_2010}, \emph{Expectation Maximization} \cite{Lu_2009} y detección de \emph{outliers} basada en distancia \cite{Orair_2010}.
 
 [Conclusiones sobre los trabajos previos]

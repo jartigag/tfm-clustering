@@ -1,19 +1,16 @@
 \chapter{Objetivos y Metodología}\label{chap:objetivos}
 \textbf{Objetivos concretos y metodología de trabajo}
 
-%Párrafo introductorio del capítulo
 [Párrafo introductorio del capítulo. Este bloque es el puente entre el estudio del dominio y la contribución a realizar. Según el tipo concreto de trabajo, el bloque se puede organizar de distintas formas, pero los siguientes elementos deberían estar presentes con mayor o menor detalle.]
 
-%--- General Objectives ---%
 \section{Objetivo General}\label{sec:objgeneral}
 El objetivo general del presente trabajo es extender la capacidad de monitorización que se tiene sobre una red empresarial.
 Se enfocará para ello en la detección de anomalías, haciendo uso de técnicas basadas en los equipos que la componen (a diferencia de las basadas en flujos de tráfico).
-De este modo, se desarrollará un sistema que categorice mediante clustering los equipos finales de la red
+De este modo, se desarrollará un sistema que categorice mediante clustering los equipos informáticos finales (es decir, todos menos la infraestructura de la red)
 y que pueda revelar cuándo la actividad de un equipo se desvía de su comportamiento habitual.
 
 Con ello se espera seguir mejorando las prestaciones ofrecidas, especialmente en seguridad, pero también ayudará en la identificación de problemas de configuración, cambios de tendencia en la red y en definitiva cualquier evento inesperado que pudiera repercutir negativamente en la operativa normal de la empresa monitorizada.
 
-%--- Specific Objectives ---%
 \section{Objetivos Específicos}\label{sec:objespecificos}
 La consecución de dicho objetivo general vendrá pautada por las siguientes metas más específicas, que se abordarán en este orden:
 
@@ -33,7 +30,6 @@ La consecución de dicho objetivo general vendrá pautada por las siguientes met
 
 \end{itemize}
 
-%--- Work Methodology ---%
 \section{Metodología de Trabajo}\label{sec:metodologia}
 
 [Sección previsiblemente modificable y ampliable según avance en el desarrollo del trabajo]
@@ -47,24 +43,25 @@ Sus enunciados vendrán acompañados de una descripción, explicando con un poco
     \item Selección de las características más relevantes para la clasificación
 
 A partir de la heterogénea colección de logs de varios firewalls de la que se dispone, se identificarán los datos que puedan ser interesantes para el clustering.
-Se tendrán en cuenta distintos aspectos que respondan a las actividades que realiza un equipo informático en una red empresarial, como por ejemplo el uso de determinados servicios, las visitas a sitios web de una serie de categorías, horarios de actividad, interacción con ciertos servidores, etc.
+Se tendrán en cuenta distintos aspectos que respondan a las actividades que realiza un equipo informático en una red empresarial, como por ejemplo la cantidad de conexiones, sus duraciones, horarios de actividad, interacción con ciertos servidores, etc.
 A continuación, se analizarán estas características a través de técnicas estadísticas, gracias a las cuales se adquirirá un entendimiento preliminar de la importancia que cada una supone para la posterior clasificación de instancias.
 Es posible que se logre la reducción de su dimensionalidad, la eliminación de alguna característica redundante o en definitiva alguna simplificación que haga el clustering más sencillo de ejecutar.
 
     \item Obtención de categorías mediante clustering
 
 Se pasará entonces a aplicar por primera vez algunos algoritmos de clustering sobre estos datos.
-Inicialmente se elegirán dos algoritmos simples y ampliamente conocidos como son k-means y DB-SCAN.
+Lo que se pretende es categorizar los equipos en su comportamiento ``normal'', de forma que se tengan clasificados en varios tipos según su actividad.
+Inicialmente se elegirán dos algoritmos simples y ampliamente conocidos como son K-Means y DB-SCAN.
 El primero es un algoritmo exclusivo basado en centroides, mientras que el segundo particiona según la densidad de los clusters formados.
-Se experimentará con diferentes valores para sus parámetros, de forma que puedan compararse resultados.
+Se experimentará con diferentes valores para sus parámetros, ya que así podrán compararse resultados.
 De cara a determinar la efectividad de los algoritmos, se considerarán medidas objetivas que representen su rendimiento.
 Los métodos típicos para ello valoran características intrínsecas o derivadas como su complejidad, estabilidad y tiempo de computación, así como métricas de validación internas y externas como la silueta de sus clusters o el índice de Rand.
 Estas medidas son útiles para evaluar la calidad de resultados del algoritmo, pero debe apreciarse que proporcionan un escaso conocimiento sobre lo que contienen los clusters.
 Además, se emplearán los indicadores comunes con los que se suele definir la bondad de una técnica de clasificación en aprendizaje automático.
 
-    \item Detección de intrusiones con análisis del clustering
+    \item Detección de anomalías con análisis del clustering
 
-Una vez se cuente con una clasificación satisfactoria, se procederá a la siguiente fase, en la cual se pretende detectar anomalías en los datos.
+Una vez se cuente con una clasificación satisfactoria, se procederá a la siguiente fase, en la cual se aspira a detectar anomalías en los datos.
 En caso de contar con instancias que se hayan identificado como intrusiones mediante otros métodos, se usarán para probar la capacidad de detección del sistema.
 Si, llegado el momento de hacer este testeo, no se dispone de este tipo de ejemplos, se elaborarán datos que representen distintas clases de anomalías con diversos grados de evidencia.
 Dado que también se desea detectar otras clases de anomalías más genéricas (no solo relacionadas con seguridad), se incluirán casos como cambios de configuración o de equipos que hayan cambiado de rol en la red.

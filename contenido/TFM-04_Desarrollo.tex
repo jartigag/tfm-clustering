@@ -286,7 +286,7 @@ $ shuf -n 1000000 FORTINET_INTERNET_CORP_10.251.0.101.1 | \
     > datasets_clustering/FORTINET_INTERNET_CORP_10.251.0.101.23may
 \end{verbatim}
 
-El siguiente paso consiste en agrupar los datos por IP de origen, que será la característica identificativa de cada \emph{datapoint}.
+El siguiente paso consiste en agrupar los vectores de características de sesión por IP de origen, que será la característica identificativa de cada \emph{datapoint}.
 Para cada valor de IP de origen, se contabilizan cuántos valores distintos se observan en el resto de variables.
 Como resultado de esta transformación, se tiene una matriz con 9 columnas y \emph{n} filas, siendo \emph{n} el número de IPs de origen distintas presentes en la muestra de ese día.
 Cada valor de esta matriz resume las sesiones que un host (identificado por su IP de origen) ha mantenido, a través de las siguientes métricas:

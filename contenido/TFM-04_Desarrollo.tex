@@ -183,7 +183,7 @@ La información de cada sesión se compone de:
 Los niveles de anomalía y amenaza son unos índices simples que se han diseñado para resumir cualidades de interés acerca de la sesión, como son
 cuánto se aleja de la normalidad la cantidad de eventos prioritarios que se han visto y cómo son de peligrosas las amenazas recibidas.
 Se entiende como ``evento'' una entrada de log, que está relacionada con una sesión concreta.
-Puede comprobarse cómo es un evento en las líneas de logs del firewall Fortinet y del IPS PaloAlto que aparecían como ejemplos al principio de \hyperref[sec:extraccionyfiltrado]{esta sección}.
+Puede comprobarse cómo es un evento en las líneas de logs del firewall Fortinet y del IPS PaloAlto que aparecían como ejemplos al principio de \hyperref[sec:extraccionyfiltrado]{esta misma sección}.
 
 Para cada sesión, se calculan sus niveles sumando los \(n\) eventos que le corresponden, según las siguientes fórmulas:
 
@@ -208,7 +208,7 @@ Cuando transcurre un \emph{bucket} de tiempo determinado (por defecto, 60 segund
 Aquellas que tienen un evento de finalización se imprimen en un fichero y se retiran del diccionario \texttt{sessions}.
 De este modo, cada 60 segundos se tienen los datos de nuevas sesiones completadas (en la práctica se alcanzan incluso más de 100 000 sesiones finalizadas cada minuto).
 
-Esta serie de datos por sesión se denominará ``vector de características de la sesión'', y todos ellos serán el contenido en bruto a partir del cual se formará la entrada para el \emph{clustering}.
+Esta serie de datos por sesión que produce la función \texttt{session\_aggregation} se denominará ``vector de características de la sesión'', y el conjunto de estos vectores será el contenido en bruto a partir del cual se formará la entrada para el \emph{clustering}.
 
 \begin{minted}{python}
 def session_aggregation(dict_line, event_descript, event_tstamp):
@@ -267,6 +267,8 @@ def session_aggregation(dict_line, event_descript, event_tstamp):
 \section{Preprocesado para el clustering}\label{sec:preprocesado}
 
 A partir de los vectores de características de sesión descritos anteriormente, se debe obtener un \emph{dataset} en el formato adecuado para poder aplicar algoritmos de \emph{clustering} sobre él.
+Esta adecuación consistirá básicamente en resumir la información aplicando agregaciones y calculando métricas.
+
 Ya se ha señalado que el volumen de datos es muy alto, así que como primera aproximación se extraerá una muestra suficientemente grande pero operable a priori.
 También se empezará por los datos de sesiones vistas en el Fortinet, ya que, al ser el equipo que vigila las conexiones desde la red corporativa a Internet,
 resulta de más interés y presumiblemente tendrá una actividad más relevante de cara a clasificarla.
@@ -276,39 +278,77 @@ Se practica un muestreo aleatorio simple que reduce los datos a un 5\%,
 de forma que el tamaño de la muestra (1 millón de sesiones) sea significativo para obtener unas primeras conclusiones pero su tratamiento no sea excesivamente costoso.
 
 Los datos se guardan en un fichero por día, rotándose a diario y conservándose así (en texto plano, dispuestos para ser importados a una base de datos) durante 14 días antes de eliminarse.
-Mediante el siguiente comando, se copian 1 millón de sesiones aleatorias, formadas por
-\{IP origen, IP destino, protocolo, puerto origen, puerto destino, nivel de anomalía, nivel de amenaza, máxima prioridad, cantidad de eventos\},
-y se repite para los 7 ficheros de una semana:
+Mediante el siguiente comando, se copian 1 millón de vectores de características de sesión aleatorios, que están formados por:
+
+\{tstamp inicio, tstamp fin, IP origen, IP destino, protocolo, puerto origen, puerto destino, nivel de anomalía, nivel de amenaza, máxima prioridad, cantidad de eventos\}
+
+El comando se repite para los 7 ficheros de una semana:
 
 \begin{verbatim}
 $ shuf -n 1000000 FORTINET_INTERNET_CORP_10.251.0.101.1 | \
-    awk -F"···" '{print $5,$6,$7,$8,$9,$10,$11,$12,$13}' \
+    awk -F"···" '{print $1,$2,$5,$6,$7,$8,$9,$10,$11,$12,$13}' \
     > datasets_clustering/FORTINET_INTERNET_CORP_10.251.0.101.23may
 \end{verbatim}
 
+En las pruebas iniciales se descartaron las marcas de tiempo (campos \verb|$1,$2|) por simplicidad,
+sabiendo que así se empezaría a trabajar con características más acotadas.
+Cuando ya se había validado el flujo de trabajo para aplicar los algoritmos con una cantidad limitada de características y se había adquirido práctica, se incorporaron las variables temporales.
+La manera en la que se expresarían como características requiere ser explicada con más profundidad en los párrafos sucesivos,
+donde se detallará cómo se han calculado los valores, cómo se ha realizado la agregación y por qué se ha escogido usar estas métricas.
+
 El siguiente paso consiste en agrupar los vectores de características de sesión por IP de origen, que será la característica identificativa de cada \emph{datapoint}.
 Para cada valor de IP de origen, se contabilizan cuántos valores distintos se observan en el resto de variables.
-Como resultado de esta transformación, se tiene una matriz con 9 columnas y \emph{n} filas, siendo \emph{n} el número de IPs de origen distintas presentes en la muestra de ese día.
+Hay ciertas variables que no tiene sentido resumir mediante un recuento, como son: los niveles de amenaza y anomalía, la prioridad máxima y las características temporales.
+Esas variables [..]
+Como resultado de esta transformación, se tiene una matriz con 11 columnas y \emph{n} filas, siendo \emph{n} el número de IPs de origen distintas presentes en la muestra de ese día.
 Cada valor de esta matriz resume las sesiones que un host (identificado por su IP de origen) ha mantenido, a través de las siguientes métricas:
 
-\begin{verbatim}
-len(data[src_ip]['dst_ip']),       len(data[src_ip]['proto']),
-len(data[src_ip]['src_port']),     len(data[src_ip]['dst_port']),
-mean(data[src_ip]['anom_level']),  mean(data[src_ip]['threat_level']),
-min(data[src_ip]['max_prio']),     sum(data[src_ip]['count_events'])
-\end{verbatim}
+\begin{table}[h]
+    \centering
+    \begin{tabular}{|c|c|}
+        \hline
+        \verb|len(data[src_ip]['dst_ip'])| & Número de IPs destino únicas \\
+        \hline
+        \verb|len(data[src_ip]['proto'])| & Número de protocolos usados \\
+        \hline
+        \verb|len(data[src_ip]['src_port'])| & Número de puertos origen únicos \\
+        \hline
+        \verb|len(data[src_ip]['dst_port'])| & Número de puertos destino únicos \\
+        \hline
+        \verb|mean(data[src_ip]['anom_level'])| & Nivel de anomalía medio \\
+        \hline
+        \verb|mean(data[src_ip]['threat_level'])| & Nivel de amenaza medio \\
+        \hline
+        \verb|min(data[src_ip]['max_prio'])| & Prioridad máxima \\
+        \hline
+        \verb|sum(data[src_ip]['count_events']| & Número de eventos \\
+        \hline
+        \verb|avg_duration| & Duración de sesión media \\
+    \hline
+        \verb|end_tstamps| & Tiempos de finalización de sesiones \\
+        \hline
+    \end{tabular}
+    \caption{Métricas con las que se resumen las sesiones en matrices diarias}
+    \label{tab:metricas}
+\end{table}
+
+[Mejorar \ref{tab:metricas}. Explicar por qué se han elegido métricas como medias, stddevs?, etc.]
 
 Es decir, las cuatro primeras variables cuentan el número de IPs destino, protocolos, puertos origen y puertos destino que corresponden a una IP origen.
-Las dos variables siguientes, que son los niveles de anomalía y amenaza, se hallan calculando la media de cada nivel.
+Las dos variables siguientes, que son los niveles de anomalía y amenaza, se hallan calculando la media de cada nivel en todo el periodo de tiempo bajo análisis (un día).
 La variable ``máxima prioridad'' corresponde al valor de prioridad más bajo de un evento visto para esta IP origen.
 Nótese que los niveles de proridad en \emph{syslog} (más precisamente, lo que \emph{syslog} llama ``severidad'') son descendentes,
 siendo 0 el nivel de emergencia, 1 el nivel de alerta, 2 el nivel crítico, 3 error, 4 peligro, 5 aviso, 6 información y por último, como menos importante, 7 depuración.
 Por tanto, respetando la definición original de estos niveles de prioridad de los eventos,
 se debe tomar como prioridad de máxima importancia aquella prioridad de evento mínima de todas las vistas con esta IP origen.
-Finalmente, la variable \texttt{count\_events} es la suma de eventos que el firewall ha asociado a una misma IP origen.
+La variable \texttt{count\_events} es la suma de eventos que el firewall ha asociado a una misma IP origen.
+Las últimas dos variables son las relativas al tiempo:
+``duración de sesión media'' recoge cuántos segundos han durado de media las sesiones que ha mantenido una IP origen en el día en cuestión,
+mientras que en ``end\_tstamps'' se almacena una lista con los \emph{timestamps} en los que ha acabado cada sesión de esa IP origen.
+Por tanto, la longitud de esta lista es distinta para cada IP origen.
 
-Procediendo de la manera detallada hasta ahora sobre los datos recogidos entre el lunes 25 de mayo de 2020 y el domingo 31,
-se tienen 7 matrices de 9 variables por unas 4800 filas (equivalentes al total de IPs origen distintas) cada día,
+Procediendo análogamente sobre los datos de cada día, obtenidos entre el lunes 25 de mayo de 2020 y el domingo 31,
+se tienen 7 matrices de 11 variables por unas 4800 filas (equivalentes al total de IPs origen distintas cada día),
 apreciándose un descenso de la cantidad de orígenes únicos en torno al fin de semana
 (4700 filas distintas el viernes y alrededor de 3000 filas tanto sábado como domingo).
 En total, se dispone de prácticamente 30 000 muestras.

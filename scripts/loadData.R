@@ -1,3 +1,10 @@
+# > start.time <- Sys.time()
+# > source("g/tfm/scripts/loadData.R")
+# > end.time <- Sys.time()
+# > time.taken <- end.time - start.time
+# > time.taken
+# Time difference of 1.661824 mins
+
 data_18lun <- read.csv("~/g/tfm/data2/data.18may")
 data_19mar <- read.csv("~/g/tfm/data2/data.19may")
 data_20mie <- read.csv("~/g/tfm/data2/data.20may")

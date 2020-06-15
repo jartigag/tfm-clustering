@@ -1,0 +1,249 @@
+K-means Cluster (k=5) with 5 centroids
+
+Data distribution:
+    Global: 100% (29968 instances)
+    normal, muchas cnxs: 54.34% (16285 instances)
+    normal, pocas cnxs: 30.96% (9277 instances)
+    udp: 14.12% (4230 instances)
+    muchos src_port, alto anom_level: 0.45% (134 instances)
+    cnxs largas: 0.14% (42 instances)
+
+Cluster metrics:
+    total_ss (Total sum of squares): 6045.737600
+    within_ss (Total within-cluster sum of the sum of squares): 3522.316780
+    between_ss (Between sum of squares): 2523.420820
+    ratio_ss (Ratio of sum of squares): 0.417390
+
+Models:
+    normal, muchas cnxs:
+        Field importance:
+            1. max_prio: 51.04%
+            2. proto: 27.28%
+            3. dst_ip: 11.07%
+            4. dst_port: 3.93%
+            5. src_port: 3.89%
+            6. avg_duration: 1.53%
+            7. active_hours_vector: 0.47%
+            8. stdev_duration: 0.41%
+            9. count_events: 0.26%
+            10. anom_level: 0.10%
+        Rules summary:
+        false: (data 45.66% / prediction 45.66%) 
+            · 65.91%: max_prio > 4 and src_port <= 290 [Confidence: 99.96%]
+            · 25.52%: max_prio <= 4 and proto > 1 and dst_ip <= 107 and src_port <= 399 [Confidence: 99.89%]
+        true: (data 54.34% / prediction 54.34%) 
+            · 95.00%: max_prio <= 4 and proto <= 1 and dst_ip > 9 and src_port <= 5766 and avg_duration <= 253327 and dst_port > 1 and stdev_duration <= 4566850 [Confidence: 99.98%]
+
+    normal, pocas cnxs:
+        Field importance:
+            1. max_prio: 70.15%
+            2. dst_ip: 12.62%
+            3. dst_port: 7.09%
+            4. proto: 6.60%
+            5. count_events: 2.14%
+            6. active_hours_vector: 0.46%
+            7. avg_duration: 0.26%
+            8. stdev_duration: 0.23%
+            9. src_port: 0.22%
+            10. anom_level: 0.22%
+        Rules summary:
+        false: (data 69.04% / prediction 69.04%) 
+            · 91.40%: max_prio <= 4 and dst_ip > 12 [Confidence: 99.98%]
+            · 4.26%: max_prio <= 4 and 5 < dst_ip <= 12  and dst_port > 1 [Confidence: 99.57%]
+        true: (data 30.96% / prediction 30.96%) 
+            · 92.93%: max_prio > 4 and proto <= 1 and count_events <= 528 and dst_port <= 7 and avg_duration <= 751550 and dst_ip <= 81 [Confidence: 99.96%]
+            · 3.90%: max_prio <= 4 and dst_ip <= 11 and dst_port <= 1 and proto <= 1 and count_events <= 246 and anom_level <= 187 and src_port <= 23 [Confidence: 98.95%]
+
+    udp:
+        Field importance:
+            1. proto: 76.42%
+            2. dst_ip: 7.38%
+            3. dst_port: 5.28%
+            4. max_prio: 3.35%
+            5. src_port: 2.07%
+            6. count_events: 1.82%
+            7. avg_duration: 1.68%
+            8. active_hours_vector: 1.33%
+            9. stdev_duration: 0.54%
+            10. anom_level: 0.12%
+        Rules summary:
+        false: (data 85.88% / prediction 85.88%) 
+            · 98.19%: proto <= 1 and dst_port <= 4 and avg_duration <= 148445 and stdev_duration <= 3692329 [Confidence: 99.99%]
+        true: (data 14.12% / prediction 14.12%) 
+            · 82.51%: proto > 1 and dst_ip <= 107 and max_prio <= 4 and src_port <= 399 and count_events <= 37170 and avg_duration <= 578095 [Confidence: 99.89%]
+            · 5.51%: proto > 1 and 3 < dst_ip <= 107  and max_prio > 4 and dst_port > 1 and count_events > 18 and avg_duration <= 514800 [Confidence: 98.38%]
+            · 4.18%: proto > 1 and dst_ip <= 98 and max_prio <= 4 and src_port > 399 and count_events <= 5277 and avg_duration > 468 [Confidence: 97.88%]
+
+    muchos src_port, alto anom_level:
+        Field importance:
+            1. count_events: 97.32%
+            2. src_port: 2.05%
+            3. dst_port: 0.63%
+        Rules summary:
+        false: (data 99.55% / prediction 99.55%) 
+            · 99.99%: count_events <= 20137 [Confidence: 99.99%]
+        true: (data 0.45% / prediction 0.45%) count_events > 20137
+            · 97.01%: count_events > 20137 and src_port > 5838 [Confidence: 97.13%]
+
+    cnxs largas:
+        Field importance:
+            1. avg_duration: 76.05%
+            2. stdev_duration: 21.91%
+            3. active_hours_vector: 2.04%
+        Rules summary:
+        false: (data 99.86% / prediction 99.86%) 
+            · 99.80%: avg_duration <= 279231 and stdev_duration <= 5386965 [Confidence: 99.99%]
+        true: (data 0.14% / prediction 0.14%) 
+            · 71.43%: avg_duration > 279231 and stdev_duration > 3337227 and active_hours_vector does not contain 49 [Confidence: 88.65%]
+            · 19.05%: avg_duration > 598343 and 407525 < stdev_duration <= 3337227  [Confidence: 67.56%]
+
+Centroids:
+    Global:
+        dst_ip: 41.19751,
+        proto: 1.14648,
+        src_port: 185.42285,
+        dst_port: 2.04224,
+        max_prio: 4.29858,
+        anom_level: 10.35474,
+        count_events: 578.37231,
+        avg_duration: 12047.19678
+        stdev_duration: 52380.30981,
+        active_hours_vector: ['0','1','13','2','4','7','8'],
+
+    normal, muchas cnxs:
+        dst_ip: 61.71194,
+        proto: 1.12069,
+        src_port: 246.80572,
+        dst_port: 2.08495,
+        max_prio: 3.99832,
+        anom_level: 9.69975,
+        count_events: 627.94491,
+        avg_duration: 10820.71615,
+        stdev_duration: 47315.15517,
+        active_hours_vector: ['13','16','17','18','19','21','22','23','24','26','28','29','31']
+
+    normal, pocas cnxs:
+        dst_ip: 5.77314,
+        proto: 1.01767,
+        src_port: 14.80636,
+        dst_port: 1.46643,
+        max_prio: 4.8742,
+        anom_level: 2.06572,
+        count_events: 30.2212,
+        avg_duration: 5596.7576,
+        stdev_duration: 16062.41484,
+        active_hours_vector: ['0','1']
+
+    udp:
+        dst_ip: 35.90647,
+        proto: 1.97482,
+        src_port: 119.72302,
+        dst_port: 4.32374,
+        max_prio: 4.10072,
+        anom_level: 9.54676,
+        count_events: 343.65468,
+        avg_duration: 37688.95324,
+        stdev_duration: 106667.93165,
+        active_hours_vector: ['0','1','12','2','3','4','5']
+
+    muchos src_port, alto anom_level:
+        dst_ip: 63.13333,
+        proto: 1.13333,
+        src_port: 8547.53333,
+        dst_port: 2.2,
+        max_prio: 4.13333,
+        anom_level: 579.2,
+        count_events: 40270.93333,
+        avg_duration: 3987.66667,
+        stdev_duration: 49257.33333,
+        active_hours_vector: ['1823','2202','394','397','405','416','418','419','421','426','436','439','445','447','448','456','457','459','462','466','468','469','470','487','488','512']
+
+    cnxs largas:
+        dst_ip: 19.6,
+        proto: 1.1,
+        src_port: 43.1,
+        dst_port: 2.4,
+        max_prio: 4,
+        anom_level: 12.6,
+        count_events: 7771.4,
+        avg_duration: 1042485.2,
+        stdev_duration: 4482850.6,
+        active_hours_vector: ['0','1','128','2','24','42','45','47','48']
+
+Distance distribution:
+    Global:
+        Minimum: 0.11962
+        Mean: 0.30352
+        Median: 0.27856
+        Maximum: 18.68361
+        Standard deviation: 0.33109
+        Sum: 9095.8272
+        Sum squares: 6045.7376
+        Variance: 0.10962
+    cnxs largas:
+        Minimum: 0.46805
+        Mean: 2.26579
+        Median: 1.65227
+        Maximum: 15.2934
+        Standard deviation: 2.50826
+        Sum: 95.16312
+        Sum squares: 473.56613
+        Variance: 6.29138
+    muchos src_port, alto anom_level:
+        Minimum: 1.19458
+        Mean: 1.86711
+        Median: 1.43723
+        Maximum: 16.81587
+        Standard deviation: 1.94614
+        Sum: 250.19265
+        Sum squares: 970.8706
+        Variance: 3.78747
+    normal, muchas cnxs:
+        Minimum: 0.08605
+        Mean: 0.21608
+        Median: 0.18162
+        Maximum: 1.98052
+        Standard deviation: 0.13239
+        Sum: 3518.82143
+        Sum squares: 1045.72926
+        Variance: 0.01753
+    normal, pocas cnxs:
+        Minimum: 0.06391
+        Mean: 0.10462
+        Median: 0.07351
+        Maximum: 2.1971
+        Standard deviation: 0.09638
+        Sum: 970.56251
+        Sum squares: 187.70076
+        Variance: 0.00929
+    udp:
+        Minimum: 0.0539
+        Mean: 0.35029
+        Median: 0.29939
+        Maximum: 6.72883
+        Standard deviation: 0.2774
+        Sum: 1481.72937
+        Sum squares: 844.45003
+        Variance: 0.07695
+
+Intercentroid distance:
+    To centroid cnxs largas
+        Minimum: 3.40099850543
+        Mean: 3.68915984306
+        Maximum: 4.42598450268
+    To centroid muchos src_port, alto anom_level
+        Minimum: 2.98637710724
+        Mean: 3.3806781248
+        Maximum: 4.42598450268
+    To centroid normal, muchas cnxs
+        Minimum: 0.407874203112
+        Mean: 1.82877973845
+        Maximum: 3.4489041555
+    To centroid normal, pocas cnxs
+        Minimum: 0.407874203112
+        Mean: 1.88797806684
+        Maximum: 3.48075220863
+    To centroid udp
+        Minimum: 0.471963487963
+        Mean: 1.87914761673
+        Maximum: 3.40099850543

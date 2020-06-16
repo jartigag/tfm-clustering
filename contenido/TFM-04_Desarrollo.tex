@@ -21,7 +21,7 @@ Si son conexiones internas entre diferentes organizaciones, se procesa con otro 
     \label{fig:diagramared}
 \end{figure}
 
-El objetivo de este trabajo se centra en la clasificación de los equipos de la red empresarial, así que se pondrá la atención sobre el segundo itinerario descrito, de color amarillo en la figura \ref{fig:diagramared}: el tráfico desde la red hacia Internet.
+El objetivo de este trabajo se centra en la clasificación de los equipos de la red empresarial, así que se pondrá la atención sobre el segundo itinerario descrito, de color amarillo en la figura \ref{fig:diagramared}: el tráfico saliente, desde la red hacia Internet.
 En especial, se quiere exprimir la información que proporciona el firewall Fortinet de ``Internet Corporativo'', ya que es principalmente quien reacciona con mecanismos de prevención o bloqueos ante las acciones iniciadas en la red corporativa.
 Como se ha explicado, al estar el IPS actuando como IDS en este ámbito y además procesando tráfico de otras redes y en otras direcciones, su información nos interesa menos.
 Sin embargo, si en un momento dado del desarrollo de este método de \emph{clustering} se cree beneficioso incorporar los eventos que arroja el IPS sobre las sesiones de los hosts de la red,
@@ -286,69 +286,151 @@ El comando se repite para los 7 ficheros de una semana:
 
 \begin{verbatim}
 $ shuf -n 1000000 FORTINET_INTERNET_CORP_10.251.0.101.1 | \
-    awk -F"···" '{print $1,$2,$5,$6,$7,$8,$9,$10,$11,$12,$13}' \
+    awk -F"···" '{print $1,$2,$5,$6,$7,$8,$9,$10,$11,$12,$13,$1-$2}' \
     > datasets_clustering/FORTINET_INTERNET_CORP_10.251.0.101.23may
 \end{verbatim}
 
-En las pruebas iniciales se descartaron las marcas de tiempo (campos \verb|$1,$2|) por simplicidad,
-sabiendo que así se empezaría a trabajar con características más acotadas.
+Y los vectores de características de sesión se vuelcan ordenados por \emph{timestamp} de inicio en un mismo fichero, que es como se leerán para contar cuántas sesiones hay en cada fracción del día:
+
+\begin{verbatim}
+$ sort -n datasets_clustering/* > datasets_clustering/rawdata
+\end{verbatim}
+
+En las pruebas iniciales se descartaron las marcas de tiempo (campos \verb|$1,$2|) por simplicidad, sabiendo que así se empezaría a trabajar con características más acotadas.
 Cuando ya se había validado el flujo de trabajo para aplicar los algoritmos con una cantidad limitada de características y se había adquirido práctica, se incorporaron las variables temporales.
-La manera en la que se expresarían como características requiere ser explicada con más profundidad en los párrafos sucesivos,
-donde se detallará cómo se han calculado los valores, cómo se ha realizado la agregación y por qué se ha escogido usar estas métricas.
+El campo \verb|$1| es el \emph{timestamp} de inicio de sesión, \verb|$2| es el \emph{timestamp} de fin de sesión, y con \verb|$1-$2| se halla la duración de la misma (se incluye por comodidad para cálculos posteriores).
+La manera en la que se expresarían como características para el \emph{clustering} requiere ser explicada con más profundidad en los párrafos sucesivos,
+donde se desarrollará cómo se han calculado los valores, cómo se ha realizado la agregación y por qué se ha escogido usar estas métricas.
 
 El siguiente paso consiste en agrupar los vectores de características de sesión por IP de origen, que será la característica identificativa de cada \emph{datapoint}.
-Para cada valor de IP de origen, se contabilizan cuántos valores distintos se observan en el resto de variables.
-Hay ciertas variables que no tiene sentido resumir mediante un recuento, como son: los niveles de amenaza y anomalía, la prioridad máxima y las características temporales.
-Esas variables [..]
-Como resultado de esta transformación, se tiene una matriz con 11 columnas y \emph{n} filas, siendo \emph{n} el número de IPs de origen distintas presentes en la muestra de ese día.
-Cada valor de esta matriz resume las sesiones que un host (identificado por su IP de origen) ha mantenido, a través de las siguientes métricas:
+Para cada valor de la variable ``IP de origen'', se contabilizan cuántos valores distintos se observan en el resto de variables.
+Hay ciertas variables que no tiene sentido resumir mediante un recuento, como son: los protocolos usados, los niveles de amenaza y anomalía, la prioridad máxima y las características temporales.
 
-\begin{table}[h]
-    \centering
-    \begin{tabular}{|c|c|}
-        \hline
-        \verb|len(data[src_ip]['dst_ip'])| & Número de IPs destino únicas \\
-        \hline
-        \verb|len(data[src_ip]['proto'])| & Número de protocolos usados \\
-        \hline
-        \verb|len(data[src_ip]['src_port'])| & Número de puertos origen únicos \\
-        \hline
-        \verb|len(data[src_ip]['dst_port'])| & Número de puertos destino únicos \\
-        \hline
-        \verb|mean(data[src_ip]['anom_level'])| & Nivel de anomalía medio \\
-        \hline
-        \verb|mean(data[src_ip]['threat_level'])| & Nivel de amenaza medio \\
-        \hline
-        \verb|min(data[src_ip]['max_prio'])| & Prioridad máxima \\
-        \hline
-        \verb|sum(data[src_ip]['count_events']| & Número de eventos \\
-        \hline
-        \verb|avg_duration| & Duración de sesión media \\
-    \hline
-        \verb|end_tstamps| & Tiempos de finalización de sesiones \\
-        \hline
-    \end{tabular}
-    \caption{Métricas con las que se resumen las sesiones en matrices diarias}
-    \label{tab:metricas}
-\end{table}
+A continuación se detallará lo que significa cada una de las 13 variables finales o características que se han usado.
+En la tabla \ref{tab:metricas}, después de los siguientes párrafos de detalles, se sintetiza toda esta información.
 
-[Mejorar \ref{tab:metricas}. Explicar por qué se han elegido métricas como medias, stddevs?, etc.]
+Las cuatro primeras características cuentan el número de IPs destino, protocolos, puertos origen y puertos destino que corresponden a una IP origen.
+Para distinguir si, en caso de usarse un solo protocolo de nivel de transporte, este es TCP o UDP, el número de protocolos se codifica como se indica:
+el valor de ``protocolos usados'' será ``2'' si la IP origen tiene sesiones tanto TCP como UDP, ``1'' si solo emplea UDP, y ``0'' si todas las sesiones son TCP.
 
-Es decir, las cuatro primeras variables cuentan el número de IPs destino, protocolos, puertos origen y puertos destino que corresponden a una IP origen.
-Las dos variables siguientes, que son los niveles de anomalía y amenaza, se hallan calculando la media de cada nivel en todo el periodo de tiempo bajo análisis (un día).
-La variable ``máxima prioridad'' corresponde al valor de prioridad más bajo de un evento visto para esta IP origen.
+Las dos características siguientes, que son los niveles medios de anomalía y amenaza, se hallan calculando la media de cada nivel en todo el periodo de tiempo bajo análisis (un día).
+
+La característica ``prioridad máxima'' corresponde al valor de prioridad más bajo de un evento visto para esta IP origen.
 Nótese que los niveles de proridad en \emph{syslog} (más precisamente, lo que \emph{syslog} llama ``severidad'') son descendentes,
 siendo 0 el nivel de emergencia, 1 el nivel de alerta, 2 el nivel crítico, 3 error, 4 peligro, 5 aviso, 6 información y por último, como menos importante, 7 depuración.
 Por tanto, respetando la definición original de estos niveles de prioridad de los eventos,
 se debe tomar como prioridad de máxima importancia aquella prioridad de evento mínima de todas las vistas con esta IP origen.
-La variable \texttt{count\_events} es la suma de eventos que el firewall ha asociado a una misma IP origen.
-Las últimas dos variables son las relativas al tiempo:
-``duración de sesión media'' recoge cuántos segundos han durado de media las sesiones que ha mantenido una IP origen en el día en cuestión,
-mientras que en ``end\_tstamps'' se almacena una lista con los \emph{timestamps} en los que ha acabado cada sesión de esa IP origen.
-Por tanto, la longitud de esta lista es distinta para cada IP origen.
+
+La característica \texttt{count\_events} es la suma de eventos que el firewall ha asociado a una misma IP origen.
+
+Las últimas cinco características son las relativas al tiempo.
+
+Primero se tienen dos métricas derivadas de la duración de las sesiones:
+``media de la duración de sesión'' recoge cuántos segundos han durado de media las sesiones que ha mantenido una IP origen en el día en cuestión,
+mientras que ``desviación estándar de la duración de sesión'' cuantifica la variación de la duración de las sesiones respecto de su media.
+Con ellas se quiere caracterizar si un equipo (que corresponde a una IP origen) acostumbra a tener sesiones largas o cortas,
+y si esas duraciones son habituales o suelen variar mucho.
+
+Las tres variables que cierran el conjunto de características son ``número de sesiones activas en horas nocturnas / horas de trabajo / horas después del trabajo''.
+En base a la hipótesis de que será relevante para la clasificación saber en qué momento del día se concentran las sesiones de un equipo,
+se ha definido una manera de contabilizar cuántas sesiones mantuvo activas una IP origen en cada fracción del día
+(se trabaja con 3 fracciones: horas nocturas de 00:00 a 08:00, horas laborales de 08:01 a 16:00 y horas después del trabajo de 16:01 a 23:59).
+Partiendo de todos los vectores de características de sesión ordenados cronológicamente por hora de inicio,
+para cada IP origen se incrementa el contador de cada fracción en la que una sesión haya permanecido activa
+(esta muestra se divide en $3\textsf{ fracciones/día} \times 7\textsf{ días} = 21\textsf{ fracciones}$).
+
+Las líneas de código que con las que se realiza este conteo son las siguientes:
+
+\begin{minted}{python}
+week_tstamps = [i for i in range(1589752800,             1590357601, 60*60*8)]
+                              #^^ L18may00:00; so L25may00:00 is included ^^; 8h step^^
+
+slots = ['night', 'work', 'afterwork']
+        # 00:00 - 08:00 - 16:00 - 00:00
+
+t=0 # counter of actual element on week_tstamps
+
+for line in raw_data:
+
+    r = line.split()
+    initial_tstamp = int(r[0])
+    end_tstamp = int(r[1])
+    src_ip = r[2]
+
+    if initial_tstamp > week_tstamps[-1]:
+    # so all week_tstamps have been covered:
+        break
+
+    if initial_tstamp > week_tstamps[t]:
+    # so we move forward to the next week fraction:
+        t+=1
+
+    data[src_ip]['slots'][slots[ t%len(slots)-1 ]] += 1
+    #example:
+    # src_ip:10.212.138.53,from 1589807186(15:06:26) to 1589807191(15:06:31)
+    #   -> {'night': 0, 'work': 1, 'afterwork': 0}
+    # src_ip:10.212.138.53,from 1589920495(22:34:55) to 1589920504(22:35:04)
+    #   -> {'night': 0, 'work': 1, 'afterwork': 1}
+
+    i=t
+    while end_tstamp > week_tstamps[i]:
+    # long sessions count on every slots they are:
+        data[src_ip]['slots'][slots[ i%len(slots)-1 ]] += 1
+        i+=1
+        if i==len(week_tstamps):
+        # so end of the observerd week has been reached:
+            break
+\end{minted}
+
+Como resultado de esta transformación (el código completo se adjunta en el apéndice \ref{app:preprocesado}), se tiene una matriz con 13 columnas y \emph{n} filas, siendo \emph{n} el número de IPs de origen distintas presentes en la muestra de ese día.
+Cada valor de esta matriz resume las sesiones que un host (identificado por su IP de origen) ha mantenido, a través de las siguientes características o métricas calculadas sobre periodos de un día:
+
+\begin{table}[h]
+    \centering
+    \begingroup
+    \setlength{\tabcolsep}{10pt} % Default value: 6pt
+    \renewcommand{\arraystretch}{1.5} % Default value: 1
+    \hspace*{-2cm}
+    \begin{tabular}{|c|c|}
+        \hline
+        \textbf{Característica} & \textbf{Explicación} \\
+        \hline
+        \hline
+        Número de IPs destino únicas  & IPs distintas a las que se ha conectado una IP origen \\
+        \hline
+        Protocolos usados & 2 si IP origen ha usado TCP y UDP, 1 si UDP, 0 si TCP \\
+        \hline
+        Número de puertos origen únicos & Puertos de nivel transporte usados por una IP origen \\
+        \hline
+        Número de puertos destino únicos & Puertos a los que se ha conectado una IP origen \\
+        \hline
+        Nivel de anomalía medio & Media de $N_{\textrm{anomalía}}$ en las sesiones de una IP origen \\
+        \hline
+        Nivel de amenaza medio & Media de $N_{\textrm{amenaza}}$ en las sesiones de una IP origen \\
+        \hline
+        Prioridad máxima & Prioridad más crítica vista en eventos de una IP origen \\
+        \hline
+        Número de eventos & Suma total de los eventos de una IP origen \\
+        \hline
+        Media de la duración de sesión & Duración media de las sesiones de una IP origen \\
+        \hline
+        Desv. estándar de la duración de sesión & Desv. est. de la duración de sesiones de una IP origen \\
+        \hline
+        Nº sesiones activas en horas nocturnas & Sesiones activas de 00:00 a 08:00 \\
+        \hline
+        Nº sesiones activas en horas de trabajo & Sesiones activas de 08:01 a 16:00 \\
+        \hline
+        Nº ses. activas en horas después del trabajo & Sesiones activas de 16:01 a 23:59 \\
+        \hline
+    \end{tabular}
+    \hspace*{-1cm}
+    \endgroup
+    \caption{Características con las que se resumen las sesiones en matrices diarias}
+    \label{tab:metricas}
+\end{table}
 
 Procediendo análogamente sobre los datos de cada día, obtenidos entre el lunes 25 de mayo de 2020 y el domingo 31,
-se tienen 7 matrices de 11 variables por unas 4800 filas (equivalentes al total de IPs origen distintas cada día),
+se tienen 7 matrices de 13 variables por unas 4800 filas (equivalentes al total de IPs origen distintas cada día),
 apreciándose un descenso de la cantidad de orígenes únicos en torno al fin de semana
 (4700 filas distintas el viernes y alrededor de 3000 filas tanto sábado como domingo).
 En total, se dispone de prácticamente 30 000 muestras.
@@ -383,6 +465,8 @@ Pero, por lo general, las distribuciones que presenta el resto de característic
 
 Por tanto, se espera que las colas de las distribuciones (es decir, los puntos con valores más altos) sean de más interés en el \emph{clustering}.
 También se espera que los algoritmos sitúen a la gran mayoría de puntos dentro de unos pocos \emph{clusters} bastante densos.
+
+[Fig distrib. duración de sesiones (se tienen las vars. avg\_duration y stdev\_duration)]
 
 [PCA? En \cite{Bohara_2016} explica por qué las componentes ppales, que representan la mayor parte de la varianza, pueden no capturar comportamientos anóms.]
 

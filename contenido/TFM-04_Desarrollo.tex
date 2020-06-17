@@ -293,7 +293,7 @@ $ shuf -n 1000000 FORTINET_INTERNET_CORP_10.251.0.101.1 | \
 Y los vectores de características de sesión se vuelcan ordenados por \emph{timestamp} de inicio en un mismo fichero, que es como se leerán para contar cuántas sesiones hay en cada fracción del día:
 
 \begin{verbatim}
-$ sort -n datasets_clustering/* > datasets_clustering/rawdata
+$ sort -n datasets_clustering/* > datasets_clustering/rawdata_7days
 \end{verbatim}
 
 En las pruebas iniciales se descartaron las marcas de tiempo (campos \verb|$1,$2|) por simplicidad, sabiendo que así se empezaría a trabajar con características más acotadas.
@@ -378,7 +378,7 @@ for line in raw_data:
         data[src_ip]['slots'][slots[ i%len(slots)-1 ]] += 1
         i+=1
         if i==len(week_tstamps):
-        # so end of the observerd week has been reached:
+        # so end of the observed week has been reached:
             break
 \end{minted}
 

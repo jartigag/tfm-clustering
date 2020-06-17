@@ -1,8 +1,17 @@
 #!/usr/bin/env python3
 #
-#usage: ./preprocess_clustering_dataset.py rawdata > dataset_for_clustering
-
-#TODO: aggregate by day (7 output files)
+#usage: ./preprocess_clustering_dataset.py rawdata_7days
+#exec time: 56s
+#output:
+#$ wc -l dataset_for_clustering.*
+#   2884 dataset_for_clustering.19may
+#   4837 dataset_for_clustering.20may
+#   4802 dataset_for_clustering.21may
+#   4883 dataset_for_clustering.22may
+#   4876 dataset_for_clustering.23may
+#   4671 dataset_for_clustering.24may
+#   2931 dataset_for_clustering.25may
+#  29884 total
 
 import sys
 from statistics import mean, stdev
@@ -14,8 +23,25 @@ data = {}
 week_tstamps = [i for i in range(1589752800,                   1590357601,   60*60*8)]
 #                               L18may00:00, so L25may00:00 is included^^, 8h step^^
 
+days = ['18may', '19may', '20may', '21may', '22may', '23may', '24may', '25may']
+
 slots = ['night', 'work', 'afterwork']
 #     00:00 - 08:00 - 16:00   -   00:00
+
+def print_data():
+    global data
+    with open("dataset_for_clustering.{}".format(days[int(t/3)]), 'w' ) as f:
+        print("src_ip,dst_ip,proto,src_port,dst_port,anom_level,threat_level,max_prio,count_events,avg_duration,stdev_duration,night_sessions,work_sessions,afterwork_sessions", file=f)
+        for d in data:
+            print( "{},{},{},{},{},{:.2f},{:.2f},{},{},{:.2f},{:.2f},{},{},{}".format( d,
+                len(data[d]['dst_ip']),data[d]['proto'],len(data[d]['src_port']),len(data[d]['dst_port']),
+                mean(data[d]['anom_level']),mean(data[d]['threat_level']),min(data[d]['max_prio']),sum(data[d]['count_events']),
+                mean(data[d]['duration']),
+                stdev(data[d]['duration']) if len(data[d]['duration'])>1 else 0,
+                data[d]['slots']['night'],data[d]['slots']['work'],data[d]['slots']['afterwork']
+            ), file=f)
+            #                                                ^^ int() thows away the decimal part
+    data = {}
 
 ###
 # 1. aggregate:
@@ -41,6 +67,9 @@ for line in raw_data:
     if initial_tstamp > week_tstamps[t]:
     # so we move forward to the next week fraction:
         t+=1
+        if t%3==0:
+        # so 'night','work','afterwork' slots have passed and it's a new day:
+            print_data()
 
     if src_ip not in data:
         # []: list. it's a mutable, or changeable, ordered sequence of elements. it preserves order, it admits duplicates
@@ -67,31 +96,19 @@ for line in raw_data:
         if i==len(week_tstamps):
         # so end of the observed week has been reached:
             break
-
     #
     ###
 
-    if r[1] not in data[src_ip]['dst_ip']: data[src_ip]['dst_ip'].add(         r[3] )
-    if r[2]=="udp": data[src_ip]['proto'] = 2 if ( data[src_ip]['proto']==1 ) else 1
-    if r[3] not in data[src_ip]['src_port']: data[src_ip]['src_port'].add(     r[5] )
-    if r[4] not in data[src_ip]['dst_port']: data[src_ip]['dst_port'].add(     r[6] )
+    if r[3] not in data[src_ip]['dst_ip']: data[src_ip]['dst_ip'].add(         r[3] )
+    if r[4]=="udp": data[src_ip]['proto'] = 2 if ( data[src_ip]['proto']==1 ) else 1
+    if r[5] not in data[src_ip]['src_port']: data[src_ip]['src_port'].add(     r[5] )
+    if r[6] not in data[src_ip]['dst_port']: data[src_ip]['dst_port'].add(     r[6] )
     data[src_ip]['anom_level'].append(                                   float(r[7]))
     data[src_ip]['threat_level'].append(                                 float(r[8]))
-    if r[7] not in data[src_ip]['max_prio']: data[src_ip]['max_prio'].add( int(r[9]))
+    if r[10] not in data[src_ip]['max_prio']: data[src_ip]['max_prio'].add(int(r[9]))
     data[src_ip]['count_events'].append(                                  int(r[10]))
     data[src_ip]['duration'].append(                                      int(r[11]))
 
 ###
 # 2. calculate:
 ###
-
-print("src_ip,dst_ip,proto,src_port,dst_port,anom_level,threat_level,max_prio,count_events,avg_duration,stdev_duration,night_sessions,work_sessions,afterwork_sessions")
-for d in data:
-
-    print( "{},{},{},{},{},{:.2f},{:.2f},{},{},{:.2f},{:.2f},{}".format( d,
-        len(data[d]['dst_ip']),data[d]['proto'],len(data[d]['src_port']),len(data[d]['dst_port']),
-        mean(data[d]['anom_level']),mean(data[d]['threat_level']),min(data[d]['max_prio']),sum(data[d]['count_events']),
-        mean(data[d]['duration']),
-        stdev(data[d]['duration']) if len(data[d]['duration'])>1 else 0,
-        ",".join(str(data[d]['slots'][i]) for i in data[d]['slots'])
-    ) )

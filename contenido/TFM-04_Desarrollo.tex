@@ -465,12 +465,41 @@ Pero, por lo general, las distribuciones que presenta el resto de característic
 
 Por tanto, se espera que las colas de las distribuciones (es decir, los puntos con valores más altos) sean de más interés en el \emph{clustering}.
 También se espera que los algoritmos sitúen a la gran mayoría de puntos dentro de unos pocos \emph{clusters} bastante densos.
+Esto es una ventaja de cara al objetivo de detectar anomalías.
 
 [Fig distrib. duración de sesiones (se tienen las vars. avg\_duration y stdev\_duration)]
 
-[PCA? En \cite{Bohara_2016} explica por qué las componentes ppales, que representan la mayor parte de la varianza, pueden no capturar comportamientos anóms.]
+Como análisis preliminar al prototipado de métodos de \emph{clustering} mediante la herramienta BigML\footnote{\url{https://bigml.com/}},
+se visualizaron varias parejas de variables sobre un gráfico de dispersión, con la finalidad de adquirir una idea de sus dimensiones y cómo se relacionaban.
+Se aplicó también K-Means con varios valores de $k$, distinguiendo por colores los grupos formados, y se situaron los centroides en la gráfica (puntos rojos).
+Así se empezó a entender qué divisiones podían establecerse y dónde podrían encontrarse los umbrales,
+aunque de momento solo se estuvieran teniendo en cuenta subconjuntos reducidos de las características disponibles.
 
-[Normalización]
+\begin{figure}[h]
+    \centering
+    \captionsetup{width=0.75\textwidth}
+    \includegraphics[width=0.9\textwidth]{contenido/fig/dispersion-k3-dst_ip-vs-avg_duration.pdf}
+    \caption{Gráfica de dispersión: número de IPs destino únicas frente a duración media, con K-Means ($k=3$) y centroides}
+    \label{fig:scatterdstipavgduration}
+\end{figure}
+
+\begin{figure}[h]
+    \centering
+    \captionsetup{width=0.75\textwidth}
+    \includegraphics[width=0.9\textwidth]{contenido/fig/dispersion-k4-dst_ip-vs-count_events.pdf}
+    \caption{Gráfica de dispersión: número de IPs destino únicas frente a número de eventos, con K-Means ($k=4$) y centroides}
+    \label{fig:scatterdstipcountevents}
+\end{figure}
+
+Las figuras \ref{fig:scatterdstipavgduration} y \ref{fig:scatterdstipcountevents} son una muestra de estas pruebas.
+En ellas, se aprecia cómo se reparten los puntos según los valores que toman en características como ``número de IPs destino únicas'', ``duración media'' o ``número de eventos'',
+así como los \emph{clusters} formados en función del valor de $k$ elegido.
+Se han elegido estas características porque presentan unos rangos muy distintos y los valores observados están distribuidos en varias zonas de dichos rangos,
+por lo que se diferencia una serie de grupos que pueden corresponder a algunos de los comportamientos de equipos informáticos en los que estamos interesados.
+
+En la siguiente sección se ampliará el método mediante el cual se ha decidido con qué valor de $k$ se va a trabajar.
+
+[Hablar de PCA? En \cite{Bohara_2016} explica por qué las componentes ppales, que representan la mayor parte de la varianza, pueden no capturar comportamientos anóms.]
 
 \section{Selección de características}\label{sec:selecciondecaracteristicas}
 
@@ -510,10 +539,21 @@ La selección de características aquí expuesta busca cumplir con estas tres fi
 
 [Explicar proceso de selección (filtrar feats. correladas y quedarse con las de más peso)]
 
-\section{Parametrización para los algoritmos de clustering}\label{sec:parametrizacion}
-[Se puede hablar de: método del codo (cambios bruscos en la evolución de la inercia) para KMeans (y para más?),
-                     método de la silueta, elección de la distancia, método del gap, dendograma]
+[Método del codo (cambios bruscos en la evolución de la inercia) para KMeans. Figura \ref{fig:codo}]
 
-\section{Análisis del clustering}\label{sec:analisisdelclustering}
+\begin{figure}[h]
+    \centering
+    \captionsetup{width=0.75\textwidth}
+    \includegraphics[width=0.9\textwidth]{contenido/fig/codo.pdf}
+    \caption{Gráficas de suma de cuadrados frente a valores de $k$ en varias combinaciones seleccionadas de características}
+    \label{fig:codo}
+\end{figure}
 
 \section{Evaluación experimental}\label{sec:evaluacionexperimental}
+
+[Ensayo A: K-Means con k=5, sin características temporales]
+
+[Ensayo B: G-Means da k=3]
+
+[Ensayo C: K-Means con k=5, ``\{night,work,afterwork\}\_sessions'' con agrupación diaria]
+

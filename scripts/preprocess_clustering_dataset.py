@@ -17,14 +17,11 @@ import sys
 from statistics import mean, stdev
 
 raw_data = open(sys.argv[1])
-
 data = {}
 
 week_tstamps = [i for i in range(1589752800,                   1590357601,   60*60*8)]
 #                               L18may00:00, so L25may00:00 is included^^, 8h step^^
-
 days = ['18may', '19may', '20may', '21may', '22may', '23may', '24may', '25may']
-
 slots = ['night', 'work', 'afterwork']
 #     00:00 - 08:00 - 16:00   -   00:00
 
@@ -43,17 +40,10 @@ def print_data():
             #                                                ^^ int() thows away the decimal part
     data = {}
 
-###
-# 1. aggregate:
-###
-
 t=0 # counter of actual element on week_tstamps
-
 for line in raw_data:
-    #examples:
+    #example:
     # 1589212544 1589993516 172.28.0.83 52.177.165.30 tcp 57541 443 0.00 0.00 5 479 780972
-    # 1589212549 1589825851 172.28.8.92 52.177.165.30 tcp 58421 443 0.00 0.00 5 380 613302
-
     r = line.split()
 
     initial_tstamp = int(r[0])
@@ -81,7 +71,6 @@ for line in raw_data:
         }
 
     ### count this session on the pertinent time slot:
-    #
 
     data[src_ip]['slots'][slots[ t%len(slots)-1 ]] += 1
     #example:
@@ -96,8 +85,8 @@ for line in raw_data:
         if i==len(week_tstamps):
         # so end of the observed week has been reached:
             break
-    #
-    ###
+
+    ### count the rest of the features:
 
     if r[3] not in data[src_ip]['dst_ip']: data[src_ip]['dst_ip'].add(         r[3] )
     if r[4]=="udp": data[src_ip]['proto'] = 2 if ( data[src_ip]['proto']==1 ) else 1
@@ -108,7 +97,3 @@ for line in raw_data:
     if r[10] not in data[src_ip]['max_prio']: data[src_ip]['max_prio'].add(int(r[9]))
     data[src_ip]['count_events'].append(                                  int(r[10]))
     data[src_ip]['duration'].append(                                      int(r[11]))
-
-###
-# 2. calculate:
-###

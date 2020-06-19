@@ -29,10 +29,10 @@ Models:
             10. anom_level: 0.10%
         Rules summary:
         false: (data 45.66% / prediction 45.66%) 
-            · 65.91%: max_prio > 4 and src_port <= 290 [Confidence: 99.96%]
-            · 25.52%: max_prio <= 4 and proto > 1 and dst_ip <= 107 and src_port <= 399 [Confidence: 99.89%]
+            - 65.91%: max_prio > 4 and src_port <= 290 [Confidence: 99.96%]
+            - 25.52%: max_prio <= 4 and proto > 1 and dst_ip <= 107 and src_port <= 399 [Confidence: 99.89%]
         true: (data 54.34% / prediction 54.34%) 
-            · 95.00%: max_prio <= 4 and proto <= 1 and dst_ip > 9 and src_port <= 5766 and avg_duration <= 253327 and dst_port > 1 and stdev_duration <= 4566850 [Confidence: 99.98%]
+            - 95.00%: max_prio <= 4 and proto <= 1 and dst_ip > 9 and src_port <= 5766 and avg_duration <= 253327 and dst_port > 1 and stdev_duration <= 4566850 [Confidence: 99.98%]
 
     normal, pocas cnxs:
         Field importance:
@@ -48,11 +48,11 @@ Models:
             10. anom_level: 0.22%
         Rules summary:
         false: (data 69.04% / prediction 69.04%) 
-            · 91.40%: max_prio <= 4 and dst_ip > 12 [Confidence: 99.98%]
-            · 4.26%: max_prio <= 4 and 5 < dst_ip <= 12  and dst_port > 1 [Confidence: 99.57%]
+            - 91.40%: max_prio <= 4 and dst_ip > 12 [Confidence: 99.98%]
+            - 4.26%: max_prio <= 4 and 5 < dst_ip <= 12  and dst_port > 1 [Confidence: 99.57%]
         true: (data 30.96% / prediction 30.96%) 
-            · 92.93%: max_prio > 4 and proto <= 1 and count_events <= 528 and dst_port <= 7 and avg_duration <= 751550 and dst_ip <= 81 [Confidence: 99.96%]
-            · 3.90%: max_prio <= 4 and dst_ip <= 11 and dst_port <= 1 and proto <= 1 and count_events <= 246 and anom_level <= 187 and src_port <= 23 [Confidence: 98.95%]
+            - 92.93%: max_prio > 4 and proto <= 1 and count_events <= 528 and dst_port <= 7 and avg_duration <= 751550 and dst_ip <= 81 [Confidence: 99.96%]
+            - 3.90%: max_prio <= 4 and dst_ip <= 11 and dst_port <= 1 and proto <= 1 and count_events <= 246 and anom_level <= 187 and src_port <= 23 [Confidence: 98.95%]
 
     udp:
         Field importance:
@@ -68,11 +68,11 @@ Models:
             10. anom_level: 0.12%
         Rules summary:
         false: (data 85.88% / prediction 85.88%) 
-            · 98.19%: proto <= 1 and dst_port <= 4 and avg_duration <= 148445 and stdev_duration <= 3692329 [Confidence: 99.99%]
+            - 98.19%: proto <= 1 and dst_port <= 4 and avg_duration <= 148445 and stdev_duration <= 3692329 [Confidence: 99.99%]
         true: (data 14.12% / prediction 14.12%) 
-            · 82.51%: proto > 1 and dst_ip <= 107 and max_prio <= 4 and src_port <= 399 and count_events <= 37170 and avg_duration <= 578095 [Confidence: 99.89%]
-            · 5.51%: proto > 1 and 3 < dst_ip <= 107  and max_prio > 4 and dst_port > 1 and count_events > 18 and avg_duration <= 514800 [Confidence: 98.38%]
-            · 4.18%: proto > 1 and dst_ip <= 98 and max_prio <= 4 and src_port > 399 and count_events <= 5277 and avg_duration > 468 [Confidence: 97.88%]
+            - 82.51%: proto > 1 and dst_ip <= 107 and max_prio <= 4 and src_port <= 399 and count_events <= 37170 and avg_duration <= 578095 [Confidence: 99.89%]
+            - 5.51%: proto > 1 and 3 < dst_ip <= 107  and max_prio > 4 and dst_port > 1 and count_events > 18 and avg_duration <= 514800 [Confidence: 98.38%]
+            - 4.18%: proto > 1 and dst_ip <= 98 and max_prio <= 4 and src_port > 399 and count_events <= 5277 and avg_duration > 468 [Confidence: 97.88%]
 
     muchos src_port, alto anom_level:
         Field importance:
@@ -81,9 +81,9 @@ Models:
             3. dst_port: 0.63%
         Rules summary:
         false: (data 99.55% / prediction 99.55%) 
-            · 99.99%: count_events <= 20137 [Confidence: 99.99%]
+            - 99.99%: count_events <= 20137 [Confidence: 99.99%]
         true: (data 0.45% / prediction 0.45%) count_events > 20137
-            · 97.01%: count_events > 20137 and src_port > 5838 [Confidence: 97.13%]
+            - 97.01%: count_events > 20137 and src_port > 5838 [Confidence: 97.13%]
 
     cnxs largas:
         Field importance:
@@ -92,10 +92,10 @@ Models:
             3. active_hours_vector: 2.04%
         Rules summary:
         false: (data 99.86% / prediction 99.86%) 
-            · 99.80%: avg_duration <= 279231 and stdev_duration <= 5386965 [Confidence: 99.99%]
+            - 99.80%: avg_duration <= 279231 and stdev_duration <= 5386965 [Confidence: 99.99%]
         true: (data 0.14% / prediction 0.14%) 
-            · 71.43%: avg_duration > 279231 and stdev_duration > 3337227 and active_hours_vector does not contain 49 [Confidence: 88.65%]
-            · 19.05%: avg_duration > 598343 and 407525 < stdev_duration <= 3337227  [Confidence: 67.56%]
+            - 71.43%: avg_duration > 279231 and stdev_duration > 3337227 and active_hours_vector does not contain 49 [Confidence: 88.65%]
+            - 19.05%: avg_duration > 598343 and 407525 < stdev_duration <= 3337227  [Confidence: 67.56%]
 
 Centroids:
     Global:
@@ -156,7 +156,8 @@ Centroids:
         count_events: 40270.93333,
         avg_duration: 3987.66667,
         stdev_duration: 49257.33333,
-        active_hours_vector: ['1823','2202','394','397','405','416','418','419','421','426','436','439','445','447','448','456','457','459','462','466','468','469','470','487','488','512']
+        active_hours_vector: ['1823','2202','394','397','405','416','418','419','421','426','436','439','445','447','448',
+                \ '456','457','459','462','466','468','469','470','487','488','512']
 
     cnxs largas:
         dst_ip: 19.6,

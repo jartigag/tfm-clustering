@@ -567,21 +567,51 @@ De esta forma, se logrará una separación en grupos adecuada, siempre que esta 
 En la figura \ref{fig:codo} se muestra la gráfica lineal de WCSS respecto de $k$ que se ha explicado, calculada para varios subconjuntos de características.
 Se puede observar que el valor de $k$ que este método daría como óptimo es distinto según las variables consideradas, y no es inequívocamente claro.
 
-Tras las pruebas experimentales que se describen en la siguiente sección, se concluyó que el valor de $k$ que arrojó mejores resultados empíricamente fue $k=5$.
-
-\begin{figure}[h]
+\begin{figure}[h!]
     \centering
     \captionsetup{width=0.75\textwidth}
     \includegraphics[width=0.9\textwidth]{contenido/fig/codo.pdf}
-    \caption{Gráficas de suma de cuadrados frente a valores de $k$ en varias combinaciones seleccionadas de características}
+    \caption{gráficas de suma de cuadrados frente a valores de $k$ en varias combinaciones seleccionadas de características}
     \label{fig:codo}
 \end{figure}
 
+Tras las pruebas experimentales que se describen en la siguiente sección, se concluyó que el valor de $k$ que arrojó mejores resultados empíricamente fue $k=5$.
+
 \section{Evaluación experimental}\label{sec:evaluacionexperimental}
 
-[Ensayo A: K-Means con k=5, sin características temporales]
+Con la máxima de permitir un prototipado rápido y poder comparar los resultados de varias pruebas,
+se optó por emplear la herramienta online BigML para aplicar K-Means en los ensayos que se procede a explicar.
 
-[Ensayo B: G-Means da k=3]
+\subsection{Ensayo A: K-Means con k=5, sin características temporales}\label{subsec:ensayoA}
 
-[Ensayo C: K-Means con k=5, ``\{night,work,afterwork\}\_sessions'' con agrupación diaria]
+Como se adelantaba en la sección \ref{sec:preprocesado}, en las primeras pruebas se incluyeron las características anotadas como
+``dst\_ip'', ``proto'', ``src\_port'', ``dst\_port'', ``anom\_level'', ``max\_prio'', ``count\_events'' y ``avg\_duration''.
+Después se advirtió que usar únicamente la media para resumir la información sobre la duración de las sesiones de un equipo durante un día parecía impreciso,
+así que se incluyó la característica ``stdev\_duration''.
 
+Inicialmente se eligieron valores $k=3$ y $k=4$, pero las divisiones obtenidas resultaron de poca utilidad desde el punto de vista de la caracterización de comportamientos.
+Los \emph{clusters} principales agrupaban demasiadas instancias sin un criterio fácil de deducir, y el \emph{cluster} minoritario contenía únicamente algunas instancias con valores extremos.
+
+Fijando el valor de $k=5$ se mejoró sensiblemente la interpretabilidad de los \emph{clusters} formados,
+porque sus centroides pudieron asociarse a patrones de comportamiento más claros.
+
+Las categorías identificadas en los \emph{clusters} formados durante este ensayo fueron:
+\begin{enumerate}
+    \item Comportamiento normal, muchas conexiones (54,34 \% de las instancias)
+    \item Comportamiento normal, pocas conexiones (30,96 \%)
+    \item Sesiones UDP (14,12 \%)
+    \item Nivel de anomalía alto (0,45 \%)
+    \item Conexiones largas (0,14 \%)
+\end{enumerate}
+
+En el apéndice \ref{app:ensayoA} se pueden consultar los detalles de la salida que produjo la aplicación de K-Means con $k=5$ en estas condiciones.
+Se adjuntan datos de interés como los valores de las 10 características con los que se definía el centroide de cada \emph{cluster}.
+Se incluye también los modelos de cada \emph{cluster} que ofrece BigML, definidos mediante algunas reglas de clasificación.
+Además, se listan las características que han contribuido a la formación de cada \emph{cluster} ordenadas por influencia.
+Esta última información resulta muy interesante a la hora de comprender y optimizar la manera en la que se ha alcanzado esta clasificación no supervisada.
+
+\subsection{Ensayo B: G-Means determina k=3}\label{subsec:ensayoB}
+
+\subsection{Ensayo C: K-Means con k=5, fracciones temporales con agrupación semanal}\label{subsec:ensayoC}
+
+\subsection{Ensayo D: K-Means con k=5, fracciones temporales con agrupación diaria}\label{subsec:ensayoD}

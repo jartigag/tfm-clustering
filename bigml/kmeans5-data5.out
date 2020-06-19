@@ -1,0 +1,101 @@
+K-means Cluster (k=5) with 5 centroids
+
+Data distribution:
+    Global: 100% (5524 instances)
+    Cluster 0: 64.48% (3562 instances)
+    Cluster 1: 20.17% (1114 instances)
+    Cluster 2: 13.38% (739 instances)
+    Cluster 3: 0.05% (3 instances)
+    Cluster 4: 1.92% (106 instances)
+
+Cluster metrics:
+    total_ss (Total sum of squares): 3429.233470
+    within_ss (Total within-cluster sum of the sum of squares): 2277.636800
+    between_ss (Between sum of squares): 1151.596670
+    ratio_ss (Ratio of sum of squares): 0.335820
+
+Centroids:
+    Global: max_prio: 4.3418, dst_port: 2.66602, anom_level: 7.86768, proto: 0.34912, src_port: 790.23291, dst_ip: 100.78101, count_events: 2785.25269, avg_duration: 20541.0061, stdev_duration: 99277.93237
+    Cluster 0: max_prio: 4.45031, dst_port: 1.97083, anom_level: 6.03175, proto: 0.07254, src_port: 388.07659, dst_ip: 74.96954, count_events: 1004.61423, avg_duration: 15438.01704, stdev_duration: 58771.78728
+    Cluster 1: max_prio: 3.9908, dst_port: 2.79768, anom_level: 15.68699, proto: 0.80552, src_port: 2659.63215, dst_ip: 230.19925, count_events: 11488.61274, avg_duration: 11275.87875, stdev_duration: 109375.0671
+    Cluster 2: max_prio: 4.18354, dst_port: 8.22077, anom_level: 6.47877, proto: 1.70673, src_port: 360.7518, dst_ip: 54.73612, count_events: 1019.58459, avg_duration: 19914.91378, stdev_duration: 99582.08556
+    Cluster 3: max_prio: 4.66667, dst_port: 2, anom_level: 7, proto: 0, src_port: 12.33333, dst_ip: 7, count_events: 904.66667, avg_duration: 3409650, stdev_duration: 6497667.33333
+    Cluster 4: max_prio: 4.21724, dst_port: 2.64828, anom_level: 10.36552, proto: 0.23793, src_port: 569.22069, dst_ip: 107.52069, count_events: 3105.40345, avg_duration: 198442.72414, stdev_duration: 1629567.21034
+
+Distance distribution:
+    Global:
+        Minimum: 0.23773
+        Mean: 0.5485
+        Median: 0.4819
+        Maximum: 17.7724
+        Standard deviation: 0.56568
+        Sum: 3029.88797
+        Sum squares: 3429.23347
+        Variance: 0.32
+    Cluster 0:
+        Minimum: 0.25048
+        Mean: 0.36979
+        Median: 0.35877
+        Maximum: 2.42488
+        Standard deviation: 0.09773
+        Sum: 1317.20426
+        Sum squares: 521.10642
+        Variance: 0.00955
+    Cluster 1:
+        Minimum: 0.14427
+        Mean: 0.58004
+        Median: 0.43639
+        Maximum: 17.63899
+        Standard deviation: 0.81358
+        Sum: 646.16115
+        Sum squares: 1111.50423
+        Variance: 0.66191
+    Cluster 2:
+        Minimum: 0.21881
+        Mean: 0.52141
+        Median: 0.44846
+        Maximum: 15.48226
+        Standard deviation: 0.59334
+        Sum: 385.32542
+        Sum squares: 460.72996
+        Variance: 0.35205
+    Cluster 3:
+        Minimum: 3.21894
+        Mean: 5.36183
+        Median: 5.16783
+        Maximum: 7.69873
+        Standard deviation: 2.24619
+        Sum: 16.0855
+        Sum squares: 96.33849
+        Variance: 5.04536
+    Cluster 4:
+        Minimum: 0.29329
+        Mean: 0.80578
+        Median: 0.70244
+        Maximum: 2.51707
+        Standard deviation: 0.42688
+        Sum: 85.41292
+        Sum squares: 87.9577
+        Variance: 0.18222
+
+Intercentroid distance:
+    To centroid Cluster 0
+        Minimum: 0.728139945617
+        Mean: 3.24519323391
+        Maximum: 10.0396344808
+    To centroid Cluster 1
+        Minimum: 0.728139945617
+        Mean: 3.28459533292
+        Maximum: 10.0630872788
+    To centroid Cluster 2
+        Minimum: 0.732942028295
+        Mean: 3.28857417981
+        Maximum: 10.039044428
+    To centroid Cluster 3
+        Minimum: 8.92628393067
+        Mean: 9.76701252957
+        Maximum: 10.0630872788
+    To centroid Cluster 4
+        Minimum: 1.48005648091
+        Mean: 3.38096587797
+        Maximum: 8.92628393067

@@ -4,7 +4,7 @@ Data distribution:
     Global: 100% (4836 instances)
     normal, muchas cnxs: 41.52% (2008 instances)
     normal, pocas cnxs: 30.44% (1472 instances)
-    mmnosé, muchas dst_ip?: 17.56% (849 instances)
+    muchas dst_ip: 17.56% (849 instances)
     udp: 10.15% (491 instances)
     anom(16): muuchos eventos y cnxs: 0.33% (16 instances)
 
@@ -30,12 +30,12 @@ Models:
             11. work_sessions: 0.02%
         Rules summary:
         false: (data 58.48% / prediction 58.48%)
-            · 54.92%: max_prio > 4 [Confidence: 99.75%]
-            · 25.92%: max_prio <= 4 and dst_ip > 81 [Confidence: 99.48%]
-            · 7.67%: max_prio <= 4 and dst_ip <= 76 and proto > 0 and dst_port > 2 [Confidence: 98.26%]
+            - 54.92%: max_prio > 4 [Confidence: 99.75%]
+            - 25.92%: max_prio <= 4 and dst_ip > 81 [Confidence: 99.48%]
+            - 7.67%: max_prio <= 4 and dst_ip <= 76 and proto > 0 and dst_port > 2 [Confidence: 98.26%]
         true: (data 41.52% / prediction 41.52%) max_prio <= 4
-            · 88.00%: max_prio <= 4 and dst_ip <= 74 and proto <= 0 and src_port <= 251 [Confidence: 99.78%]
-            · 4.63%: max_prio <= 4 and dst_ip <= 68 and 0 < proto <= 1  and dst_port <= 2 and stdev_duration <= 341342 and avg_duration > 1332 [Confidence: 96.03%]
+            - 88.00%: max_prio <= 4 and dst_ip <= 74 and proto <= 0 and src_port <= 251 [Confidence: 99.78%]
+            - 4.63%: max_prio <= 4 and dst_ip <= 68 and 0 < proto <= 1  and dst_port <= 2 and stdev_duration <= 341342 and avg_duration > 1332 [Confidence: 96.03%]
 
     normal, pocas cnxs:
         Field importance:
@@ -45,9 +45,9 @@ Models:
             4. count_events: 0.74%
         Rules summary:
         false: (data 69.56% / prediction 69.56%)
-            · 97.59%: max_prio <= 4 [Confidence: 99.88%]
+            - 97.59%: max_prio <= 4 [Confidence: 99.88%]
         true: (data 30.44% / prediction 30.44%) max_prio > 4 and proto <= 1
-            · 99.52%: max_prio > 4 and proto <= 1 and dst_port <= 3 and count_events <= 607 [Confidence: 99.74%]
+            - 99.52%: max_prio > 4 and proto <= 1 and dst_port <= 3 and count_events <= 607 [Confidence: 99.74%]
 
     udp:
         Field importance:
@@ -62,13 +62,13 @@ Models:
             9. avg_duration: 0.13%
         Rules summary:
         false: (data 89.85% / prediction 89.85%)
-            · 93.44%: proto <= 0 and stdev_duration <= 16159157 [Confidence: 99.90%]
-            · 5.34%: 0 < proto <= 1  and dst_port <= 2 and stdev_duration <= 1089899 [Confidence: 98.37%]
+            - 93.44%: proto <= 0 and stdev_duration <= 16159157 [Confidence: 99.90%]
+            - 5.34%: 0 < proto <= 1  and dst_port <= 2 and stdev_duration <= 1089899 [Confidence: 98.37%]
         true: (data 10.15% / prediction 10.15%)
-            · 71.69%: proto > 1 and work_sessions <= 380 and count_events <= 35902 [Confidence: 98.92%]
-            · 21.38%: 0 < proto <= 1  and dst_port > 2 and dst_ip <= 74 and anom_level > 0 [Confidence: 96.47%]
+            - 71.69%: proto > 1 and work_sessions <= 380 and count_events <= 35902 [Confidence: 98.92%]
+            - 21.38%: 0 < proto <= 1  and dst_port > 2 and dst_ip <= 74 and anom_level > 0 [Confidence: 96.47%]
 
-    mmnosé, muchas dst_ip?:
+    muchas dst_ip:
         Field importance:
             1. dst_ip: 61.67%
             2. src_port: 17.25%
@@ -84,12 +84,12 @@ Models:
             12. anom_level: 0.06%
         Rules summary:
         false: (data 82.44% / prediction 82.44%)
-            · 84.47%: dst_ip <= 65 and src_port <= 205 [Confidence: 99.89%]
-            · 5.32%: 65 < dst_ip <= 75  and src_port <= 205 and proto <= 0 [Confidence: 98.22%]
+            - 84.47%: dst_ip <= 65 and src_port <= 205 [Confidence: 99.89%]
+            - 5.32%: 65 < dst_ip <= 75  and src_port <= 205 and proto <= 0 [Confidence: 98.22%]
         true: (data 17.56% / prediction 17.56%)
-            · 65.25%: dst_ip > 78 and proto <= 0 and count_events <= 20998 and dst_port <= 4 and max_prio <= 4 and src_port > 187 [Confidence: 99.31%]
-            · 8.24%: dst_ip > 78 and proto <= 1 and count_events <= 20998 and dst_port <= 3 and max_prio <= 4 and 139 < src_port <= 187  [Confidence: 94.80%]
-            · 8.24%: dst_ip > 78 and 0 < proto <= 1  and count_events <= 20998 and dst_port <= 4 and max_prio <= 4 and src_port > 261 [Confidence: 94.80%]
+            - 65.25%: dst_ip > 78 and proto <= 0 and count_events <= 20998 and dst_port <= 4 and max_prio <= 4 and src_port > 187 [Confidence: 99.31%]
+            - 8.24%: dst_ip > 78 and proto <= 1 and count_events <= 20998 and dst_port <= 3 and max_prio <= 4 and 139 < src_port <= 187  [Confidence: 94.80%]
+            - 8.24%: dst_ip > 78 and 0 < proto <= 1  and count_events <= 20998 and dst_port <= 4 and max_prio <= 4 and src_port > 261 [Confidence: 94.80%]
 
     anom(16): muuchos eventos y cnxs:
         Field importance:
@@ -155,7 +155,7 @@ Centroids:
         afterwork_sessions: 81.50734,
         night_sessions: 33.7245
 
-    mmnosé, muchas dst_ip?:
+    muchas dst_ip:
         dst_ip: 97.34976,
         src_port: 492.50022,
         proto: 0.16824,
@@ -202,7 +202,7 @@ Distance distribution:
         Sum: 75.70126
         Sum squares: 755.1311
         Variance: 26.46424
-    mmnosé, muchas dst_ip?:
+    muchas dst_ip:
         Minimum: 0.08499
         Mean: 0.2853
         Median: 0.19042
@@ -244,7 +244,7 @@ Intercentroid distance:
         Minimum: 5.49925353941
         Mean: 5.65226803548
         Maximum: 5.74871982797
-    To centroid mmnosé, muchas dst_ip?
+    To centroid muchas dst_ip
         Minimum: 0.372412734785
         Mean: 1.84826938648
         Maximum: 5.49925353941

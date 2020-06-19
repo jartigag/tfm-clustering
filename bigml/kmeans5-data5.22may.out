@@ -27,11 +27,11 @@ Models:
             8. night_sessions: 0.13%
         Rules summary:
         false: (data 35.58% / prediction 35.58%)
-            · 90.27%: max_prio > 4 and work_sessions <= 1312 [Confidence: 99.76%]
-            · 5.70%: max_prio <= 4 and stdev_duration > 428751 and night_sessions <= 210 [Confidence: 96.27%]
+            - 90.27%: max_prio > 4 and work_sessions <= 1312 [Confidence: 99.76%]
+            - 5.70%: max_prio <= 4 and stdev_duration > 428751 and night_sessions <= 210 [Confidence: 96.27%]
         true: (data 64.42% / prediction 64.42%)
-            · 95.99%: max_prio <= 4 and stdev_duration <= 428751 and dst_port <= 5 and dst_ip > 6 and work_sessions <= 17935 [Confidence: 99.87%]
-            · 3.12%: max_prio <= 4 and stdev_duration <= 428751 and dst_port <= 5 and dst_ip <= 6 and count_events <= 63 and anom_level > 2 [Confidence: 96.23%]
+            - 95.99%: max_prio <= 4 and stdev_duration <= 428751 and dst_port <= 5 and dst_ip > 6 and work_sessions <= 17935 [Confidence: 99.87%]
+            - 3.12%: max_prio <= 4 and stdev_duration <= 428751 and dst_port <= 5 and dst_ip <= 6 and count_events <= 63 and anom_level > 2 [Confidence: 96.23%]
 
     normal, pocas cnxs:
             1. max_prio: 85.82%
@@ -44,10 +44,10 @@ Models:
             8. dst_ip: 0.11%
         Rules summary:
         false: (data 68.82% / prediction 68.82%)
-            · 95.60%: max_prio <= 4 and dst_port > 1 [Confidence: 99.88%]
+            - 95.60%: max_prio <= 4 and dst_port > 1 [Confidence: 99.88%]
         true: (data 31.18% / prediction 31.18%)
-            · 88.57%: max_prio > 4 and count_events <= 35 and dst_port <= 6 [Confidence: 99.72%]
-            · 10.84%: max_prio > 4 and count_events > 35 and avg_duration <= 118094 and dst_port <= 6 and work_sessions <= 1312 [Confidence: 97.72%]
+            - 88.57%: max_prio > 4 and count_events <= 35 and dst_port <= 6 [Confidence: 99.72%]
+            - 10.84%: max_prio > 4 and count_events > 35 and avg_duration <= 118094 and dst_port <= 6 and work_sessions <= 1312 [Confidence: 97.72%]
 
     udp:
         Field importance:
@@ -56,9 +56,9 @@ Models:
             3. night_sessions: 0.53%
         Rules summary:
         false: (data 98.38% / prediction 98.38%)
-            · 99.94%: dst_port <= 5 [Confidence: 99.92%]
+            - 99.94%: dst_port <= 5 [Confidence: 99.92%]
         true: (data 1.62% / prediction 1.62%) dst_port > 5
-            · 94.94%: dst_port > 6 [Confidence: 95.13%]
+            - 94.94%: dst_port > 6 [Confidence: 95.13%]
 
     cnxs largas:
         Field importance:
@@ -70,10 +70,10 @@ Models:
             6. night_sessions: 0.67%
         Rules summary:
         false: (data 97.23% / prediction 97.23%)
-            · 99.37%: stdev_duration <= 355718 and avg_duration <= 206046 [Confidence: 99.92%]
+            - 99.37%: stdev_duration <= 355718 and avg_duration <= 206046 [Confidence: 99.92%]
         true: (data 2.77% / prediction 2.77%)
-            · 82.96%: stdev_duration > 431547 and dst_port <= 7 and night_sessions <= 210 [Confidence: 96.68%]
-            · 11.11%: stdev_duration <= 431547 and avg_duration > 206046 and count_events > 63 [Confidence: 79.61%]
+            - 82.96%: stdev_duration > 431547 and dst_port <= 7 and night_sessions <= 210 [Confidence: 96.68%]
+            - 11.11%: stdev_duration <= 431547 and avg_duration > 206046 and count_events > 63 [Confidence: 79.61%]
 
     anom(1): muuchos eventos y cnxs:
         Field importance:

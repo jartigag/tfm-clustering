@@ -479,7 +479,7 @@ aunque de momento solo se estuvieran teniendo en cuenta subconjuntos reducidos d
     \centering
     \captionsetup{width=0.75\textwidth}
     \includegraphics[width=0.9\textwidth]{contenido/fig/dispersion-k3-dst_ip-vs-avg_duration.pdf}
-    \caption{Gráfica de dispersión: número de IPs destino únicas frente a duración media, con K-Means ($k=3$) y centroides}
+    \caption{Gráfica de dispersión: número de IPs destino únicas frente a duración media, con K-Means ($k=3$) y centroides (en rojo)}
     \label{fig:scatterdstipavgduration}
 \end{figure}
 
@@ -487,7 +487,7 @@ aunque de momento solo se estuvieran teniendo en cuenta subconjuntos reducidos d
     \centering
     \captionsetup{width=0.75\textwidth}
     \includegraphics[width=0.9\textwidth]{contenido/fig/dispersion-k4-dst_ip-vs-count_events.pdf}
-    \caption{Gráfica de dispersión: número de IPs destino únicas frente a número de eventos, con K-Means ($k=4$) y centroides}
+    \caption{Gráfica de dispersión: número de IPs destino únicas frente a número de eventos, con K-Means ($k=4$) y centroides (en rojo)}
     \label{fig:scatterdstipcountevents}
 \end{figure}
 
@@ -497,7 +497,7 @@ así como los \emph{clusters} formados en función del valor de $k$ elegido.
 Se han elegido estas características porque presentan unos rangos muy distintos y los valores observados están distribuidos en varias zonas de dichos rangos,
 por lo que se diferencia una serie de grupos que pueden corresponder a algunos de los comportamientos de equipos informáticos en los que estamos interesados.
 
-En la siguiente sección se ampliará el método mediante el cual se ha decidido con qué valor de $k$ se va a trabajar.
+En la sección \ref{sec:paramclustering} se ampliará cómo se buscaron los valores de $k$ con los que se trabajaría.
 
 [Hablar de PCA? En \cite{Bohara_2016} explica por qué las componentes ppales, que representan la mayor parte de la varianza, pueden no capturar comportamientos anóms.]
 
@@ -539,7 +539,35 @@ La selección de características aquí expuesta busca cumplir con estas tres fi
 
 [Explicar proceso de selección (filtrar feats. correladas y quedarse con las de más peso)]
 
-[Método del codo (cambios bruscos en la evolución de la inercia) para KMeans. Figura \ref{fig:codo}]
+\section{Parametrización del algoritmo de clustering}\label{sec:paramclustering}
+
+Elegir un número $k$ de \emph{clusters} óptimo es crucial para obtener una clasificación útil.
+Si el número de \emph{clusters} es insuficiente, las agrupaciones contendrán datos muy heterogéneos.
+Por el contrario, cuando el valor $k$ es excesivo, se agruparán erróneamente datos que son muy similares unos a otros.
+
+Aunque no existe un único criterio que seleccione objetivamente el valor $k$ adecuado para cualquier caso, sí se conocen varios métodos que ayudan en esta tarea.
+Probablemente uno de los más extendidos sea el método del codo o \emph{elbow method}.
+
+Una de las medidas que se suelen utilizar para comparar resultados entre varios valores de $k$ es la suma de cuadrados dentro de cada grupo (\emph{within-cluster sums of squares}, abreviado como WCSS).
+Este concepto a veces también se conoce como inercia, y es una medida de variación o desviación con respecto a la media, en este caso representada por el centroide.
+La técnica de selección de $k$ por el método del codo consiste en representar en una gráfica lineal a la media respecto del número de \emph{clusters}.
+El punto para el cual se observe un cambio brusco en la evolución de la inercia indicará el valor óptimo de $k$.
+
+La efectividad de este método está basada en que el algoritmo K-Means se fundamenta en el paradigma del análisis de la varianza (\emph{analysis of variance} o ANOVA).
+Como la suma total de desviaciones al cuadrado respecto de los centroides es constante y está compuesta de la suma de cuadrados de las desviaciones inter-grupales más la de las desviaciones intra-grupales:
+
+\begin{eqnarray*}
+    & TSS = WCSS + BCSS \\
+    & SS_{Total} = SS_{Within-cluster} + SS_{Between-clusters}
+\end{eqnarray*}
+
+Si se minimiza la suma de cuadrados dentro de cada \emph{cluster} (WCSS), se maximiza la distancia entre \emph{clusters}.
+De esta forma, se logrará una separación en grupos adecuada, siempre que esta suma de cuadrados WCSS no sea tanta como para asociar puntos cercanos pero de distintas categorías.
+
+En la figura \ref{fig:codo} se muestra la gráfica lineal de WCSS respecto de $k$ que se ha explicado, calculada para varios subconjuntos de características.
+Se puede observar que el valor de $k$ que este método daría como óptimo es distinto según las variables consideradas, y no es inequívocamente claro.
+
+Tras las pruebas experimentales que se describen en la siguiente sección, se concluyó que el valor de $k$ que arrojó mejores resultados empíricamente fue $k=5$.
 
 \begin{figure}[h]
     \centering

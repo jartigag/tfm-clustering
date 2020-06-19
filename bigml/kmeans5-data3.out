@@ -106,9 +106,9 @@ Centroids:
         max_prio: 4.29858,
         anom_level: 10.35474,
         count_events: 578.37231,
-        avg_duration: 12047.19678
+        avg_duration: 12047.19678,
         stdev_duration: 52380.30981,
-        active_hours_vector: ['0','1','13','2','4','7','8'],
+        active_hours_vector: ['0','1','13','2','4','7','8']
 
     normal, muchas cnxs:
         dst_ip: 61.71194,

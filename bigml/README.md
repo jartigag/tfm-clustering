@@ -12,8 +12,11 @@
 
 * **K-Means con k=5**, usando las características "{night,work,afterwork}\_sessions" con agrupación diaria
     * [link al clustering X20may en bigml.com](https://bigml.com/shared/cluster/zWYlcZWrFJ9Lmizf2CrdvI6IUg7)
+    * [summary report X20](kmeans5-data5.20may.out)
     * [link al clustering J21may en bigml.com](https://bigml.com/shared/cluster/zuy4qvE8SUPLCoMw93jnTTYZ55U)
+    * [summary report J21](kmeans5-data5.21may.out)
     * [link al clustering V22may en bigml.com](https://bigml.com/shared/cluster/6VbvqR4DZChzdKT0WragDjxj0Nn)
+    * [summary report V22](kmeans5-data5.22may.out)
 
 De momento, estoy trabajando con estas 5 categorías que he inferido:
 * Normal, pocas conexiones

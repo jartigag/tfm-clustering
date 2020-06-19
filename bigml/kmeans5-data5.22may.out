@@ -1,0 +1,247 @@
+K-means Cluster (k=5) with 5 centroids
+
+Data distribution:
+    Global: 100% (4882 instances)
+    normal, muchas cnxs: 64.42% (3145 instances)
+    normal, pocas cnxs: 31.18% (1522 instances)
+    cnxs largas: 2.77% (135 instances)
+    udp: 1.62% (79 instances)
+    anom(1): muuchos eventos y cnxs: 0.02% (1 instance)
+
+Cluster metrics:
+    total_ss (Total sum of squares): 2712.877320
+    within_ss (Total within-cluster sum of the sum of squares): 1339.019240
+    between_ss (Between sum of squares): 1373.858080
+    ratio_ss (Ratio of sum of squares): 0.506420
+
+Models:
+    normal, muchas cnxs:
+        Field importance:
+            1. max_prio: 73.33%
+            2. stdev_duration: 15.66%
+            3. dst_port: 8.15%
+            4. dst_ip: 1.41%
+            5. count_events: 0.63%
+            6. work_sessions: 0.56%
+            7. anom_level: 0.13%
+            8. night_sessions: 0.13%
+        Rules summary:
+        false: (data 35.58% / prediction 35.58%)
+            · 90.27%: max_prio > 4 and work_sessions <= 1312 [Confidence: 99.76%]
+            · 5.70%: max_prio <= 4 and stdev_duration > 428751 and night_sessions <= 210 [Confidence: 96.27%]
+        true: (data 64.42% / prediction 64.42%)
+            · 95.99%: max_prio <= 4 and stdev_duration <= 428751 and dst_port <= 5 and dst_ip > 6 and work_sessions <= 17935 [Confidence: 99.87%]
+            · 3.12%: max_prio <= 4 and stdev_duration <= 428751 and dst_port <= 5 and dst_ip <= 6 and count_events <= 63 and anom_level > 2 [Confidence: 96.23%]
+
+    normal, pocas cnxs:
+            1. max_prio: 85.82%
+            2. count_events: 6.90%
+            3. avg_duration: 3.53%
+            4. dst_port: 2.57%
+            5. anom_level: 0.48%
+            6. work_sessions: 0.31%
+            7. stdev_duration: 0.28%
+            8. dst_ip: 0.11%
+        Rules summary:
+        false: (data 68.82% / prediction 68.82%)
+            · 95.60%: max_prio <= 4 and dst_port > 1 [Confidence: 99.88%]
+        true: (data 31.18% / prediction 31.18%)
+            · 88.57%: max_prio > 4 and count_events <= 35 and dst_port <= 6 [Confidence: 99.72%]
+            · 10.84%: max_prio > 4 and count_events > 35 and avg_duration <= 118094 and dst_port <= 6 and work_sessions <= 1312 [Confidence: 97.72%]
+
+    udp:
+        Field importance:
+            1. dst_port: 98.34%
+            2. afterwork_sessions: 1.13%
+            3. night_sessions: 0.53%
+        Rules summary:
+        false: (data 98.38% / prediction 98.38%)
+            · 99.94%: dst_port <= 5 [Confidence: 99.92%]
+        true: (data 1.62% / prediction 1.62%) dst_port > 5
+            · 94.94%: dst_port > 6 [Confidence: 95.13%]
+
+    cnxs largas:
+        Field importance:
+            1. stdev_duration: 75.58%
+            2. avg_duration: 17.39%
+            3. count_events: 3.61%
+            4. dst_port: 2.05%
+            5. work_sessions: 0.71%
+            6. night_sessions: 0.67%
+        Rules summary:
+        false: (data 97.23% / prediction 97.23%)
+            · 99.37%: stdev_duration <= 355718 and avg_duration <= 206046 [Confidence: 99.92%]
+        true: (data 2.77% / prediction 2.77%)
+            · 82.96%: stdev_duration > 431547 and dst_port <= 7 and night_sessions <= 210 [Confidence: 96.68%]
+            · 11.11%: stdev_duration <= 431547 and avg_duration > 206046 and count_events > 63 [Confidence: 79.61%]
+
+    anom(1): muuchos eventos y cnxs:
+        Field importance:
+            1. work_sessions: 100.00%
+        Rules summary:
+        false: (data 99.98% / prediction 99.98%) work_sessions <= 22641 [Confidence: 99.92%]
+        true: (data 0.02% / prediction 0.02%) work_sessions > 22641 [Confidence: 20.65%]
+
+Centroids:
+    Global:
+        dst_ip: 40.63965,
+        proto: 0.24683,
+        src_port: 178.65649,
+        dst_port: 2.06372,
+        max_prio: 4.32324,
+        anom_level: 6.31201,
+        count_events: 493.44165,
+        avg_duration: 16031.04517,
+        stdev_duration: 45076.73242,
+        night_sessions: 58.35034,
+        work_sessions: 58.30225,
+        afterwork_sessions: 97.61182
+
+    normal, muchas cnxs:
+        max_prio: 4.00061,
+        stdev_duration: 36196.79903,
+        dst_port: 2.13778,
+        dst_ip: 57.97209,
+        count_events: 679.49076,
+        work_sessions: 74.2723,
+        anom_level: 9.43639,
+        night_sessions: 74.51753,
+        proto: 0.28652,
+        src_port: 253.07345,
+        avg_duration: 10235.43411,
+        afterwork_sessions: 127.20052
+
+    normal, pocas cnxs:
+        max_prio: 4.99797,
+        count_events: 23.83739,
+        avg_duration: 7345.21212,
+        dst_port: 1.44002,
+        anom_level: 0.00125,
+        work_sessions: 3.07279,
+        stdev_duration: 9476.48047,
+        dst_ip: 6.02046,
+        proto: 0.10247,
+        src_port: 13.55686,
+        afterwork_sessions: 7.8502,
+        night_sessions: 2.73789
+
+    udp:
+        dst_port: 10.94048,
+        afterwork_sessions: 87.0119,
+        night_sessions: 40.22917,
+        max_prio: 4.19345,
+        anom_level: 1.27679,
+        proto: 1.39583,
+        src_port: 130.93452,
+        dst_ip: 7.14881,
+        count_events: 264.87798,
+        avg_duration: 20494.34226,
+        work_sessions: 6.0506,
+        stdev_duration: 75272.2619,
+        work_sessions: 6.0506
+
+    cnxs largas:
+        stdev_duration: 617650.08703,
+        avg_duration: 249823.38737,
+        count_events: 489.55973,
+        dst_port: 2.30034,
+        work_sessions: 30.76621,
+        night_sessions: 31.3413,
+        max_prio: 4.26451,
+        anom_level: 6.2116,
+        proto: 0.36007,
+        src_port: 114.77645,
+        dst_ip: 40.46416,
+        afterwork_sessions: 55.657
+
+    anom(1): muuchos eventos y cnxs:
+        work_sessions: 30444,
+        max_prio: 4,
+        dst_port: 4,
+        anom_level: 0,
+        proto: 2,
+        src_port: 16152,
+        dst_ip: 45,
+        count_events: 94864,
+        avg_duration: 10,
+        afterwork_sessions: 35553,
+        night_sessions: 28774,
+        stdev_duration: 1164
+
+Distance distribution:
+    Global:
+        Minimum: 0.17917
+        Mean: 0.50098
+        Median: 0.44513
+        Maximum: 24.43108
+        Standard deviation: 0.55206
+        Sum: 2445.76741
+        Sum squares: 2712.87732
+        Variance: 0.30477
+    anom(1): muuchos eventos y cnxs:
+        Minimum: 0
+        Mean: 0
+        Median: 0
+        Maximum: 0
+        Standard deviation: 0
+        Sum: 0
+        Sum squares: 0
+        Variance: 0
+    cnxs largas:
+        Minimum: 0.39578
+        Mean: 0.99327
+        Median: 0.73855
+        Maximum: 6.23048
+        Standard deviation: 0.80792
+        Sum: 134.09164
+        Sum squares: 220.65574
+        Variance: 0.65273
+    normal, muchas cnxs:
+        Minimum: 0.11273
+        Mean: 0.38009
+        Median: 0.29724
+        Maximum: 12.5356
+        Standard deviation: 0.40402
+        Sum: 1195.39787
+        Sum squares: 967.56632
+        Variance: 0.16323
+    normal, pocas cnxs:
+        Minimum: 0.07072
+        Mean: 0.13533
+        Median: 0.08138
+        Maximum: 1.32384
+        Standard deviation: 0.15132
+        Sum: 205.97859
+        Sum squares: 62.70337
+        Variance: 0.0229
+    udp:
+        Minimum: 0.21299
+        Mean: 0.61204
+        Median: 0.48209
+        Maximum: 7.83686
+        Standard deviation: 0.86603
+        Sum: 48.35141
+        Sum squares: 88.09381
+        Variance: 0.75001
+
+Intercentroid distance:
+    To centroid anom(1): muuchos eventos y cnxs
+        Minimum: 24.4047458741
+        Mean: 24.4693647495
+        Maximum: 24.5114735664
+    To centroid cnxs largas
+        Minimum: 1.2702389869
+        Mean: 7.215316254
+        Maximum: 24.4909530155
+    To centroid normal, muchas cnxs
+        Minimum: 0.654412314709
+        Mean: 6.91304421433
+        Maximum: 24.4047458741
+    To centroid normal, pocas cnxs
+        Minimum: 0.654412314709
+        Mean: 6.99209139976
+        Maximum: 24.5114735664
+    To centroid udp
+        Minimum: 1.32277968156
+        Mean: 7.23346660305
+        Maximum: 24.4702865419

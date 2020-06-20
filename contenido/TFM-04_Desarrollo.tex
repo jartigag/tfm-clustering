@@ -550,7 +550,7 @@ Probablemente uno de los más extendidos sea el método del codo o \emph{elbow m
 
 Una de las medidas que se suelen utilizar para comparar resultados entre varios valores de $k$ es la suma de cuadrados dentro de cada grupo (\emph{within-cluster sums of squares}, abreviado como WCSS).
 Este concepto a veces también se conoce como inercia, y es una medida de variación o desviación con respecto a la media, en este caso representada por el centroide.
-La técnica de selección de $k$ por el método del codo consiste en representar en una gráfica lineal a la media respecto del número de \emph{clusters}.
+La técnica de selección de $k$ por el método del codo consiste en representar en una gráfica lineal la WCSS respecto del número de \emph{clusters}.
 El punto para el cual se observe un cambio brusco en la evolución de la inercia indicará el valor óptimo de $k$.
 
 La efectividad de este método está basada en que el algoritmo K-Means se fundamenta en el paradigma del análisis de la varianza (\emph{analysis of variance} o ANOVA).
@@ -584,8 +584,9 @@ se optó por emplear la herramienta online BigML para aplicar K-Means en los ens
 
 \subsection{Ensayo A: K-Means con k=5, sin características temporales}\label{subsec:ensayoA}
 
-Como se adelantaba en la sección \ref{sec:preprocesado}, en las primeras pruebas se incluyeron las características anotadas como
-``dst\_ip'', ``proto'', ``src\_port'', ``dst\_port'', ``anom\_level'', ``max\_prio'', ``count\_events'' y ``avg\_duration''.
+Como se adelantaba en la sección \ref{sec:preprocesado}, en las primeras pruebas no se incluyeron las marcas de tiempo.
+Se usaron las características anotadas como ``dst\_ip'', ``proto'', ``src\_port'', ``dst\_port'', ``anom\_level'', ``max\_prio'', ``count\_events'' y ``avg\_duration'',
+junto con ``src\_ip'' como característica identificativa.
 Después se advirtió que usar únicamente la media para resumir la información sobre la duración de las sesiones de un equipo durante un día parecía impreciso,
 así que se incluyó la característica ``stdev\_duration''.
 
@@ -606,9 +607,13 @@ Las categorías identificadas en los \emph{clusters} formados durante este ensay
 
 En el apéndice \ref{app:ensayoA} se pueden consultar los detalles de la salida que produjo la aplicación de K-Means con $k=5$ en estas condiciones.
 Se adjuntan datos de interés como los valores de las 10 características con los que se definía el centroide de cada \emph{cluster}.
-Se incluye también los modelos de cada \emph{cluster} que ofrece BigML, definidos mediante algunas reglas de clasificación.
-Además, se listan las características que han contribuido a la formación de cada \emph{cluster} ordenadas por influencia.
+Se incluyen también los modelos de cada \emph{cluster} que ofrece BigML, definidos mediante algunas reglas de clasificación.
+Si se revisan las reglas generadas automáticamente para este ensayo y otros, se encontrará que a veces consideran características que no tienen mucho sentido.
+Por eso las reglas pueden ser útiles para establecer ciertos umbrales, pero no deben seguirse a ciegas, independientemente de sus niveles de confianza y soporte.
+
+Además, en el apéndice se listan las características que han contribuido a la formación de cada \emph{cluster} ordenadas por influencia.
 Esta última información resulta muy interesante a la hora de comprender y optimizar la manera en la que se ha alcanzado esta clasificación no supervisada.
+Servirá también de realimentacion para mejorar la selección de características comentada en la sección \ref{sec:selecciondecaracteristicas}.
 
 \subsection{Ensayo B: G-Means determina k=3}\label{subsec:ensayoB}
 

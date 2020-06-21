@@ -615,8 +615,28 @@ Además, en el apéndice se listan las características que han contribuido a la
 Esta última información resulta muy interesante a la hora de comprender y optimizar la manera en la que se ha alcanzado esta clasificación no supervisada.
 Servirá también de realimentacion para mejorar la selección de características comentada en la sección \ref{sec:selecciondecaracteristicas}.
 
+En unas pruebas adicionales, se intentó incluir una dimensión temporal mediante la característica ``active\_hours\_vector''.
+Esta contenía un vector con 24 valores que representaban el número de sesiones que tenía una IP origen en cada hora del día.
+Se trató primero como una característica categórica (interpretando estos valores como items en vez de valores numéricos) y luego como 24 características numéricas independientes,
+pero no se tuvieron buenos resultados.
+Por eso se replanteó el preprocesado de estos datos temporales y finalmente se fijó el conjunto de características de la tabla \ref{tab:metricas}.
+
 \subsection{Ensayo B: G-Means determina k=3}\label{subsec:ensayoB}
 
+Con el \emph{dataset} final, se decidió probar el algoritmo G-means (\emph{Gaussian-means}) que ofrece BigML.
+Este algoritmo descubre el número $k$ de \emph{clusters} automáticamente, usando un test estadístico para decidir si dividir un centroide en dos.
+El algoritmo procede jerárquicamente, fijándose en un subconjunto de datos, y en cada iteración testea la hipótesis de que el subconjunto sigue una distribución gaussiana.
+Si no la sigue, divide el \emph{cluster}.
+
+Este algoritmo puede ser útil si no se tiene una estimación de cuál puede ser el valor de $k$ adecuado, presuponiendo unos datos de distribución normal.
+Sin embargo, se comprobó que el algoritmo no era apropiado para este caso, ya que los 3 \emph{clusters} resultantes no eran significativos para la aplicación en cuestión.
+Además, era de esperar que no funcionara bien con estos datos, porque en la sección \ref{sec:analisisdedatos} se había visto que la distribución de la mayoría de las variables no coincidía con una gaussiana.
+
+Se adjuntan los resultados de esta prueba en el apéndice \ref{app:ensayoB}, por constatar lo que se ha descrito aquí.
+
 \subsection{Ensayo C: K-Means con k=5, fracciones temporales con agrupación semanal}\label{subsec:ensayoC}
+
+Se pasó entonces al \emph{clustering} usando K-Means con $k=5$ sobre el \emph{dataset} final.
+En primer lugar se agrupó toda la información en un solo vector de características de la sesión, sin separar por días.
 
 \subsection{Ensayo D: K-Means con k=5, fracciones temporales con agrupación diaria}\label{subsec:ensayoD}

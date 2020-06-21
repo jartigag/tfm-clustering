@@ -571,7 +571,7 @@ Se puede observar que el valor de $k$ que este método daría como óptimo es di
     \centering
     \captionsetup{width=0.75\textwidth}
     \includegraphics[width=0.9\textwidth]{contenido/fig/codo.pdf}
-    \caption{gráficas de suma de cuadrados frente a valores de $k$ en varias combinaciones seleccionadas de características}
+    \caption{Gráficas de suma de cuadrados frente a valores de $k$ en varias combinaciones seleccionadas de características}
     \label{fig:codo}
 \end{figure}
 
@@ -638,5 +638,31 @@ Se adjuntan los resultados de esta prueba en el apéndice \ref{app:ensayoB}, por
 
 Se pasó entonces al \emph{clustering} usando K-Means con $k=5$ sobre el \emph{dataset} final.
 En primer lugar se agrupó toda la información en un solo vector de características de la sesión, sin separar por días.
+El informe completo del resultado está en el apéndice \ref{app:ensayoC},
+pero puede resumirse con que se lograron unos \emph{clusters} ya bastante similares a los que se ampliarán en la próxima subsección y en el capítulo \ref{chap:resultados} de resultados.
+Dichos resultados son los que se tomaron como los mejores.
+
+No obstante, el \emph{cluster} de anomalías se componía de solo 3 instancias que,
+según revelaba el resumen del modelo de este \emph{cluster}, se habían agrupado únicamente por sus valores altos en la característica ``duración media''.
+Se consideró que la condensación de información en el preprocesado (los datos de toda la semana se expresaban con un único punto) estaba siendo demasiada.
+
+Además, el ratio de sumas de cuadrados ($SS_{Between-clusters} / SS_{Total}$) era de 0.3358,
+un indicador de que sería conveniente mejorar las propiedades de cohesión interna y separación interna del \emph{clustering}.
+En términos estadísticos, esto se consigue incrementando la suma de cuadrados inter-grupales y reduciendo la suma de cuadrados intra-grupales,
+hecho que se dio al hacer una agrupación diaria en el preprocesado.
 
 \subsection{Ensayo D: K-Means con k=5, fracciones temporales con agrupación diaria}\label{subsec:ensayoD}
+
+En el último ensayo se aplicó K-Means con $k=5$ por separado a los 7 \emph{datasets} que se tenían cuando se hizo agrupación diaria sobre los datos de una semana.
+Los resultados (completos en el apéndice \ref{app:ensayoD}) eran más claros y útiles que los de ensayos anteriores.
+
+Las categorías finales en las que se clasificó la actividad de los equipos de la red en cada día fueron:
+\begin{enumerate}
+    \item Comportamiento normal, muchas conexiones (de media 54,07 \% de las instancias)
+    \item Comportamiento normal, pocas conexiones (de media 30,34 \%)
+    \item Sesiones UDP (de media 8,05 \%)
+    \item Conexiones largas o muchas IPs destino (de media 7,42 \%)
+    \item Anomalías: muchos eventos y conexiones (0,30 \%)
+\end{enumerate}
+
+El siguiente capítulo se dedica a ahondar sobre la composición de estos \emph{clusters}, sus centroides, métricas de bondad y en definitiva a explicar qué significan estos resultados para este trabajo.

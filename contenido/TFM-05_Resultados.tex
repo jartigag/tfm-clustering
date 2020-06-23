@@ -1,8 +1,20 @@
 \chapter{Resultados}\label{chap:resultados}
-\textbf{Explicación de los resultados}
 
-%Párrafo introductorio del capítulo
-[Párrafo introductorio del capítulo. Lorem ipsum dolor sit amet, consectetur adipisicing elit. Suscipit maxime expedita possimus consequatur labore, id, dignissimos praesentium repellendus quisquam tempore natus eveniet magnam! Ad laborum quas, at tenetur eligendi officiis!]
+El penúltimo capítulo se dedica a analizar los resultados obtenidos en la iteración final de las adelantadas en el capítulo \ref{chap:desarrollo} ``Desarrollo''.
+Se ahonda en aspectos como las proporciones y composición de los \emph{clusters}, sus centroides, métricas de bondad y en definitiva se explica qué significan estos resultados para este trabajo.
+Sobre todo, se evalúa cómo contribuye este trabajo al objetivo establecido inicialmente.
+
+\section{Composición de los clusters}\label{sec:composicionclusters}
+
+Como se adelantaba en la página anterior, más del 80 \% de los equipos de la red se clasifican como comportamientos totalmente normales (subdivididos en dos categorías: normal con muchas conexiones distintas y normal con pocas conexiones).
+Algo menos del 10 \% se agrupan en una tercera categoría porque el tráfico de los equipos que la forman es mayoritariamente UDP (lo que implica un comportamiento de características distintas pero no anómalo).
+En la cuarta categoría por orden de frecuencia (que supone un 5-10 \% de las instancias) se ha visto otro tipo de tráfico que destaca en unas ocasiones por la larga duración de sus conexiones y en otras ocasiones por el alto número de IPs destino distintas.
+Y, finalmente, se tiene un último grupo reducido (menos del 1 \%) con casos notablemente anómalos, porque presentan un número de eventos y de puertos destino únicos muy superior al resto.
+
+Esta proporción en la que se han separado los \emph{clusters} es una ventaja, ya que ayuda a centrar la atención en unos pocos casos anómalos que pueden revisarse manualmente.
+En la escala del \emph{dataset} obtenido para este trabajo, esa incidencia menor del 1 \% para el grupo muy anómalo supuso siempre menos de 10 casos diarios que pudieron estudiarse individualmente y trasladarse al responsable de la administración de los mismos.
+
+Los demás porcentajes se han mantenido bastante estables a lo largo de los días, así que también será interesante vigilar variaciones respecto a esta estabilidad, como posible síntoma de un hipotético cambio de tendencia generalizado en el comportamiento de los equipos de la red.
 
 \begin{figure}[h]
     \centering
@@ -11,3 +23,8 @@
     \caption{Representación de los \emph{clusters} obtenidos}
     \label{fig:clusters}
 \end{figure}
+
+\section{Calidad del resultado}\label{sec:calidadresultado}
+
+\section{Valor de la contribución}\label{sec:valorcontribución}
+

@@ -467,8 +467,6 @@ Por tanto, se espera que las colas de las distribuciones (es decir, los puntos c
 También se espera que los algoritmos sitúen a la gran mayoría de puntos dentro de unos pocos \emph{clusters} bastante densos.
 Esto es una ventaja de cara al objetivo de detectar anomalías.
 
-[Fig distrib. duración de sesiones (se tienen las vars. avg\_duration y stdev\_duration)]
-
 Como análisis preliminar al prototipado de métodos de \emph{clustering} mediante la herramienta BigML\footnote{\url{https://bigml.com/}},
 se visualizaron varias parejas de variables sobre un gráfico de dispersión, con la finalidad de adquirir una idea de sus dimensiones y cómo se relacionaban.
 Se aplicó también K-Means con varios valores de $k$, distinguiendo por colores los grupos formados, y se situaron los centroides en la gráfica (puntos rojos).
@@ -498,8 +496,6 @@ Se han elegido estas características porque presentan unos rangos muy distintos
 por lo que se diferencia una serie de grupos que pueden corresponder a algunos de los comportamientos de equipos informáticos en los que estamos interesados.
 
 En la sección \ref{sec:paramclustering} se ampliará cómo se buscaron los valores de $k$ con los que se trabajaría.
-
-[Hablar de PCA? En \cite{Bohara_2016} explica por qué las componentes ppales, que representan la mayor parte de la varianza, pueden no capturar comportamientos anóms.]
 
 \section{Selección de características}\label{sec:selecciondecaracteristicas}
 
@@ -537,7 +533,13 @@ que pueden combinarse selección y extracción de características, eliminando c
 También se valora la observación de \cite{Guyon_2003} cuando dice que ``el objetivo de la selección de variables es triple: mejorar el rendimiento de los predictores, posibilitar predictores más rápidos y eficientes en coste, y permitir una mejor comprensión del proceso subyacente que ha generado los datos''.
 La selección de características aquí expuesta busca cumplir con estas tres finalidades.
 
-[Explicar proceso de selección (filtrar feats. correladas y quedarse con las de más peso)]
+Tras hacer tests de correlación entre todas las variables, no se ha encontrado ninguna pareja de variables con tanta correlación como para poder suprimir una de ellas.
+Sin embargo, sí se ha comprobado que puede reducirse el número de variables (y con ello el coste y complejidad del \emph{clustering}) quedándose solo con las de mayor peso.
+Tras analizar la importancia relativa de cada una en los modelos generados tras el clustering (se adjuntan cifras concretas en los apéndices),
+se ha repetido el último ensayo (indicado en la subsección \ref{subsec:ensayoD}) manteniendo solo las 6 características más influyentes: ``dst\_ip'', ``proto'', ``src\_port'', ``max\_prio'' y ``count\_events''.
+El resultado ha sido que se lograban los mismos \emph{clusters} y el mismo número de instancias en el \emph{cluster} de anomalías, con un considerable decremento del tiempo de computación.
+
+Contrariamente a lo que se esperaba, esto indica que las variables temporales no han sido tan decisivas como se creía que serían.
 
 \section{Parametrización del algoritmo de clustering}\label{sec:paramclustering}
 
@@ -665,4 +667,4 @@ Las categorías finales en las que se clasificó la actividad de los equipos de 
     \item Anomalías: muchos eventos y conexiones (0,30 \%)
 \end{enumerate}
 
-El siguiente capítulo se dedica a ahondar sobre la composición de estos \emph{clusters}, sus centroides, métricas de bondad y en definitiva a explicar qué significan estos resultados para este trabajo.
+En el siguiente capítulo se entra de lleno a explicar los resultados obtenidos en este ensayo final.

@@ -29,7 +29,7 @@ La consecución de dicho objetivo general vendrá pautada por las siguientes met
 
 \end{itemize}
 
-\section{Metodología de Trabajo}\label{sec:metodologia}
+\section{Metodología de Trabajo}\label{sec:metodologiatrabajo}
 
 Con los anteriores objetivos específicos marcados, se hace necesario establecer un marco de trabajo para llevarlos a cabo.
 En esta sección se estructurará una metodología de trabajo en base a cuatro fases generales, que tienen como fin último alcanzar el objetivo general.
@@ -67,3 +67,27 @@ Se ofrecerá una representación visual adecuada que permita al analista aprovec
 Además, se automatizará la extracción de características y se prepararán el resto de componentes del sistema para que funcione lo más cercano a tiempo real posible.
 
 \end{itemize}
+
+\section{Metodología del Desarrollo}\label{sec:metodologiadesarrollo}
+
+[Metodología del Desarrollo]
+
+\begin{itemize}
+
+    \item Extracción de vectores de características de las sesiones
+
+    \item Preprocesado antes del \emph{clustering}
+
+    \item Aplicación de KMeans con $k=5$
+
+\end{itemize}
+
+% Esquema Metodología de Trabajo:
+% 1. Extracción vectores de características de las sesiones
+% 2. Preprocesado para el clustering:
+%       - muestreo
+%       - transformación en características: agrupación diaria por IP origen y cálculo de métricas
+%       - kmeans con k=5
+% 3. Análisis:
+%       - revisión manual de las IP origen clasificadas como anomalías
+%       - evaluación de la estabilidad del resto de clusters normales, para ver si hay cambios de tendencia

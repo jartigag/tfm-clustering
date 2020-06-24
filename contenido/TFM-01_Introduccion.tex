@@ -1,31 +1,65 @@
 \chapter{Introducción}\label{chap:introduccion}
 
-\textbf{[Los fragmentos entre corchetes son ideas que ampliaré próximamente]}
-
-[Párrafo introductorio del capítulo. El primer capítulo es siempre una introducción. En ella debes resumir de forma esquemática pero suficientemente clara lo esencial de cada una de las partes del trabajo. La lectura de este primer capítulo ha de dar una primera idea clara de lo que se pretendía, las conclusiones a las que se ha llegado y del procedimiento seguido.]\par
-Como tal, \textbf{es uno de los capítulos más importantes de la memoria}. Las ideas principales a transmitir son la identificación del problema a tratar, la justificación de su importancia, los objetivos generales (a grandes rasgos) y un adelanto de la contribución que esperas hacer. Típicamente una introducción tiene la siguiente estructura:\par
-
-\begin{enumerate}
-    \item Motivación: ¿Cuál es el problema que quieres tratar? ¿Cuáles crees que son las causas? ¿Por qué es relevante el problema?
-    \item Planteamiento del trabajo (sección \ref{sec:objetivos}): ¿Cómo se podría solucionar el problema? ¿Qué es lo que se propone? Aquí describes tus objetivos en términos generales (``mejorar el aprendizaje de idiomas'')
-    \item Estructura del trabajo (sección \ref{sec:estructura}): Aquí describes brevemente lo que vas a contar en cada uno de los capítulos siguientes.
-\end{enumerate}
+El primer capítulo resume de forma esquemática y clara las ideas que componen este trabajo y sobre las que se fundamenta.
+En él se presentan elementos como la identificación del problema a tratar, la justificación de su importancia, cómo se vertebra el proyecto y de qué manera contribuye a la resolución de los retos planteados.
 
 \section{Motivación}\label{sec:motivacion}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt libero viverra mi elementum pellentesque. Mauris sollicitudin elementum turpis. Nunc dictum lectus nec ligula fringilla auctor. Proin ut sem felis. Sed suscipit maximus lorem, nec vulputate nisi. Etiam viverra nec nulla vel facilisis. Vivamus purus lacus, laoreet id justo eu, euismod commodo justo.\par
 
-\section{Objetivos}\label{sec:objetivos}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Donec tincidunt libero viverra mi elementum pellentesque. Mauris sollicitudin elementum turpis. Nunc dictum lectus nec ligula fringilla auctor. Proin ut sem felis. Sed suscipit maximus lorem, nec vulputate nisi. Donec eu interdum lectus. Etiam viverra nec nulla vel facilisis. Vivamus purus lacus, laoreet id justo eu, euismod commodo justo.\par
+La monitorización de la red informática en una gran empresa es un problema complejo por muchos factores.
+El más inmediato podría ser el alto volumen de conexiones que se producen, superior a varios millones diarios.
+Pero se suman otras muchas dificultades a la hora de procesar el tráfico de forma que se obtenga información útil para el analista y, en última instancia, para el cliente final:
+la gran variabilidad de comportamientos, la complejidad de sintetizar lo importante sin perder exactitud,
+el compromiso entre rapidez en la respuesta y certeza en su fiabilidad, el desconocimiento a priori de cómo se caracteriza un comportamiento anómalo...
 
-Vestibulum risus eros, fringilla quis tristique quis, tincidunt et dui. Sed et magna blandit, sagittis nibh dictum, eleifend magna. Suspendisse a nulla a augue ultrices molestie sit amet et magna. Vestibulum molestie metus id lorem bibendum rhoncus. Maecenas sit amet massa pretium, commodo nunc id, viverra augue. Curabitur nec ultricies sem. Donec congue lectus lorem, vel laoreet arcu mollis volutpat. Duis sem metus, consectetur ac diam et, pretium congue tortor. Quisque elementum mollis enim, nec blandit mauris feugiat quis.\par
+Interesa buscar una solución a estos obstáculos porque las empresas quieren garantizar que los recursos de sus redes se gestionan de la manera más óptima posible.
+Además, es especialmente importante la seguridad de la red corporativa, esto es, protegerla de acciones no autorizadas u otras amenazas que puedan comprometer su disponibilidad o la integridad de los equipos que la componen.
+
+Equipos de seguridad como puedan ser los firewalls contribuyen de manera decisiva a esta protección, pero su funcionamiento basado en firmas no cubre todos los casos ante una intrusión.
+Sin embargo, sí generan una enorme cantidad de datos que, si se tratan adecuadamente, sirven para ampliar el alcance de las técnicas empleadas en materia de seguridad.
+
+Por ello, un sistema que modele el comportamiento normal de una red y detecte anomalías usando métodos estadísticos y de inteligencia artificial permitirá
+conocer mejor el contexto de dicha red e identificar comportamientos sospechosos que no se considerarían de otro modo.
+
+\section{Planteamiento del trabajo}\label{sec:objetivos}
+
+Las preguntas planteadas para guiar esta investigación han sido:
+\begin{itemize}
+    \item ¿Podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red?
+    \item ¿Cuáles serían esas categorías?
+    \item ¿Seremos capaces de identificar comportamientos sospechosos en base a esta clasificación?
+\end{itemize}
+
+A través de estas cuestiones se inicia el estudio del problema, para cuya solución se propone obtener un modelo clasificador que distinga patrones de comportamiento normales y desviaciones respecto de la actividad normal.
+Este clasificador se realizará mediante una técnica de aprendizaje automático no supervisado como es el \emph{clustering}.
+Lo que se pretende al elegir esta técnica es que la agrupación en categorías se lleve a cabo de manera natural, buscando características en común sin haber definido las clases previamente.
+
+El objetivo principal es localizar en la red interna orígenes de tráfico catalogable como extraño, lo que puede indicar un equipo infectado o mal configurado.
+La determinación de qué se sale de lo habitual dependerá de las particularidades de la red, algo difícil de concretar a priori y más aún de generalizar,
+razón por la cual el \emph{clustering} (como etapa final tras un análisis y preprocesado de los datos adaptado al caso) se ha considerado una técnica idónea en esta tarea.
 
 \section{Estructura del documento}\label{sec:estructura}
-Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus eu risus convallis, cursus ante quis, condimentum nibh. Cras vulputate suscipit tortor eu pulvinar. Aenean aliquet felis lacinia aliquet interdum. In at diam sed lacus porta efficitur. Nunc hendrerit, felis id venenatis fringilla, augue justo egestas ipsum, vel pretium est lorem at arcu. Nullam finibus mauris et maximus viverra. Etiam sagittis ligula vel aliquam vehicula. Aenean consequat condimentum enim, eget posuere lectus dapibus sed. Suspendisse mollis eu orci eu tempor. Aliquam tempus enim eget egestas congue. Morbi nisi metus, suscipit in scelerisque quis, accumsan sit amet nulla. Sed id imperdiet quam, eget commodo sem. Donec et molestie libero. Donec et quam mi. Vivamus consectetur est turpis, et ultricies leo dictum eu.\par
 
-\begin{itemize}
-    \item Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-    \item Vestibulum id tortor efficitur odio dictum suscipit ut blandit augue.
-    \item Donec consectetur sem ac suscipit bibendum.
-    \item Phasellus interdum metus sit amet lorem tempor, vel accumsan mi maximus.
-    \item Suspendisse semper massa et porttitor gravida.
-\end{itemize}{}
+Una vez expuesto en este capítulo \ref{chap:introduccion} el problema que se va a abordar durante este trabajo y cómo se enfoca su estudio,
+se dedica el capítulo \ref{chap:objetivos} a definir los Objetivos, tanto generales como específicos, hacia los que se dirigirá el proyecto.
+También se incluye en él la Metodología seguida.
+Esta explica qué pasos se dan en la aplicación del \emph{clustering} a este caso, el por qué de cada paso, qué instrumentos se van a utilizar, cómo se analizan los resultados, etc.
+
+El capítulo \ref{chap:estadodelarte} dota de contexto científico a este trabajo: se revisa el Estado del Arte.
+Mediante la relación de diversos artículos y publicaciones académicas sobre aprendizaje automático aplicada a la clasificación de tráfico,
+en esta parte de la memoria se sintetizan los conceptos fundamentales y los hallazgos más relevantes para este campo.
+Se diferencian distintos enfoques en la detección de anomalías, valorando los aspectos positivos y las desventajas de cada uno.
+Para cerrar, se justifican las decisiones tomadas con las que, sobre el conocimiento disponible en torno al tema, sentar las bases del desarrollo de este piloto.
+
+En el capítulo \ref{chap:desarrollo} se entra en los detalles del Desarrollo.
+Paso a paso, se profundiza en todos los puntos que se han recorrido hasta alcanzar unos resultados satisfactorios.
+Esto incluye: presentación del escenario, trabajo con estándares y \emph{scripts} para extraer de los datos en bruto la información útil para el propósito actual,
+análisis estadístico de las variables, selección de estas y parametrización del algoritmo K-Means para obtener una clasificación...
+Todo ello se ha ido conseguiendo y mejorando de forma incremental, volviendo atrás e incorporando avances,
+pero en el capítulo se presenta ordenadamente, siguiendo la línea a través de la cual los datos se transforman por etapas hasta tener finalmente la clasificación de los equipos.
+
+Es entonces cuando se pasa al capítulo \ref{chap:resultados}: Resultados.
+Ahí se describe más ampliamente y se analiza la salida del algoritmo, evaluando cómo se han compuesto los \emph{clusters} y qué indicadores reflejan la calidad del resultado.
+Se interpreta el valor del mismo y qué significa este resultado de cara a los objetivos marcados.
+
+En último lugar, el capítulo \ref{chap:conclusiones} recoge las Conclusiones derivadas del trabajo realizado.
+Se comentan también las Líneas futuras que este piloto podría seguir para evolucionar y convertirse en un desarrollo aún más útil y más pulido.

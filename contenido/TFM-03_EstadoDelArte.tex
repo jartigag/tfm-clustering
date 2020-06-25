@@ -48,7 +48,7 @@ Si se trata de clasificadores de tráfico, lo más común es encontrar planteami
 En ocasiones, la granularidad de la clasificación se afina hasta el uso de flujos bidireccionales (asumiendo que se tiene visibilidad de ambas direcciones), pero operar a este nivel entraña una complejidad bastante mayor.
 Un flujo se suele definir como una tupla de 5 elementos: protocolo de transporte (frecuentemente, TCP o UDP), direcciones IP de origen y destino, y puertos de origen y destino.
 Con este concepto como \emph{objeto} fundamental, tradicionalmente se han buscado patrones estadísticos en los atributos de los flujos que son observables desde una perspectiva externa (es decir, sin considerar el contenido o \emph{payload} de los paquetes).
-Ejemplos de estos atributos serían: tamaño de paquetes, tiempo entre llegadas, número de paquetes en cada dirección, duración total... resumido cada uno con el estadístico muestral que se considere adecuado.
+Ejemplos de estos atributos serían: tamaño de paquetes, tiempo entre llegadas, número de paquetes en cada dirección, duración total, etc. resumido cada uno con el estadístico muestral que se considere adecuado.
 Con la popularización del aprendizaje automático, se ha podido llevar la búsqueda de patrones entre dichos atributos a nuevos grados de profundidad.
 
 Se trabaja también con otras variantes en cuanto a cómo agrupar los paquetes que se hayan intercambiado dos máquinas.
@@ -109,7 +109,6 @@ También pueden capturar interdependencias entre las variables que no son fácil
 No obstante, estas técnicas tienen una dependencia importante de lo que se acepte como comportamiento normal.
 
 Para este trabajo, se ha elegido desarrollar un sistema de detección de anomalías basado en una técnica de aprendizaje automático como es el \emph{clustering}.
-
 En \cite{Alconzo_2019} se resaltan acertadamente las bondades y debilidades de los métodos de detección de anomalías, al decir que
 ``son atractivos porque permiten la pronta detección de amenazas desconocidas (por ejemplo, \emph{zero-days}).
 Estos métodos, sin embargo, puede que no detecten ataques sigilosos, insuficientemente amplios para perturbar la red.
@@ -135,8 +134,7 @@ o probabilísticos, si la pertenencia de una instancia a un grupo se expresa med
 
 El primer uso de \emph{clustering} para detección de intrusiones se vio en \cite{Portnoy_2000}.
 La hipótesis en base a la cual los autores aplicaron \emph{clustering} para esta tarea es que las conexiones entre datos normales crearán \emph{clusters} más grandes y más densos.
-Si se lleva el análisis un paso más allá, para incrementar la precisión de la técnica, además de las consideraciones anteriores
-debe tenerse en cuenta la distancia entre \emph{clusters}, como se demuestra en \cite{JSW+06}.
+Si se lleva el análisis un paso más allá, para incrementar la precisión de la técnica, también debe tenerse en cuenta la distancia entre \emph{clusters}, como se demuestra en \cite{JSW+06}.
 
 Los tipos de algoritmos de \emph{clustering} usados en clasificación de tráfico son variados.
 Encontramos en \cite{MHL+04} la primera aplicación de un algoritmo de \emph{clustering} probabilístico como es \emph{Expectation Maximization} sobre flujos de tráfico.
@@ -148,7 +146,7 @@ Así lograron diferenciar con alta granularidad entre ocho aplicaciones previame
 
 Otros estudios valoraban muchas menos variables.
 En \cite{BTA+06}, tan solo se miraban la longitud y dirección de los primeros cinco paquetes de cada flujo (excluyendo el \emph{handshake} y los ACKs sin \emph{payload})
-para decidir mediante K-Means a cuál de las diez aplicaciones contempladas pertenecía cada flujo.
+para decidir mediante K-Means a cuál de las diez aplicaciones tipo pertenecía cada flujo.
 Permitía una temprana identificación de la aplicación con una precisión cercana al 80\%, extensible hasta el 85\% con mejoras posteriores \cite{BTS06} \cite{BT07}.
 
 Para la detección de anomalías también se usan habitualmente algoritmos de \emph{clustering}.
@@ -167,4 +165,6 @@ Sus resultados revelaron que las técnicas de \emph{machine learning} supervisad
 Por el contrario, las técnicas de \emph{machine learning} no-supervisado lograron tasas de detección del 80\%, aunque los falsos positivos superaban el 20\%.
 Estas técnicas eran los siguientes algoritmos de \emph{clustering}: K-Means, \emph{k-medoids} \cite{Velmurugan_2010}, \emph{Expectation Maximization} \cite{Lu_2009} y detección de \emph{outliers} basada en distancia \cite{Orair_2010}.
 
-[Conclusiones sobre los trabajos previos]
+Resumiendo, se ha constatado que el aprendizaje automático es adecuado para la clasificación de tráfico.
+Basarlo en el comportamiento del host tiene en cuenta las acciones con el mismo origen, además de ser resistente a cambios de red.
+Por último, en el ámbito de la seguridad, la detección de anomalías con aprendizaje automático es flexible y adaptable, puede capturar interdependencias entre variables y permite la pronta detección de \emph{zero-days}.

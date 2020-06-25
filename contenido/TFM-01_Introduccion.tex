@@ -9,7 +9,7 @@ La monitorización de la red informática en una gran empresa es un problema com
 El más inmediato podría ser el alto volumen de conexiones que se producen, superior a varios millones diarios.
 Pero se suman otras muchas dificultades a la hora de procesar el tráfico de forma que se obtenga información útil para el analista y, en última instancia, para el cliente final:
 la gran variabilidad de comportamientos, la complejidad de sintetizar lo importante sin perder exactitud,
-el compromiso entre rapidez en la respuesta y certeza en su fiabilidad, el desconocimiento a priori de cómo se caracteriza un comportamiento anómalo...
+el compromiso entre rapidez en la respuesta y certeza en su fiabilidad, el desconocimiento a priori de cómo se caracteriza un comportamiento anómalo, etc.
 
 Interesa buscar una solución a estos obstáculos porque las empresas quieren garantizar que los recursos de sus redes se gestionan de la manera más óptima posible.
 Además, es especialmente importante la seguridad de la red corporativa, esto es, protegerla de acciones no autorizadas u otras amenazas que puedan comprometer su disponibilidad o la integridad de los equipos que la componen.
@@ -22,11 +22,11 @@ conocer mejor el contexto de dicha red e identificar comportamientos sospechosos
 
 \section{Planteamiento del trabajo}\label{sec:objetivos}
 
-Las preguntas planteadas para guiar esta investigación han sido:
+Las cuestiones planteadas para guiar esta investigación han sido:
 \begin{itemize}
-    \item ¿Podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red?
-    \item ¿Cuáles serían esas categorías?
-    \item ¿Seremos capaces de identificar comportamientos sospechosos en base a esta clasificación?
+    \item Si podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red
+    \item Cuáles serían esas categorías
+    \item Si sereremos capaces de identificar comportamientos sospechosos en base a esta clasificación
 \end{itemize}
 
 A través de estas cuestiones se inicia el estudio del problema, para cuya solución se propone obtener un modelo clasificador que distinga patrones de comportamiento normales y desviaciones respecto de la actividad normal.
@@ -40,26 +40,26 @@ razón por la cual el \emph{clustering} (como etapa final tras un análisis y pr
 \section{Estructura del documento}\label{sec:estructura}
 
 Una vez expuesto en este capítulo \ref{chap:introduccion} el problema que se va a abordar durante este trabajo y cómo se enfoca su estudio,
-se dedica el capítulo \ref{chap:objetivos} a definir los Objetivos, tanto generales como específicos, hacia los que se dirigirá el proyecto.
-También se incluye en él la Metodología seguida.
+se dedica el capítulo \ref{chap:objetivos} a definir los objetivos, tanto generales como específicos, hacia los que se dirigirá el proyecto.
+También se incluye en él la metodología seguida.
 Esta explica qué pasos se dan en la aplicación del \emph{clustering} a este caso, el por qué de cada paso, qué instrumentos se van a utilizar, cómo se analizan los resultados, etc.
 
-El capítulo \ref{chap:estadodelarte} dota de contexto científico a este trabajo: se revisa el Estado del Arte.
+El capítulo \ref{chap:estadodelarte} dota de contexto científico a este trabajo: se revisa el estado del arte.
 Mediante la relación de diversos artículos y publicaciones académicas sobre aprendizaje automático aplicada a la clasificación de tráfico,
 en esta parte de la memoria se sintetizan los conceptos fundamentales y los hallazgos más relevantes para este campo.
 Se diferencian distintos enfoques en la detección de anomalías, valorando los aspectos positivos y las desventajas de cada uno.
 Para cerrar, se justifican las decisiones tomadas con las que, sobre el conocimiento disponible en torno al tema, sentar las bases del desarrollo de este piloto.
 
-En el capítulo \ref{chap:desarrollo} se entra en los detalles del Desarrollo.
+En el capítulo \ref{chap:desarrollo} se entra en los detalles del desarrollo.
 Paso a paso, se profundiza en todos los puntos que se han recorrido hasta alcanzar unos resultados satisfactorios.
 Esto incluye: presentación del escenario, trabajo con estándares y \emph{scripts} para extraer de los datos en bruto la información útil para el propósito actual,
-análisis estadístico de las variables, selección de estas y parametrización del algoritmo K-Means para obtener una clasificación...
-Todo ello se ha ido conseguiendo y mejorando de forma incremental, volviendo atrás e incorporando avances,
-pero en el capítulo se presenta ordenadamente, siguiendo la línea a través de la cual los datos se transforman por etapas hasta tener finalmente la clasificación de los equipos.
+análisis estadístico de las variables, selección de estas y parametrización del algoritmo K-Means para obtener una clasificación.
+Todo ello se ha ido conseguiendo y mejorando de forma incremental, volviendo atrás e incorporando avances.
+En el capítulo se presenta ordenadamente, siguiendo la línea a través de la cual los datos se transforman por etapas hasta tener finalmente la clasificación de los equipos.
 
-Es entonces cuando se pasa al capítulo \ref{chap:resultados}: Resultados.
+Es entonces cuando se pasa al capítulo \ref{chap:resultados}: resultados.
 Ahí se describe más ampliamente y se analiza la salida del algoritmo, evaluando cómo se han compuesto los \emph{clusters} y qué indicadores reflejan la calidad del resultado.
 Se interpreta el valor del mismo y qué significa este resultado de cara a los objetivos marcados.
 
-En último lugar, el capítulo \ref{chap:conclusiones} recoge las Conclusiones derivadas del trabajo realizado.
-Se comentan también las Líneas futuras que este piloto podría seguir para evolucionar y convertirse en un desarrollo aún más útil y más pulido.
+En último lugar, el capítulo \ref{chap:conclusiones} recoge las conclusiones derivadas del trabajo realizado.
+Se comentan también las líneas futuras que este piloto podría seguir para evolucionar.

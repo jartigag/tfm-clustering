@@ -1,3 +1,4 @@
+bigml/actionable*.py
 scripts/.ipynb_checkpoints/
 data*/
 .tmp/

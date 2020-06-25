@@ -23,9 +23,7 @@ La consecución de dicho objetivo general vendrá pautada por las siguientes met
 
 \item Refinar el algoritmo de \emph{clustering} empleado, buscando categorías más específicas que no se estuvieran teniendo en cuenta antes.
 
-\item Diseñar una forma de visualización adecuada para los resultados.
-
-\item Alcanzar un modo de funcionamiento en tiempo real, en coordinación con los demás mecanismos de monitorización presentes y asegurando una precisión razonable (detecciones correctas frente a falsos positivos).
+\item Alcanzar un modo de funcionamiento en tiempo real, en coordinación con los demás mecanismos de monitorización presentes y asegurando una precisión razonable.
 
 \end{itemize}
 
@@ -70,24 +68,45 @@ Además, se automatizará la extracción de características y se prepararán el
 
 \section{Metodología del Desarrollo}\label{sec:metodologiadesarrollo}
 
-[Metodología del Desarrollo]
+Tras haber completado las fases del desarrollo requeridas para poner en funcionamiento este piloto y haber analizado y probado lo que mejor funcionaba en cada una,
+se ha plasmado la metodología seguida en esta serie de pasos, que ofrecen una visión global del desarrollo que se ampliará en el capítulo \ref{chap:desarrollo}:
 
 \begin{itemize}
 
-    \item Extracción de vectores de características de las sesiones
+\item A partir de logs en bruto de firewall, extracción de los vectores de características de las sesiones.
 
-    \item Preprocesado antes del \emph{clustering}
+\item Preprocesado antes del \emph{clustering}:
 
-    \item Aplicación de KMeans con $k=5$
+    \begin{itemize}
+
+        \item Muestreo (necesario para el desarrollo, pero prescindible cuando se lleve a producción).
+
+        \item Transformación de los datos individuales en características para la entrada del \emph{clustering},
+            formada básicamente, por un lado, por la agrupación diaria y por IP origen, y por otro, por el cálculo de las métricas con las que se ha decidido trabajar.
+
+        \item Normalización de estos datos.
+
+    \end{itemize}
+
+\item Aplicación de KMeans con $k=5$
+
+\item Análisis:
+
+    \begin{itemize}
+
+        \item Revisión manual en el entorno de la empresa de las IP clasificadas como anomalías.
+
+        \item Evaluación de la estabilidad del resto de \emph{clusters} normales, para vigilar si hay cambios de tendencia.
+
+    \end{itemize}
 
 \end{itemize}
 
-% Esquema Metodología de Trabajo:
-% 1. Extracción vectores de características de las sesiones
-% 2. Preprocesado para el clustering:
-%       - muestreo
-%       - transformación en características: agrupación diaria por IP origen y cálculo de métricas
-%       - kmeans con k=5
-% 3. Análisis:
-%       - revisión manual de las IP origen clasificadas como anomalías
-%       - evaluación de la estabilidad del resto de clusters normales, para ver si hay cambios de tendencia
+El siguiente esquema de la figura \ref{fig:esquema} resume todo el procesado:
+
+\begin{figure}[h]
+    \centering
+    \includegraphics{contenido/fig/esquema.pdf}
+    \caption{Diagrama de la metodología seguida en el procesado}
+    \label{fig:esquema}
+\end{figure}

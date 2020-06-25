@@ -1,12 +1,38 @@
 \chapter{Conclusiones y líneas futuras}\label{chap:conclusiones}
-\textbf{Conclusiones finales y trabajo futuro}
 
-%Párrafo introductorio del capítulo
-[Párrafo introductorio del capítulo de Conclusiones y Líneas Futuras]
+Para acabar, en este capítulo se recoge el resumen final del problema tratado, cómo se ha abordado y qué respalda la validez de esta solución.
+Esta síntesis se enfoca en informar del alcance y relevancia de la aportación.
+Finalmente, se señalan las perspectivas de futuro que abre el trabajo desarrollado y cómo puede emplearse en el campo de la monitorización de redes empresariales.
 
-Este último bloque (habitualmente un capítulo; en ocasiones, dos capítulos complementarios) es habitual en todos los tipos de trabajos y presenta el resumen final de tu trabajo y debe servir para informar del alcance y relevancia de tu aportación.\par
+\section{Conclusiones}\label{sec:conclusiones}
 
-Suele estructurarse empezando con un resumen del problema tratado, de cómo se ha abordado y de por qué la solución sería válida.
-Es recomendable que incluya también un resumen de las contribuciones del trabajo, en el que relaciones las contribuciones y los resultados obtenidos con los objetivos que habías planteado para el trabajo, discutiendo hasta qué punto has conseguido resolver los objetivos planteados.\par
+Se ha logrado modelar el comportamiento de los equipos informáticos en una red corporativa mediante métodos de \emph{clustering},
+descubriendo de forma no supervisada varias clases de equipos que cursan tráfico normal,
+y se han detectado de manera automática algunas IP origen anómalas por su cantidad de conexiones y eventos.
+Esto amplía el alcance de la monitorización que se mantenía hasta ahora, con nuevas capacidades.
 
-Finalmente, se suele dedicar una última sección a hablar de líneas de trabajo futuro que podrían aportar valor añadido al TFM realizado. La sección debería señalar las perspectivas de futuro que abre el trabajo desarrollado para el campo de estudio definido. En el fondo, debes justificar de qué modo puede emplearse la aportación que has desarrollado y en qué campos.
+Por tanto, puede decirse que esta aportación tendrá una aplicación práctica inmediata.
+A juzgar por el poco coste de computación y los satisfactorios indicadores de calidad medidos,
+el conjunto de procesados diseñados para este sistema podrá integrarse en los sistemas actuales de monitorización,
+programando su ejecución para que ofrezca las direcciones IP \emph{clusterizadas} cada día (especialmente el de las anomalías más destacadas) y un analista pueda revisarlas.
+
+Sin embargo, aunque los ensayos se han hecho sobre una cantidad suficiente de datos como para dar validez a las conclusiones extraídas,
+cabría esperar que su funcionamiento en producción requiera de más pruebas en tiempo real y sobre periodos de datos más prolongados,
+para perfeccionarlo y comprobar que los resultados alcanzan la calidad esperada.
+
+\section{Líneas futuras}\label{sec:lineasfuturas}
+
+En el entorno donde se ha desarrollado este proyecto se ha considerado oportuno dar continuidad a la investigación.
+Esta podría dirigirse en los siguientes sentidos:
+
+\begin{itemize}
+
+\item Incluir otros firewalls como fuente de datos, que enriquezcan la base de la que se parte (además, quizás podrían correlarse y con ello resultar mucho más valiosos).
+
+\item Trabajar sobre el seguimiento de los cambios de tendencia en los \emph{clusters} normales e incluso procesarlos con un segundo método de \emph{clustering}, que permita más granularidad a la hora de distinguir tipos de acciones habituales y descubra comportamientos particulares más sutiles.
+
+\item Aplicar preprocesados y técnicas de \emph{clustering} similares a conexiones externas, para caracterizar el comportamiento de direcciones IP que se conecten a servicios públicos de la red de una empresa.
+
+\item Enfocarse en el diseño de una forma de visualización adecuada para que el analista pueda comprender y revisar los resultados más fácilmente.
+
+\end{itemize}

@@ -2,7 +2,6 @@
 
 El penúltimo capítulo se dedica a analizar los resultados obtenidos en la iteración final de las adelantadas en el capítulo \ref{chap:desarrollo} ``Desarrollo''.
 Se ahonda en aspectos como las proporciones y composición de los \emph{clusters}, sus centroides, métricas de bondad y en definitiva se explica qué significan estos resultados para este trabajo.
-Sobre todo, se evalúa cómo contribuye este trabajo al objetivo establecido inicialmente.
 
 \section{Composición de los clusters}\label{sec:composicionclusters}
 
@@ -130,14 +129,14 @@ Para permitir examinar los valores específicos que han tomado los centroides en
     \begingroup
     \setlength{\tabcolsep}{2pt} % Default value: 6pt
     \hspace*{-3cm}
-    \begin{tabular}{|r|r|r|r|r|r|r|r|r|}
+    \begin{tabular}{|c|r|r|r|r|r|r|r|r|}
     \hline
-    \multicolumn{1}{|c|}{\textbf{Cluster}} & \textbf{dst\_ip} & \textbf{proto} & \textbf{src\_port} & \textbf{dst\_port} & \textbf{max\_prio} & \textbf{count\_events} & \textbf{avg\_duration} & \textbf{stdev\_duration} \\ \hline
-    normal, muchas cnxs                    & 54.51            & 0.04           & 257.24             & 2.02               & 4                  & 660.99                 & 9426.71                & 33187.10                 \\ \hline
-    normal, pocas cnxs                     & 5.54             & 0.01           & 17.40              & 1.38               & 4.99               & 34.45                  & 8385.74                & 9746.59                  \\ \hline
-    udp                                    & 50.07            & 1.60           & 234.74             & 2.48               & 4.11               & 602.45                 & 16391.64               & 57167.76                 \\ \hline
-    cnxs largas                            & 6.15             & 0.66           & 65.48              & 5.41               & 4.48               & 367.28                 & 503875.35              & 735594.61                \\ \hline
-    anom(28)                               & 68.48            & 0.07           & 8785.88            & 2.07               & 4.03               & 35278.18               & 771.92                 & 6427.07                  \\ \hline
+    \textbf{Cluster}    & \textbf{dst\_ip} & \textbf{proto} & \textbf{src\_port} & \textbf{dst\_port} & \textbf{max\_prio} & \textbf{count\_events} & \textbf{avg\_duration} & \textbf{stdev\_duration} \\ \hline
+    normal, muchas cnxs & 54.51            & 0.04           & 257.24             & 2.02               & 4                  & 660.99                 & 9426.71                & 33187.10                 \\ \hline
+    normal, pocas cnxs  & 5.54             & 0.01           & 17.40              & 1.38               & 4.99               & 34.45                  & 8385.74                & 9746.59                  \\ \hline
+    udp                 & 50.07            & 1.60           & 234.74             & 2.48               & 4.11               & 602.45                 & 16391.64               & 57167.76                 \\ \hline
+    cnxs largas         & 6.15             & 0.66           & 65.48              & 5.41               & 4.48               & 367.28                 & 503875.35              & 735594.61                \\ \hline
+    anom(28)            & 68.48            & 0.07           & 8785.88            & 2.07               & 4.03               & 35278.18               & 771.92                 & 6427.07                  \\ \hline
     \end{tabular}
     \endgroup
 \caption{Valores de los centroides en el día 7}
@@ -167,7 +166,3 @@ En especial, las instancias del \emph{cluster} etiquetado con el 2 (el de las an
     \caption{Representación gráfica del análisis de silueta para los \emph{clusters} obtenidos con $k=5$}
     \label{fig:silhouette}
 \end{figure}
-
-\section{Valor de la contribución}\label{sec:valorcontribución}
-
-[Valor de la contribución]

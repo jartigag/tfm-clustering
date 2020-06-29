@@ -50,7 +50,7 @@ Referencias interesantes:
 
 ["Automated traffic classification and application identification using machine learning" (S. Zander, T. Nguyen y G. Armitage, 2005)](https://doi.org/10.1109/LCN.2005.35)
 
-["Traffic Classification on the Fly" (L. Bernaille et al., 2006)](https://doi.org/10.1145/1129582.1129589) y [conti](https://doi.org/10.1145/1368436.1368445)-[nuaciones](https://doi.org/10.1145/1368436.1368445)
+["Traffic Classification on the Fly" (L. Bernaille et al., 2006)](https://doi.org/10.1145/1129582.1129589) y [conti](https://doi.org/10.1145/1368436.1368445)-[nuaciones](10.1007/978-3-540-71617-4_17)
 
 "Unsupervised Anomaly Detection in Network Intrusion Detection Using Clusters" (K. Leung y C. Leckie, 2005)
 

@@ -1,6 +1,11 @@
 # Caracterización de equipos informáticos mediante clustering en una red empresarial
 
-> Aquí tengo que poner el abstract. Y antes, hacer un abstract
+> En la monitorización de redes informáticas a gran escala, resulta de alto interés conocer el comportamiento de sus equipos finales y  detectar aquellos que puedan ser sospechosos.
+Sin embargo, clasificar a cada equipo según su actividad supone un importante ejercicio de síntesis.
+Además, es difícil obtener unas categorías útiles, sobre todo en el caso de las anomalías, ya que son desconocidas a priori.
+El presente trabajo aborda este reto haciendo uso de técnicas de clustering a partir de logs extraídos de firewalls.
+Sobre un conjunto de datos de una semana, se distinguen 5 clases de comportamientos.
+Uno de los clusters, con menos del 1% de los equipos, reúne los casos anómalos.
 
 Para enterarte bien de todos los detalles, mejor leer la [memoria en pdf](TFM.pdf), pero este README ya te da una idea.
 

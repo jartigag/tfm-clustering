@@ -7,16 +7,17 @@ Se hará hincapié también en cómo se seleccionan las características más im
 
 \section{Presentación del escenario}\label{sec:presentaciondelescenario}
 
-En el escenario del proyecto (la red de un banco), el tráfico atraviesa distintos equipos de seguridad según el entorno al que corresponda.
-Si se trata de tráfico que procede de los usuarios externos conectándose a servicios públicos del banco (expuestos a Internet), se cursa a través de una batería de equipos formada por:
-un IPS PaloAlto, un WAF\footnote{\emph{Web Application Firewall}} de marca Fortinet, balanceadores F5, otros firewalls Checkpoint y, finalmente, los servidores.
-En caso de ser tráfico desde la red corporativa hacia Internet, los equipos en este camino son el IPS PaloAlto mencionado (pero en esta ocasión está funcionando solo como IDS) y un firewall Fortinet, en este orden.
-Si son conexiones internas entre diferentes organizaciones, se procesa con otro firewall Fortinet independiente, etc.
+En el escenario del proyecto (la red de un banco), el tráfico atraviesa distintos equipos de seguridad según el entorno al que corresponda:
+\begin{itemize}
+    \item Si se trata de tráfico que procede de los usuarios externos conectándose a servicios públicos del banco (expuestos a Internet), se cursa a través de una batería de equipos formada por: un IPS PaloAlto, un WAF\footnote{\emph{Web Application Firewall}} de marca Fortinet, balanceadores F5, otros firewalls Checkpoint y, finalmente, los servidores.
+    \item En caso de ser tráfico desde la red corporativa hacia Internet, los equipos en este camino son el IPS PaloAlto mencionado (pero en esta ocasión está funcionando solo como IDS) y un firewall Fortinet, en este orden.
+    \item Si son conexiones internas entre diferentes organizaciones, se procesa con otro firewall Fortinet independiente, etc.
+\end{itemize}
 
 \begin{figure}[h]
     \centering
     \captionsetup{width=12cm}
-    \includegraphics[width=12cm]{contenido/fig/diagrama_red.pdf}
+    \includegraphics[width=\textwidth]{contenido/fig/diagrama_red.pdf}
     \caption{Diagrama del tratamiento de conexiones entrantes y salientes}
     \label{fig:diagramared}
 \end{figure}
@@ -44,7 +45,7 @@ Nótese en la figura \ref{fig:volumenlogs} la reducción en esta primera etapa d
 
 \begin{figure}[h]
     \centering
-    \includegraphics[width=0.55\textwidth]{contenido/fig/volumen_logs.pdf}
+    \includegraphics[width=0.7\textwidth]{contenido/fig/volumen_logs.pdf}
     \caption{Volumen de logs en bruto y tras ser procesados, en una semana}
     \label{fig:volumenlogs}
 \end{figure}
@@ -164,7 +165,15 @@ Sin embargo, desde la perspectiva de este trabajo, el único apartado de interé
 
 Una parte de este procesado consiste en guardar cierta información asociada a cada sesión.
 El concepto de ``sesión'' sería equivalente al de ``flujo'' presentado en el \hyperref[chap:estadodelarte]{capítulo anterior}:
-una serie de eventos asociados que se corresponden con la misma tupla de \{IP origen, IP destino, protocolo, puerto origen, puerto destino\}.
+una serie de eventos asociados que se corresponden con la misma tupla de:
+\begin{itemize}
+    \item IP origen
+    \item IP destino
+    \item Protocolo
+    \item Puerto origen
+    \item Puerto destino
+\end{itemize}
+
 Los dos equipos mantienen un campo ``Identificador de Sesión'' interno que se añade a la tupla de la sesión.
 Este campo permite distinguir los eventos de sesiones que coinciden en origen y destino pero se producen en intervalos temporales diferentes.
 Se incluye en el procesado con esta finalidad de no confundir sesiones distintas en etapas posteriores, pero para nuestro propósito de clasificación de equipos puede ignorarse.
@@ -280,7 +289,19 @@ de forma que el tamaño de la muestra (1 millón de sesiones) sea significativo 
 Los datos se guardan en un fichero por día, rotándose a diario y conservándose así (en texto plano, dispuestos para ser importados a una base de datos) durante 14 días antes de eliminarse.
 Mediante el siguiente comando, se copian 1 millón de vectores de características de sesión aleatorios, que están formados por:
 
-\{tstamp inicio, tstamp fin, IP origen, IP destino, protocolo, puerto origen, puerto destino, nivel de anomalía, nivel de amenaza, máxima prioridad, cantidad de eventos\}
+\begin{itemize}
+    \item Timestamp inicio
+    \item Timestamp fin
+    \item IP origen
+    \item IP destino
+    \item Protocolo
+    \item Puerto origen
+    \item Puerto destino
+    \item Nivel de anomalía
+    \item Nivel de amenaza
+    \item Máxima prioridad
+    \item Cantidad de eventos
+\end{itemize}
 
 El comando se repite para los 7 ficheros de una semana:
 
@@ -304,7 +325,13 @@ donde se desarrollará cómo se han calculado los valores, cómo se ha realizado
 
 El siguiente paso consiste en agrupar los vectores de características de sesión por IP de origen, que será la característica identificativa de cada \emph{datapoint}.
 Para cada valor de la variable ``IP de origen'', se contabilizan cuántos valores distintos se observan en el resto de variables.
-Hay ciertas variables que no tiene sentido resumir mediante un recuento, como son: los protocolos usados, los niveles de amenaza y anomalía, la prioridad máxima y las características temporales.
+Hay ciertas variables que no tiene sentido resumir mediante un recuento, como son:
+\begin{itemize}
+    \item Protocolos usados
+    \item Niveles de amenaza y anomalía
+    \item Prioridad máxima
+    \item Características temporales
+\end{itemize}
 
 A continuación se detallará lo que significa cada una de las 13 variables finales o características que se han usado.
 En la tabla \ref{tab:metricas}, después de los siguientes párrafos de detalles, se sintetiza toda esta información.
@@ -442,11 +469,11 @@ Una vez obtenidas las características, se pasa a analizar la distribución de v
 Dicha tarea permitirá entender mejor la importancia relativa de cada característica y cómo afectará a los algoritmos de \emph{clustering}.
 En concreto, se prestará especial atención a la forma, varianza y modalidades de las distribuciones.
 
-\begin{figure}[h]
+\begin{figure}[H]
     \centering
-    \includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_dst_ip.pdf}
-    \includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_dst_port.pdf}
-    \includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_events.pdf}
+    \includegraphics[width=0.5\textwidth]{contenido/fig/ecdf-count_dst_ip.pdf}
+    \includegraphics[width=0.5\textwidth]{contenido/fig/ecdf-count_dst_port.pdf}
+    \includegraphics[width=0.5\textwidth]{contenido/fig/ecdf-count_events.pdf}
     %\subfigure[]{\includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_dst_ip.pdf}}
     %\subfigure[]{\includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_dst_port.pdf}}
     %\subfigure[]{\includegraphics[width=0.3\textwidth]{contenido/fig/ecdf-count_events.pdf}}
@@ -476,7 +503,7 @@ aunque de momento solo se estuvieran teniendo en cuenta subconjuntos reducidos d
 \begin{figure}[h]
     \centering
     \captionsetup{width=0.75\textwidth}
-    \includegraphics[width=0.9\textwidth]{contenido/fig/dispersion-k3-dst_ip-vs-avg_duration.pdf}
+    \includegraphics[width=\linewidth]{contenido/fig/dispersion-k3-dst_ip-vs-avg_duration.pdf}
     \caption{Gráfica de dispersión: número de IPs destino únicas frente a duración media, con K-Means ($k=3$) y centroides (en rojo)}
     \label{fig:scatterdstipavgduration}
 \end{figure}
@@ -484,7 +511,7 @@ aunque de momento solo se estuvieran teniendo en cuenta subconjuntos reducidos d
 \begin{figure}[h]
     \centering
     \captionsetup{width=0.75\textwidth}
-    \includegraphics[width=0.9\textwidth]{contenido/fig/dispersion-k5-dst_ip-vs-count_events.pdf}
+    \includegraphics[width=\linewidth]{contenido/fig/dispersion-k5-dst_ip-vs-count_events.pdf}
     \caption{Gráfica de dispersión: número de IPs destino únicas frente a número de eventos, con K-Means ($k=5$) y centroides (en rojo)}
     \label{fig:scatterdstipcountevents}
 \end{figure}
@@ -536,7 +563,16 @@ La selección de características aquí expuesta busca cumplir con estas tres fi
 Tras hacer tests de correlación entre todas las variables, no se ha encontrado ninguna pareja de variables con tanta correlación como para poder suprimir una de ellas.
 Sin embargo, sí se ha comprobado que puede reducirse el número de variables (y con ello el coste y complejidad del \emph{clustering}) quedándose solo con las de mayor peso.
 Tras analizar la importancia relativa de cada una en los modelos generados tras el clustering (se adjuntan cifras concretas en los apéndices),
-se ha repetido el último ensayo (indicado en la subsección \ref{subsec:ensayoD}) manteniendo solo las 6 características más influyentes: ``dst\_ip'', ``proto'', ``src\_port'', ``max\_prio'' y ``count\_events''.
+se ha repetido el último ensayo (indicado en la subsección \ref{subsec:ensayoD}) manteniendo solo las 6 características más influyentes:
+\begin{itemize}
+    \item ``dst\_ip''
+    \item ``proto''
+    \item ``src\_port''
+    \item ``max\_prio''
+    \item ``count\_events''
+    \item ``stdev\_duration''
+\end{itemize}
+
 El resultado ha sido que se lograban los mismos \emph{clusters} y el mismo número de instancias en el \emph{cluster} de anomalías, con un considerable decremento del tiempo de computación.
 
 Contrariamente a lo que se esperaba, esto indica que las variables temporales no han sido tan decisivas como se creía que serían.
@@ -572,7 +608,7 @@ Se puede observar que el valor de $k$ que este método daría como óptimo es di
 \begin{figure}[h!]
     \centering
     \captionsetup{width=0.75\textwidth}
-    \includegraphics[width=0.9\textwidth]{contenido/fig/codo.pdf}
+    \includegraphics[width=\textwidth]{contenido/fig/codo.pdf}
     \caption{Gráficas de suma de cuadrados frente a valores de $k$ en varias combinaciones seleccionadas de características}
     \label{fig:codo}
 \end{figure}
@@ -587,7 +623,17 @@ se optó por emplear la herramienta online BigML para aplicar K-Means en los ens
 \subsection{Ensayo A: K-Means con k=5, sin características temporales}\label{subsec:ensayoA}
 
 Como se adelantaba en la sección \ref{sec:preprocesado}, en las primeras pruebas no se incluyeron las marcas de tiempo.
-Se usaron las características anotadas como ``dst\_ip'', ``proto'', ``src\_port'', ``dst\_port'', ``anom\_level'', ``max\_prio'', ``count\_events'' y ``avg\_duration'',
+Se usaron las características anotadas como:
+\begin{itemize}
+    \item ``dst\_ip''
+    \item ``proto''
+    \item ``src\_port''
+    \item ``dst\_port''
+    \item ``anom\_level''
+    \item ``max\_prio''
+    \item ``count\_events''
+    \item ``avg\_duration''
+\end{itemize}
 junto con ``src\_ip'' como característica identificativa.
 Después se advirtió que usar únicamente la media para resumir la información sobre la duración de las sesiones de un equipo durante un día parecía impreciso,
 así que se incluyó la característica ``stdev\_duration''.

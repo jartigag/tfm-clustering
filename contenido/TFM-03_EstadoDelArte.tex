@@ -60,11 +60,13 @@ Así, se corre el riesgo de perder información útil de cara a entender de form
 Por otro lado, se encuentran los clasificadores de tráfico basados en el comportamiento del host.
 Sirva de referente el trabajo de \cite{KPF05}, donde se propuso un novedoso método que identificaba patrones en el comportamiento de los hosts a la altura de la capa de transporte.
 Se trataba de una aproximación multinivel que descartaba incluir datos sobre el payload, los puertos bien conocidos (aspectos que conllevan las problemáticas anteriormente comentadas) o cualquier otra información separada de la que ofrecían los colectores de flujos.
-Consistía por tanto en un clasificador ``a ciegas'' (\emph{``BLINd Classification'', abreviado como ``BLINC''}) que analizaba cada hosts desde tres perspectivas: social, funcional y aplicativa.
-La perspectiva social capturaba las interacciones del host con otros hosts, en términos de cuántos hosts se conectaban con qué hosts.
-La funcional los separaba según actuaran como proveedores de un servicio, consumidores o ambos.
-Se tenían en cuenta, por tanto, los roles del modelo cliente-servidor.
-Por último, en la perspectiva aplicativa se utilizaba la información por encima de la capa de transporte con la intención de distinguir la aplicación en cuestión.
+Consistía por tanto en un clasificador ``a ciegas'' (\emph{``BLINd Classification'', abreviado como ``BLINC''}) que analizaba cada hosts desde tres perspectivas: social, funcional y aplicativa:
+
+\begin{itemize}
+    \item La perspectiva social capturaba las interacciones del host con otros hosts, en términos de cuántos hosts se conectaban con qué hosts.
+    \item La funcional los separaba según actuaran como proveedores de un servicio, consumidores o ambos. Se tenían en cuenta, por tanto, los roles del modelo cliente-servidor.
+    \item Por último, en la perspectiva aplicativa se utilizaba la información por encima de la capa de transporte con la intención de distinguir la aplicación en cuestión.
+\end{itemize}
 
 Mediante la premisa de no tratar cada flujo como una entidad distinta, se conseguiría acumular la información necesaria para reconocer el verdadero comportamiento de cada equipo informático final.
 Además de cumplir con la identificación de aplicaciones específicas, este método sería resistente a circunstancias de la red como congestión o cambios de rutas.
@@ -102,11 +104,13 @@ Hablando en términos generales, pueden distinguirse tres fases básicas que cum
 \end{itemize}
 
 Según cómo se modele el comportamiento normal del sistema \cite{Lazaveric_2005}, las técnicas pueden categorizarse en: basadas en estadística, en conocimiento o en aprendizaje automático.
-Las primeras no requieren un conocimiento previo sobre la actividad normal del sistema, pero la presunción que asumen de cuasi-estacionalidad es poco realista.
-Las segundas son robustas, pero el mantenimiento de datos de calidad resulta difícil y costoso.
-En cuanto a las técnicas basadas en aprendizaje automático, son flexibles y adaptables.
+\begin{itemize}
+    \item Las primeras no requieren un conocimiento previo sobre la actividad normal del sistema, pero la presunción que asumen de cuasi-estacionalidad es poco realista.
+    \item Las segundas son robustas, pero el mantenimiento de datos de calidad resulta difícil y costoso.
+    \item En cuanto a las técnicas basadas en aprendizaje automático, son flexibles y adaptables.
 También pueden capturar interdependencias entre las variables que no son fáciles de encontrar de otra forma.
 No obstante, estas técnicas tienen una dependencia importante de lo que se acepte como comportamiento normal.
+\end{itemize}
 
 Para este trabajo, se ha elegido desarrollar un sistema de detección de anomalías basado en una técnica de aprendizaje automático como es el \emph{clustering}.
 En \cite{Alconzo_2019} se resaltan acertadamente las bondades y debilidades de los métodos de detección de anomalías, al decir que

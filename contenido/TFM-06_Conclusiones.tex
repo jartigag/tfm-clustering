@@ -11,20 +11,52 @@ descubriendo de forma no supervisada varias clases de equipos que cursan tráfic
 y se han detectado de manera automática algunas IP origen anómalas por su cantidad de conexiones y eventos.
 Esto amplía el alcance de la monitorización que se mantenía hasta ahora, con nuevas capacidades.
 
+Se han contestado satisfactoriamente las tres cuestiones planteadas al inicio de esta investigación:
+\begin{itemize}
+    \item Si podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red:
+
+        Efectivamente las características extraídas de cada dirección IP han servido para categorizarlas.
+    \item Cuáles serían esas categorías:
+
+        Las categorías finales han sido 5:
+        \begin{itemize}
+            \item Comportamiento normal con muchas conexiones
+            \item Comportamiento normal con pocas conexiones
+            \item Sesiones UDP
+            \item Conexiones largas / muchos puertos origen
+            \item Anomalías: muchos eventos y conexiones
+        \end{itemize}
+    \item Si sereremos capaces de identificar comportamientos sospechosos en base a esta clasificación:
+
+        Los equipos que han caído en la categoría de ``Anomalías'' ciertamente correspondían a comportamientos fuera de lo normal,
+        lo cual ha servido para identificar actividades extrañas (aunque no necesariamente malintencionadas).
+\end{itemize}
+
 Por tanto, puede decirse que esta aportación tendrá una aplicación práctica inmediata.
 A juzgar por el poco coste de computación y los satisfactorios indicadores de calidad medidos,
 el conjunto de procesados diseñados para este sistema podrá integrarse en los sistemas actuales de monitorización,
 programando su ejecución para que ofrezca las direcciones IP \emph{clusterizadas} cada día (especialmente el de las anomalías más destacadas) y un analista pueda revisarlas.
 
+Mediante el contraste de información con otras fuentes, se ha podido confirmar que los comportamientos clasificados como anómalos
+eran efectivamente casos excepcionales que se desvían de la actividad que presenta un equipo común en esta red.
+Se espera que este cruce de información en la revisión por parte del analista, previo a la comunicación de la anomalía a los responsables de la administración de los equipos correspondientes,
+incremente la fiabilidad de los casos comunicados y pueda evitar en la medida de lo posible falsos positivos.
+
 Sin embargo, aunque los ensayos se han hecho sobre una cantidad suficiente de datos como para dar validez a las conclusiones extraídas,
 cabría esperar que su funcionamiento en producción requiera de más pruebas en tiempo real y sobre periodos de datos más prolongados,
 para perfeccionarlo y comprobar que los resultados alcanzan la calidad esperada.
 
+A nivel personal, este trabajo ha servido para afianzar las nociones sobre aprendizaje automático no supervisado recibidas en este máster mediante su puesta en práctica sobre una aplicación real.
+También se ha conseguido extender los conocimientos que se tenían sobre el \emph{clustering} y profundizar en la literatura académica alrededor de este tema,
+con lo que se ha aprendido mucho sobre cómo se estudia y se aplica esta técnica en diversos campos, en especial en la clasificación de tráfico de red y la detección de anomalías.
+
 \section{Líneas futuras}\label{sec:lineasfuturas}
 
 En el entorno donde se ha desarrollado este proyecto se ha considerado oportuno dar continuidad a la investigación.
-Esta podría dirigirse en los siguientes sentidos:
+De momento se trata de un prototipo, pero con próximas iteraciones y experiencia añadida en el entorno real,
+se puede refinar el concepto hasta lograr una herramienta de monitorización con un alto grado de utilidad y fiabilidad.
 
+La ampliación de esta investigación podría dirigirse en los siguientes sentidos:
 \begin{itemize}
 
 \item Incluir otros firewalls como fuente de datos, que enriquezcan la base de la que se parte (además, quizás podrían correlarse y con ello resultar mucho más valiosos).

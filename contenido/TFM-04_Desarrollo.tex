@@ -415,8 +415,8 @@ Cada valor de esta matriz resume las sesiones que un host (identificado por su I
 \begin{table}[h]
     \centering
     \begingroup
-    \setlength{\tabcolsep}{10pt} % Default value: 6pt
-    \renewcommand{\arraystretch}{1.5} % Default value: 1
+    \setlength{\tabcolsep}{14pt} % Default value: 6pt
+    \renewcommand{\arraystretch}{2} % Default value: 1
     \hspace*{-2cm}
     \begin{tabular}{|c|c|}
         \hline
@@ -452,7 +452,9 @@ Cada valor de esta matriz resume las sesiones que un host (identificado por su I
     \end{tabular}
     \hspace*{-1cm}
     \endgroup
+    \bigskip
     \caption{Características con las que se resumen las sesiones en matrices diarias}
+    \bigskip
     \label{tab:metricas}
 \end{table}
 
@@ -469,6 +471,7 @@ Una vez obtenidas las características, se pasa a analizar la distribución de v
 Dicha tarea permitirá entender mejor la importancia relativa de cada característica y cómo afectará a los algoritmos de \emph{clustering}.
 En concreto, se prestará especial atención a la forma, varianza y modalidades de las distribuciones.
 
+\clearpage
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.5\textwidth]{contenido/fig/ecdf-count_dst_ip.pdf}

@@ -536,7 +536,7 @@ La selección de características aquí expuesta busca cumplir con estas tres fi
 Tras hacer tests de correlación entre todas las variables, no se ha encontrado ninguna pareja de variables con tanta correlación como para poder suprimir una de ellas.
 Sin embargo, sí se ha comprobado que puede reducirse el número de variables (y con ello el coste y complejidad del \emph{clustering}) quedándose solo con las de mayor peso.
 Tras analizar la importancia relativa de cada una en los modelos generados tras el clustering (se adjuntan cifras concretas en los apéndices),
-se ha repetido el último ensayo (indicado en la subsección \ref{subsec:ensayoD}) manteniendo solo las 6 características más influyentes: ``dst\_ip'', ``proto'', ``src\_port'', ``max\_prio'' y ``count\_events''.
+se ha repetido el último ensayo (indicado en la subsección \ref{subsec:ensayoD}) manteniendo solo las 6 características más influyentes: ``dst\_ip'', ``proto'', ``src\_port'', ``max\_prio'', ``count\_events'' y ``stdev\_duration``.
 El resultado ha sido que se lograban los mismos \emph{clusters} y el mismo número de instancias en el \emph{cluster} de anomalías, con un considerable decremento del tiempo de computación.
 
 Contrariamente a lo que se esperaba, esto indica que las variables temporales no han sido tan decisivas como se creía que serían.

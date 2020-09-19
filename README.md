@@ -96,7 +96,7 @@ Preprocesado con este [script](scripts/preprocess_clustering_dataset.py), ensayo
 
 ## 5. Resultados
 
-[Centroides](https://github.com/jartigag/tfm-clustering/tree/master/bigml#centroides) con K-Means (k=5) sobre los datos finales, [análisis de silueta](https://github.com/jartigag/tfm-clustering/blob/master/scripts/clustering3.ipynb).
+[Centroides](https://github.com/jartigag/tfm-clustering/tree/master/bigml#centroides) con K-Means (k=5) sobre los datos finales, [análisis de silueta](https://github.com/jartigag/tfm-clustering/blob/master/scripts/CLUSTERING3-silhouette.ipynb).
 
 1. En los equipos que corresponden a la categoría "**comportamiento normal con muchas conexiones**", el número de direcciones IPs destino únicas a las que se conectan está en torno a 50-60, unos 200-250 puertos origen y casi siempre 2 puertos destino (los más frecuentes, 80 y 443) o 3.
 2. Los equipos de categoría "**comportamiento normal, pocas conexiones**" se conectan a

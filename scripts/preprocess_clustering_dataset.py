@@ -28,6 +28,7 @@ slots = ['night', 'work', 'afterwork']
 def print_data():
     global data
     with open("dataset_for_clustering.{}".format(days[int(t/3)]), 'w' ) as f:
+    #                                                 ^^ int() thows away the decimal part
         print("src_ip,dst_ip,proto,src_port,dst_port,anom_level,threat_level,max_prio,count_events,avg_duration,stdev_duration,night_sessions,work_sessions,afterwork_sessions", file=f)
         for d in data:
             print( "{},{},{},{},{},{:.2f},{:.2f},{},{},{:.2f},{:.2f},{},{},{}".format( d,
@@ -37,7 +38,6 @@ def print_data():
                 stdev(data[d]['duration']) if len(data[d]['duration'])>1 else 0,
                 data[d]['slots']['night'],data[d]['slots']['work'],data[d]['slots']['afterwork']
             ), file=f)
-            #                                                ^^ int() thows away the decimal part
     data = {}
 
 t=0 # counter of actual element on week_tstamps

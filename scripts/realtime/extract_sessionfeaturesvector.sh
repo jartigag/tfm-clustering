@@ -25,4 +25,4 @@ dataset_file="/home/javi/clustering/$yesterday-dataset.csv"
 awk -F"···" '{OFS=","}{print $1,$2,$5,$7,$9,$10,$11,$14,$15,$16,$17}' $file > $sfeatvectors_file
 
 /home/javi/clustering/preprocessing_realtime.py $sfeatvectors_file > $dataset_file
-/home/javi/clustering/clustering_realtime.py $dataset_file > $clusters_file
+/home/javi/clustering/clustering_realtime.py $dataset_file

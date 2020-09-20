@@ -34,6 +34,7 @@ for line in raw_data:
     ### extract features:
 
     if r[3] not in data[src_ip]['dst_ip']: data[src_ip]['dst_ip'].add(         r[3] )
+    # proto: 2 if src_ip has used tcp and udp, 1 if udp, 0 if tcp:
     if r[4]=="udp": data[src_ip]['proto'] = 2 if ( data[src_ip]['proto']==1 ) else 1
     if r[5] not in data[src_ip]['src_port']: data[src_ip]['src_port'].add(     r[5] )
     if r[6] not in data[src_ip]['dst_port']: data[src_ip]['dst_port'].add(     r[6] )

@@ -19,10 +19,17 @@
 
 file="FORTINET_FW1_10.251.0.101.1" # yesterday's log, rotated
 yesterday="$( date -d yesterday +%F )"
-sfeatvectors_file="/disco_grande/javi/clustering/$yesterday-FORTINET_FW1_10.251.0.101.csv"
-dataset_file="/home/javi/clustering/$yesterday-dataset.csv"
+sfeatvectors_file="/disco_grande/javi/clustering/$yesterday-FORTINET_FW1_10.251.0.101"
+dataset_file="/home/javi/clustering/$yesterday-dataset"
 
-awk -F"···" '{OFS=","}{print $1,$2,$5,$7,$9,$10,$11,$14,$15,$16,$17}' $file > $sfeatvectors_file
+awk -F"···" '{OFS=","}{print $1,$2,$5,$7,$9,$10,$11,$14,$15,$16,$17}' $file > $sfeatvectors_file.csv
 
-/home/javi/clustering/preprocessing_realtime.py $sfeatvectors_file > $dataset_file
-/home/javi/clustering/clustering_realtime.py $dataset_file
+mv /home/naudit/javi/clustering/*.csv /home/naudit/javi/clustering/old/
+
+/home/javi/clustering/preprocessing_realtime.py $sfeatvectors_file.csv > $dataset_file.csv
+/home/javi/clustering/clustering_realtime.py $dataset_file.csv
+
+for i in {3..6}; do sort -t, -nrk$i,$i $dataset_file.labeled.csv | head >> $dataset_file.tops.csv; done
+cat /home/javi/clustering/old/*.tops.csv /home/naudit/clustering/*.tops.csv | \
+    awk -F, '{count[$2]++; arr[$2]=arr[$2]"\n"$0}END{for(i in arr)if(count[i]>1)print arr[i]}' | grep -v -e '^$' \
+    > /home/javi/clustering/$yesterday-repeated_in_tops.csv

@@ -28,8 +28,10 @@ mv /home/naudit/javi/clustering/*.csv /home/naudit/javi/clustering/old/
 
 /home/javi/clustering/preprocessing_realtime.py $sfeatvectors_file.csv > $dataset_file.csv
 /home/javi/clustering/clustering_realtime.py $dataset_file.csv
+/home/javi/clustering/experimental_clustering_realtime.py experimental_$dataset_file.csv
 
-for i in {3..6}; do sort -t, -nrk$i,$i $dataset_file.labeled.csv | head >> $dataset_file.tops.csv; done
+# idea in progress: exploring which are the most repeated hosts among the daily tops by dst_ips, src_ports, dst_ports, count_events and avg_duration
+for i in 3 5 6 10 11; do sort -t, -nrk$i,$i $dataset_file.labeled.csv | head >> $dataset_file.tops.csv; echo >> $dataset_file.tops.csv; done
 cat /home/javi/clustering/old/*.tops.csv /home/naudit/clustering/*.tops.csv | \
     awk -F, '{count[$2]++; arr[$2]=arr[$2]"\n"$0}END{for(i in arr)if(count[i]>1)print arr[i]}' | grep -v -e '^$' \
     > /home/javi/clustering/$yesterday-repeated_in_tops.csv

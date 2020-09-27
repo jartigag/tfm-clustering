@@ -31,9 +31,9 @@ df_data['cluster'] = pd.Series(algo.labels_)
 
 # {
 # print to csv:
-df_data.to_csv(f"{sys.argv[1].strip('csv')}labeled.csv", index=False)
+df_data.to_csv(f"{sys.argv[1].strip('csv')}experimental.labeled.csv", index=False)
 
-clustresum = f"{sys.argv[1].strip('csv')}clustresum.csv"
+clustresum = f"{sys.argv[1].strip('csv')}experimental.clustresum.csv"
 with open(clustresum, mode='a') as clustresumf:
     print("centroids:", file=clustresumf)
     df_centroids.round(2).to_csv(clustresumf, index_label="cluster")

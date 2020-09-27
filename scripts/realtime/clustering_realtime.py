@@ -40,6 +40,29 @@ centroids = scaler.inverse_transform(algo.cluster_centers_)
 df_centroids = pd.DataFrame(centroids, columns=df_data.columns.drop('src_ip'))
 
 df_data['cluster'] = pd.Series(algo.labels_)
+df_clusters_sizes = df_data.groupby('cluster').size().to_frame('size(%)').sort_values('size(%)',ascending=False)
+
+#TODO: find a better name for "cat4" (long_cnxs? many_src_ports?)
+#TODO: refactor this conditions:
+if df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[1].name:
+    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
+elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[2].name:
+    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'few_cnxs', 'udp', 'cat4', 'anom']
+elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name and df_centroids['proto'].nlargest(2).index[1]==df_clusters_sizes.iloc[1].name:
+    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
+elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name and df_centroids['proto'].nlargest(2).index[1]==df_clusters_sizes.iloc[2].name:
+    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
+elif df_centroids['proto'].idxmax()==df_centroids['proto'].nlargest(2).index[1] and (df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[3].name or df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name):
+    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'few_cnxs', 'udp', 'cat4', 'anom']
+else:
+    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'cat2', 'cat3', 'cat4', 'anom']
+#(this mappings are based just on empirical observations)
+
+map_to_meaningful_cluster_names = df_clusters_sizes['cluster_names'].to_dict()
+df_centroids.rename(map_to_meaningful_cluster_names, inplace=True, axis='index')
+df_data['cluster'].replace(map_to_meaningful_cluster_names, inplace=True)
+
+df_clusters_sizes['size(%)'] = df_clusters_sizes['size(%)'].transform( lambda x: 100*x/sum(x) ).round(2)
 
 # {
 # print to csv:
@@ -50,5 +73,5 @@ with open(clustresum, mode='a') as clustresumf:
     print("centroids:", file=clustresumf)
     df_centroids.round(2).to_csv(clustresumf, index_label="cluster")
     print("size of clusters:", file=clustresumf)
-    df_data.groupby('cluster').size().to_frame('size(%)').transform( lambda x: 100*x/sum(x) ).round(2).to_csv(clustresumf, index_label="cluster")
+    df_clusters_sizes.to_csv(clustresumf, index_label="cluster")
 # }

@@ -29,43 +29,56 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
-def clustering(dataset_file):
+def clustering(dataset_file, kmeans_executions=10):
     df_data = pd.read_csv(dataset_file)
     scaler = StandardScaler()
     X = scaler.fit_transform(df_data.loc[:,df_data.columns!="src_ip"])
 
-    algo = KMeans(n_clusters = 5)
+    algo = KMeans(n_clusters=5, n_init=kmeans_executions)
     clusters = algo.fit_predict(X)
 
     centroids = scaler.inverse_transform(algo.cluster_centers_)
     df_centroids = pd.DataFrame(centroids, columns=df_data.columns.drop('src_ip'))
 
     df_data['cluster'] = pd.Series(algo.labels_)
+    # sort clusters by size (from biggest to smallest):
     df_clusters_sizes = df_data.groupby('cluster').size().to_frame('size(%)').sort_values('size(%)',ascending=False)
 
-    #TODO: find a better name for "cat4" (long_cnxs? many_src_ports?)
-    mapping_list = ['cat1', 'cat2', 'cat3', 'cat4', 'anom']
+    # assign meaningful names to clusters (mapping based just on empirical observations):
+    mapping_dict = {}
 
-    # (this mappings are based just on empirical observations)
-    #WIP: refactor 'cluster_names' conditions
-    if df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[1].name:
-        mapping_list = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
-    elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[2].name:
-        mapping_list = ['many_cnxs', 'few_cnxs', 'udp', 'cat4', 'anom']
-    elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[3].name:
-        mapping_list = ['many_cnxs', 'few_cnxs', 'cat4', 'udp', 'anom']
-    elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name and df_centroids['proto'].nlargest(2).index[1]==df_clusters_sizes.iloc[1].name:
-        mapping_list = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
-    elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name and df_centroids['proto'].nlargest(2).index[1]==df_clusters_sizes.iloc[2].name:
-        mapping_list = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
-    elif df_centroids['proto'].idxmax()==df_centroids['proto'].nlargest(2).index[1] and (df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[3].name or df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name):
-        mapping_list = ['many_cnxs', 'few_cnxs', 'udp', 'cat4', 'anom']
+    # 1- the smallest cluster will always be named 'anom', so it isn't a candidate:
+    anom_index = df_clusters_sizes.iloc[-1].name
+    mapping_dict[anom_index] = "anom"
+    df_candidate_centroids = df_centroids.drop(anom_index)
+    df_candidate_clusters = df_clusters_sizes.drop(anom_index)
 
-    df_clusters_sizes['cluster_names'] = mapping_list
-    map_to_meaningful_cluster_names = df_clusters_sizes['cluster_names'].to_dict()
-    df_centroids.rename(map_to_meaningful_cluster_names, inplace=True, axis='index')
-    df_data['cluster'].replace(map_to_meaningful_cluster_names, inplace=True)
-    df_clusters_sizes['size(%)'] = df_clusters_sizes['size(%)'].transform( lambda x: 100*x/sum(x) ).round(2)
+    # 2- assign udp cluster and remove it from candidates:
+    udp_index = df_candidate_centroids['proto'].idxmax()
+    mapping_dict[udp_index] = "udp"
+    df_candidate_centroids.drop(udp_index, inplace=True)
+    df_candidate_clusters.drop(udp_index, inplace=True)
+
+    # 3- assign long_duration cluster and remove it from candidates:
+    long_duration_index = df_candidate_centroids['avg_duration'].idxmax()
+    mapping_dict[long_duration_index] = "long_duration"
+    df_candidate_centroids.drop(long_duration_index, inplace=True)
+    df_candidate_clusters.drop(long_duration_index, inplace=True)
+
+    # 4- assign many_cnxs cluster and remove it from candidates:
+    many_cnxs_index = df_candidate_centroids['dst_ip'].idxmax()
+    mapping_dict[many_cnxs_index] = "many_cnxs"
+    df_candidate_centroids.drop(many_cnxs_index, inplace=True)
+    df_candidate_clusters.drop(many_cnxs_index, inplace=True)
+
+    # 5- few_cnxs cluster is the one remaining:
+    few_cnxs_index = df_candidate_clusters.iloc[0].name
+    mapping_dict[few_cnxs_index] = "few_cnxs"
+
+    # use the mapping_dict to replace cluster indices by meaningful names in every dataframe:
+    df_centroids.rename(mapping_dict, inplace=True, axis='index')
+    df_clusters_sizes.rename(mapping_dict, inplace=True, axis='index')
+    df_data['cluster'].replace(mapping_dict, inplace=True)
 
     return df_data, df_centroids, df_clusters_sizes
 
@@ -80,7 +93,10 @@ def clustering(dataset_file):
 if __name__ == '__main__':
 
     dataset_filename = sys.argv[1]
-    clustering(dataset_filename)
+    df_data, df_centroids, df_clusters_sizes = clustering(dataset_filename)
+
+    # express size in percents:
+    df_clusters_sizes['size(%)'] = df_clusters_sizes['size(%)'].transform( lambda x: 100*x/sum(x) ).round(2)
 
     # {
     # print to csv:

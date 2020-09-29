@@ -29,49 +29,67 @@ import numpy as np
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 
-df_data = pd.read_csv( open(sys.argv[1]) )
-scaler = StandardScaler()
-X = scaler.fit_transform(df_data.loc[:,df_data.columns!="src_ip"])
+def clustering(dataset_file):
+    df_data = pd.read_csv(dataset_file)
+    scaler = StandardScaler()
+    X = scaler.fit_transform(df_data.loc[:,df_data.columns!="src_ip"])
 
-algo = KMeans(n_clusters = 5)
-clusters = algo.fit_predict(X)
+    algo = KMeans(n_clusters = 5)
+    clusters = algo.fit_predict(X)
 
-centroids = scaler.inverse_transform(algo.cluster_centers_)
-df_centroids = pd.DataFrame(centroids, columns=df_data.columns.drop('src_ip'))
+    centroids = scaler.inverse_transform(algo.cluster_centers_)
+    df_centroids = pd.DataFrame(centroids, columns=df_data.columns.drop('src_ip'))
 
-df_data['cluster'] = pd.Series(algo.labels_)
-df_clusters_sizes = df_data.groupby('cluster').size().to_frame('size(%)').sort_values('size(%)',ascending=False)
+    df_data['cluster'] = pd.Series(algo.labels_)
+    df_clusters_sizes = df_data.groupby('cluster').size().to_frame('size(%)').sort_values('size(%)',ascending=False)
 
-#TODO: find a better name for "cat4" (long_cnxs? many_src_ports?)
-#TODO: refactor this conditions:
-if df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[1].name:
-    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
-elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[2].name:
-    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'few_cnxs', 'udp', 'cat4', 'anom']
-elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name and df_centroids['proto'].nlargest(2).index[1]==df_clusters_sizes.iloc[1].name:
-    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
-elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name and df_centroids['proto'].nlargest(2).index[1]==df_clusters_sizes.iloc[2].name:
-    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
-elif df_centroids['proto'].idxmax()==df_centroids['proto'].nlargest(2).index[1] and (df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[3].name or df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name):
-    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'few_cnxs', 'udp', 'cat4', 'anom']
-else:
-    df_clusters_sizes['cluster_names'] = ['many_cnxs', 'cat2', 'cat3', 'cat4', 'anom']
-#(this mappings are based just on empirical observations)
+    #TODO: find a better name for "cat4" (long_cnxs? many_src_ports?)
+    mapping_list = ['cat1', 'cat2', 'cat3', 'cat4', 'anom']
 
-map_to_meaningful_cluster_names = df_clusters_sizes['cluster_names'].to_dict()
-df_centroids.rename(map_to_meaningful_cluster_names, inplace=True, axis='index')
-df_data['cluster'].replace(map_to_meaningful_cluster_names, inplace=True)
+    # (this mappings are based just on empirical observations)
+    #WIP: refactor 'cluster_names' conditions
+    if df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[1].name:
+        mapping_list = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
+    elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[2].name:
+        mapping_list = ['many_cnxs', 'few_cnxs', 'udp', 'cat4', 'anom']
+    elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[3].name:
+        mapping_list = ['many_cnxs', 'few_cnxs', 'cat4', 'udp', 'anom']
+    elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name and df_centroids['proto'].nlargest(2).index[1]==df_clusters_sizes.iloc[1].name:
+        mapping_list = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
+    elif df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name and df_centroids['proto'].nlargest(2).index[1]==df_clusters_sizes.iloc[2].name:
+        mapping_list = ['many_cnxs', 'udp', 'few_cnxs', 'cat4', 'anom']
+    elif df_centroids['proto'].idxmax()==df_centroids['proto'].nlargest(2).index[1] and (df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[3].name or df_centroids['proto'].idxmax()==df_clusters_sizes.iloc[4].name):
+        mapping_list = ['many_cnxs', 'few_cnxs', 'udp', 'cat4', 'anom']
 
-df_clusters_sizes['size(%)'] = df_clusters_sizes['size(%)'].transform( lambda x: 100*x/sum(x) ).round(2)
+    df_clusters_sizes['cluster_names'] = mapping_list
+    map_to_meaningful_cluster_names = df_clusters_sizes['cluster_names'].to_dict()
+    df_centroids.rename(map_to_meaningful_cluster_names, inplace=True, axis='index')
+    df_data['cluster'].replace(map_to_meaningful_cluster_names, inplace=True)
+    df_clusters_sizes['size(%)'] = df_clusters_sizes['size(%)'].transform( lambda x: 100*x/sum(x) ).round(2)
 
-# {
-# print to csv:
-df_data.to_csv(f"{sys.argv[1].strip('csv')}labeled.csv", index=False)
+    return df_data, df_centroids, df_clusters_sizes
 
-clustresum = f"{sys.argv[1].strip('csv')}clustresum.csv"
-with open(clustresum, mode='a') as clustresumf:
-    print("centroids:", file=clustresumf)
-    df_centroids.round(2).to_csv(clustresumf, index_label="cluster")
-    print("size of clusters:", file=clustresumf)
-    df_clusters_sizes.to_csv(clustresumf, index_label="cluster")
-# }
+#TODO: print all in 12-column format:
+#cluster            dst_ip   proto          src_port  dst_port  anom_level  threat_level  max_prio  count_events  avg_duration  stdev_duration   percent_size
+#udp                136.95   1.48           4170.53   4.27      0.11        0.0           3.99      12111.91      125.02        1789.91          51.86
+#few_cnxs           193.17   0.01           6341.14   2.87      0.1         0.0           3.98      26233.76      102.76        1350.78          25.65
+#many_cnxs          55.76    0.01           1778.82   2.11      0.2         0.0           4.0       4150.86       64.22         997.16           11.73
+#cat4               38.03    0.16           599.7     1.73      0.0         0.0           5.0       1204.69       330.53        1260.9           10.71
+#anom               3.0      0.0            3.0       1.5       0.0         0.0           5.0       1256.5        69041.3       57776.48         0.05
+
+if __name__ == '__main__':
+
+    dataset_filename = sys.argv[1]
+    clustering(dataset_filename)
+
+    # {
+    # print to csv:
+    df_data.to_csv(f"{dataset_filename.strip('csv')}labeled.csv", index=False)
+
+    clustresum = f"{dataset_filename.strip('csv')}clustresum.csv"
+    with open(clustresum, mode='a') as clustresumf:
+        print("centroids:", file=clustresumf)
+        df_centroids.round(2).to_csv(clustresumf, index_label="cluster")
+        print("size of clusters:", file=clustresumf)
+        df_clusters_sizes.to_csv(clustresumf, index_label="cluster")
+    # }

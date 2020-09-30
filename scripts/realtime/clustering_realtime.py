@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 #
 #usage: ./clustering_realtime.py /home/javi/clustering/2020-09-22-dataset.csv
-#exec time: 7s
+#exec time: 1s
 #output example:
 # $ head 2020-09-27-dataset.labeled.csv
 #src_ip,dst_ip,proto,src_port,dst_port,anom_level,threat_level,max_prio,count_events,avg_duration,stdev_duration,cluster
-#172.28.14.91-Red privada ARKADIA,314,0,3553,4,0.05,0.0,4,11335,195.21,586.33,many_cnxs
-#172.28.15.88-Red privada ARKADIA,285,2,3871,4,0.17,0.0,4,14571,213.67,4069.67,udp
-# $ column -ts, 2020-09-27-dataset.centroids.csv 
+#172.28.14.91,314,0,3553,4,0.05,0.0,4,11335,195.21,586.33,many_cnxs
+#172.28.15.88,285,2,3871,4,0.17,0.0,4,14571,213.67,4069.67,udp
+# $ column -ts, 2020-09-27-dataset.centroids.csv
 #cluster        dst_ip  proto  src_port  dst_port  anom_level  threat_level  max_prio  count_events  avg_duration  stdev_duration  size  size(%)
 #few_cnxs       55.9    0.01   1779.96   2.11      0.2         0.0           4.0       4152.83       64.34         998.82          2083  51.88
 #many_cnxs      193.43  0.01   6356.54   2.87      0.1         0.0           3.98      26315.38      102.68        1348.81         1029  25.63
@@ -22,7 +22,7 @@ from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 #from datetime import datetime
 
-def clustering(dataset_file, kmeans_executions=10):
+def clustering(dataset_file, kmeans_executions=30):
     df_data = pd.read_csv(dataset_file)
     scaler = StandardScaler()
     X = scaler.fit_transform(df_data.loc[:,df_data.columns!="src_ip"])
@@ -77,7 +77,7 @@ if __name__ == '__main__':
 
     # express size in percents:
     df_centroids['size(%)'] = df_centroids['size'].transform( lambda x: 100*x/sum(x) )
-    
+
     # add tstamp
     #tstamp=int(datetime.timestamp(datetime.strptime(sys.argv[1][-22:-12],"%Y-%m-%d"))) # add tstamp as first column
     #df_data.insert(loc=0, column='tstamp', value=tstamp)

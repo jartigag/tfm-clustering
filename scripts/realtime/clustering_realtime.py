@@ -18,6 +18,7 @@
 import sys
 import pandas as pd
 import numpy as np
+#from sklearn import metrics
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 #from datetime import datetime
@@ -28,7 +29,19 @@ def clustering(dataset_file, kmeans_executions=30):
     X = scaler.fit_transform(df_data.loc[:,df_data.columns!="src_ip"])
 
     algo = KMeans(n_clusters=5, n_init=kmeans_executions)
+    # KMeans params:
+    #
+    # - init. {'k-means++', 'random', ndarray, callable}, default='k-means++'
+    #       Method for initialization:
+    #       'k-means++' : selects initial cluster centers for k-mean clustering in a smart way to speed up convergence. See section Notes in k_init for more details.
+    #       'random': choose n_clusters observations (rows) at random from data for the initial centroids.
+    #   ** "The k-means++ paper provides monte-carlo simulation results that show that k-means++ is both faster and provides a better performance, so there is no guarantee, but results may be better."
+    #
+    # - n_init. int, default=10
+    #       Number of time the k-means algorithm will be run with different centroid seeds. The final results will be the best output of n_init consecutive runs in terms of inertia.
     clusters = algo.fit_predict(X)
+
+    #print("Silhouette Coefficient: %0.2f" % metrics.silhouette_score(X, algo.labels_))
 
     centroids = scaler.inverse_transform(algo.cluster_centers_)
     df_centroids = pd.DataFrame(centroids, columns=df_data.columns.drop('src_ip'))

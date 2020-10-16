@@ -98,15 +98,23 @@ Preprocesado con este [script](scripts/preprocess_clustering_dataset.py), ensayo
 
 [Centroides](https://github.com/jartigag/tfm-clustering/tree/master/bigml#centroides) con K-Means (k=5) sobre los datos finales, [análisis de silueta](https://github.com/jartigag/tfm-clustering/blob/master/scripts/CLUSTERING3-silhouette.ipynb).
 
-1. En los equipos que corresponden a la categoría "**comportamiento normal con muchas conexiones**", el número de direcciones IPs destino únicas a las que se conectan está en torno a 50-60, unos 200-250 puertos origen y casi siempre 2 puertos destino (los más frecuentes, 80 y 443) o 3.
+1. En los equipos que corresponden a la categoría "**comportamiento normal con muchas conexiones**", el número de direcciones IPs destino únicas a las que se conectan está en el orden de varios cientos y casi siempre 2 puertos destino (los más frecuentes, 80 y 443) o 3.
+![](slides/many_cnxs.png)
 2. Los equipos de categoría "**comportamiento normal, pocas conexiones**" se conectan a
-unas 5-6 IPs destino, usando menos de 20 puertos origen y hacia 1-2 puertos destino.
+decenas de IPs destino, usando menos de 100 puertos origen y hacia 1-2 puertos destino.
+![](slides/few_cnxs.png)
 3. En los clasificados como "**sesiones UDP**" lo más destacado es que la característica "protocolo" es mayor que 1, lo que significa que se usa UDP de forma notable (a diferencia de las categorías de comportamiento normal anteriores, donde este valor es más cercano a 0). También suele haber más de 2 puertos destino y las sesiones son más largas de media que las de las categorías anteriores.
+![](slides/udp.png)
 4. La cuarta categoría suele identificarse como "**conexiones largas**" porque la duración media de sesión está en el orden de decenas e incluso centenas de miles de segundos (esto es, mantienen sesiones que superan el día de duración).
+![](slides/long_duration.png)
 5. En el grupo denominado de las "**anomalías**", los valores son más extraños porque se compone de pocas instancias cuyas características son más extremas. Lo que más salta a la vista es que el número de eventos en estos casos es mucho mayor, y también el número de puertos origen (lo que indica que estos equipos mantienen una cantidad de sesiones mayor que el resto).
+![](slides/anom.png)
 
 ## 6. Conclusiones y líneas futuras
 
 * Podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red.
 * Los equipos de la categoría "anomalías" ciertamente se identifican con comportamientos sospechosos (aunque no necesariamente malintencionados).
 * Esta aportación puede tener una aplicación práctica inmediata.
+
+# Presentación de la defensa
+[![](slides/def.png)](slides/formato_estandar-defensa-tfm-javier_artiga_garijo.pdf)

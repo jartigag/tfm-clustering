@@ -96,7 +96,9 @@ Preprocesado con este [script](scripts/preprocess_clustering_dataset.py), ensayo
 
 ## 5. Resultados
 
-[Centroides](https://github.com/jartigag/tfm-clustering/tree/master/bigml#centroides) con K-Means (k=5) sobre los datos finales, [análisis de silueta](https://github.com/jartigag/tfm-clustering/blob/master/scripts/CLUSTERING3-silhouette.ipynb).
+[Centroides](https://github.com/jartigag/tfm-clustering/tree/master/bigml#centroides) con K-Means (k=5) sobre los datos de prueba, [análisis de silueta](https://github.com/jartigag/tfm-clustering/blob/master/scripts/CLUSTERING3-silhouette.ipynb).
+
+En septiembre/octubre se llevó el prototipo al escenario real. Se [adaptaron los scripts](scripts/realtime/) y se obtuvieron las mismas 5 categorías:
 
 1. En los equipos que corresponden a la categoría "**comportamiento normal con muchas conexiones**", el número de direcciones IPs destino únicas a las que se conectan está en el orden de varios cientos y casi siempre 2 puertos destino (los más frecuentes, 80 y 443) o 3.
 ![](slides/many_cnxs.png)

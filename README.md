@@ -45,6 +45,7 @@ Referencias interesantes:
 ### 3.1. Aprendizaje automático en la clasificación de tráfico
 
 <details>
+
 ["A survey of techniques for internet traffic classification using machine learning" (H.T. Nguyen y G. Armitage, 2008)](https://doi.org/10.1109/SURV.2008.080406)
 
 ["Why Should Machines Learn?" (S. Herbert, 1983)](https://doi.org/10.1007/978-3-662-12405-5_2)
@@ -59,6 +60,7 @@ Referencias interesantes:
 ### 3.2. Detección de anomalías sobre actividad de red
 
 <details>
+
 ["A Survey on Big Data for Network Traffic Monitoring and Analysis", (A. D'Alconzo et al., 2019)](https://doi.org/10.1109/TNSM.2019.2933358)
 
 ["A Comprehensive Survey on Machine Learning for Networking: Evolution, Applications and Research Opportunities", (R. Boutaba et al., 2018)](https://doi.org/10.1186/s13174-018-0087-2)
@@ -71,6 +73,7 @@ Referencias interesantes:
 ### 3.3. Clustering
 
 <details>
+
 ["Intrusion Detection with Unlabeled Data Using Clustering" (L. Portnoy, 200)](https://doi.org/10.7916/D8MP5904)
 
 ["A clustering-based method for unsupervised intrusion detections" (S. Jian et al., 2006)](https://doi.org/10.1016/j.patrec.2005.11.007)

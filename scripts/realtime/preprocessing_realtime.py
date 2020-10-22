@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 #
-# for each src_ip, aggregate info and calc metrics from its session-features-vectors
+# for each src_ip, aggregate info and calc metrics from its session-features-vectors.
+# when a src_ip has been reviewed, it can be excluded adding it to reviewed_ips.txt in a new line (format: "10.0.0.1: i checked it on 2020-10-22. it's from dev environment")
 #
-#usage: ./preprocessing_realtime.py /disco_grande/javi/clustering/2020-09-22-FORTINET_FW1_10.251.0.101.csv > /home/javi/clustering/2020-09-22-dataset.csv
+#usage: ./preprocessing_realtime.py /disco_grande/javi/clustering/2020-09-22-FORTINET_FW1_10.251.0.101.csv reviewed_ips.txt > /home/javi/clustering/2020-09-22-dataset.csv
 #exec time: 3m25s laptop (intel core i5-8265U @ 1.60GHz), 4m7s probe (intel xeon gold 6126 @ 2.60GHz)
 #output example:
 # $ head 2020-09-22-dataset.csv
@@ -14,6 +15,8 @@ import sys
 from statistics import mean, stdev
 
 raw_data = open(sys.argv[1])
+with open(sys.argv[2]) as f:
+    reviewed_list = [l.split(":")[0] for l in f.readlines()]
 data = {}
 
 for line in raw_data:
@@ -22,6 +25,8 @@ for line in raw_data:
     r = line.rstrip().split(",")
 
     src_ip = r[2]
+
+    if src_ip in reviewed_list: continue
 
     if src_ip not in data:
         # []: list. it's a mutable, or changeable, ordered sequence of elements. it preserves order, it admits duplicates

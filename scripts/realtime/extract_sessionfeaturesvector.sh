@@ -20,13 +20,14 @@
 file="FORTINET_FW1_10.251.0.101.1" # yesterday's log, rotated
 yesterday="$( date -d yesterday +%F )"
 sfeatvectors_file="/disco_grande/javi/clustering/$yesterday-FORTINET_FW1_10.251.0.101"
+reviewed="/home/javi/clustering/reviewed_ips.txt"
 dataset_file="/home/javi/clustering/$yesterday-dataset"
 
 awk -F"···" '{OFS=","}{print $1,$2,$5,$7,$9,$10,$11,$14,$15,$16,$17}' $file > $sfeatvectors_file.csv
 
 mv /home/naudit/javi/clustering/*.csv /home/naudit/javi/clustering/old/
 
-/home/javi/clustering/preprocessing_realtime.py $sfeatvectors_file.csv > $dataset_file.csv
+/home/javi/clustering/preprocessing_realtime.py $sfeatvectors_file.csv $reviewed > $dataset_file.csv
 /home/javi/clustering/clustering_realtime.py $dataset_file.csv
 /home/javi/clustering/experimental_clustering_realtime.py $dataset_file.csv
 

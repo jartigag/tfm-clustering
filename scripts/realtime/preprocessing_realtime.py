@@ -21,7 +21,7 @@ data = {}
 
 for line in raw_data:
     #example:
-    # 1589212544,1589993516,172.28.0.83,52.177.165.30,tcp,57541,443,0.00,0.00,5,479,780972
+    # 1589212544,1589993516,172.28.0.83,52.177.165.30,tcp,57541,443,0.00,0.00,5,479
     r = line.rstrip().split(",")
 
     src_ip = r[2]
@@ -38,16 +38,16 @@ for line in raw_data:
 
     ### extract features:
 
-    if r[3] not in data[src_ip]['dst_ip']: data[src_ip]['dst_ip'].add(         r[3] )
+    if r[3] not in data[src_ip]['dst_ip']: data[src_ip]['dst_ip'].add(        r[3] )
     # proto: 2 if src_ip has used tcp and udp, 1 if udp, 0 if tcp:
     if r[4]=="udp": data[src_ip]['proto'] = 2 if ( data[src_ip]['proto']==1 ) else 1
-    if r[5] not in data[src_ip]['src_port']: data[src_ip]['src_port'].add(     r[5] )
-    if r[6] not in data[src_ip]['dst_port']: data[src_ip]['dst_port'].add(     r[6] )
-    data[src_ip]['anom_level'].append(                                   float(r[7]))
-    data[src_ip]['threat_level'].append(                                 float(r[8]))
-    if r[10] not in data[src_ip]['max_prio']: data[src_ip]['max_prio'].add(int(r[9]))
-    data[src_ip]['count_events'].append(                                  int(r[10]))
-    data[src_ip]['duration'].append(                             int(r[0])-int(r[1]))
+    if r[5] not in data[src_ip]['src_port']: data[src_ip]['src_port'].add(    r[5] )
+    if r[6] not in data[src_ip]['dst_port']: data[src_ip]['dst_port'].add(    r[6] )
+    data[src_ip]['anom_level'].append(                                  float(r[7]))
+    data[src_ip]['threat_level'].append(                                float(r[8]))
+    if r[9] not in data[src_ip]['max_prio']: data[src_ip]['max_prio'].add(int(r[9]))
+    data[src_ip]['count_events'].append(                                 int(r[10]))
+    data[src_ip]['duration'].append(                            int(r[0])-int(r[1]))
 
 print("src_ip,dst_ip,proto,src_port,dst_port,anom_level,threat_level,max_prio,count_events,avg_duration,stdev_duration")
 for d in data:

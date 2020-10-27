@@ -16,7 +16,7 @@ from statistics import mean, stdev
 
 raw_data = open(sys.argv[1])
 with open(sys.argv[2]) as f:
-    reviewed_list = [l.split(":")[0] for l in f.readlines()]
+    reviewed_list = [l.split(":")[0] for l in f.readlines() if l[0]!="#"]
 data = {}
 
 for line in raw_data:

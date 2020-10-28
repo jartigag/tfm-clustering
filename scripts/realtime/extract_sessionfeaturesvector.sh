@@ -22,6 +22,7 @@ yesterday="$( date -d yesterday +%F )"
 sfeatvectors_file="/disco_grande/javi/clustering/$yesterday-FORTINET_FW1_10.251.0.101"
 reviewed="/home/javi/clustering/reviewed_ips.txt"
 dataset_file="/home/javi/clustering/$yesterday-dataset"
+tmp_dir="/home/javi/clustering/tmp"
 
 awk -F"···" '{OFS=","}{print $1,$2,$5,$7,$9,$10,$11,$14,$15,$16,$17}' $file > $sfeatvectors_file.csv
 
@@ -40,6 +41,7 @@ for i in 3 5 6 10 11; do
     echo >> $dataset_file.tops.csv
 done
 echo -e "\n\n\n" >> $dataset_file.tops.csv
+column -tnes, $dataset_file.tops.csv > $tmp_dir/$yesterday-dataset.tops.csv
 
 # idea in progress: exploring which are the most repeated hosts among all daily tops by dst_ips, src_ports, dst_ports, count_events and avg_duration
 grep -hve",," /home/javi/clustering/old/*.tops.csv /home/clustering/*.tops.csv | \

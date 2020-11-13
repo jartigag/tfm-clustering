@@ -44,6 +44,6 @@ echo -e "\n\n\n" >> $dataset_file.tops.csv
 column -tnes, $dataset_file.tops.csv > $tmp_dir/$yesterday-dataset.tops.csv
 
 # idea in progress: exploring which are the most repeated hosts among all daily tops by dst_ips, src_ports, dst_ports, count_events and avg_duration
-grep -hve",," /home/javi/clustering/old/*.tops.csv /home/clustering/*.tops.csv | \
+grep -hve",," /home/javi/clustering/old/*.tops.csv /home/javi/clustering/*.tops.csv | \
     awk -F, '{count[$2]++; arr[$2]=arr[$2]"\n"$0}END{for(i in arr)if(count[i]>1)print arr[i]}' | grep -v -e '^$' \
     > /home/javi/clustering/$yesterday-repeated_in_tops.csv

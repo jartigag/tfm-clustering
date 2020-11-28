@@ -2,14 +2,6 @@ configure_node_size(ds.avg_duration)
 
 link_similar_rows(ds[["dst_ip", "src_port", "dst_port", "count_events", "proto", "anom_level", "avg_duration", "stdev_duration", "max_prio"]]) -> (links)
 
-cast(ds.cluster, {
-    "type": "Category"
-}) -> (ds.gx_target_cast)
-
-cast(ds.cluster, {
-    "type": "Category"
-}) -> (ds.gx_prediction)
-
 concatenate(ds.src_ip, ds.src_net, {
     "nan_as": ""
 }) -> (ds.grp_title)
@@ -30,10 +22,6 @@ cluster_network(links) -> (ds._cluster)
 
 configure_column_visibility(ds.tstamp, {
     "details": "hidden"
-})
-
-configure_column_visibility(ds._cluster, {
-    "graph": "pinned"
 })
 
 # Create a new insight from the Graph section

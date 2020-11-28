@@ -1,30 +1,3 @@
-create_graph_insight({
-    "title": "Graph colored by target",
-    "colorColumn": "cluster",
-    "label": "Label of the graph chart",
-    "relative": true
-})
-
-create_graph_insight({
-    "title": "Graph colored by error",
-    "colorColumn": "Error",
-    "label": "",
-    "relative": true
-})
-
-create_filter_insight({
-    "title": "Error distribution",
-    "column": "Error",
-    "relative": false
-})
-
-create_graph_insight({
-                         "title": "Confusion matrix. Correct indicates when the algorithm has predicted correctly, and wrong when the prediction is different to the real value",
-                         "colorColumn": "confusion_matrix",
-                         "label": "",
-                         "relative": true
-                     })
-
 configure_node_size(ds.avg_duration)
 
 link_similar_rows(ds[["dst_ip", "src_port", "dst_port", "count_events", "proto", "anom_level", "avg_duration", "stdev_duration", "max_prio"]]) -> (links)

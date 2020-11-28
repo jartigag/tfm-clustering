@@ -1,0 +1,68 @@
+create_graph_insight({
+    "title": "Graph colored by target",
+    "colorColumn": "cluster",
+    "label": "Label of the graph chart",
+    "relative": true
+})
+
+create_graph_insight({
+    "title": "Graph colored by error",
+    "colorColumn": "Error",
+    "label": "",
+    "relative": true
+})
+
+create_filter_insight({
+    "title": "Error distribution",
+    "column": "Error",
+    "relative": false
+})
+
+create_graph_insight({
+                         "title": "Confusion matrix. Correct indicates when the algorithm has predicted correctly, and wrong when the prediction is different to the real value",
+                         "colorColumn": "confusion_matrix",
+                         "label": "",
+                         "relative": true
+                     })
+
+configure_node_size(ds.avg_duration)
+
+link_similar_rows(ds[["dst_ip", "src_port", "dst_port", "count_events", "proto", "anom_level", "avg_duration", "stdev_duration", "max_prio"]]) -> (links)
+
+cast(ds.cluster, {
+    "type": "Category"
+}) -> (ds.gx_target_cast)
+
+cast(ds.cluster, {
+    "type": "Category"
+}) -> (ds.gx_prediction)
+
+concatenate(ds.src_ip, ds.src_net, {
+    "nan_as": ""
+}) -> (ds.grp_title)
+
+# Configures the column that is displayed as the title of the node
+configure_node_title(ds.grp_title, {
+    "margin": 80
+})
+
+# Compute a force-directed graph layout with a fast forceAtlas2 implementation.
+layout_network(links, {
+    "gravity": 0.03,
+    "avoidHubs": true,
+    "scalingRatio": 3
+}) -> (ds.x, ds.y)
+
+cluster_network(links) -> (ds._cluster)
+
+configure_column_visibility(ds.tstamp, {
+    "details": "hidden"
+})
+
+configure_column_visibility(ds._cluster, {
+    "graph": "pinned"
+})
+
+# Create a new insight from the Graph section
+
+data_export(links,ds)

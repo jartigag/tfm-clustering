@@ -1,0 +1,41 @@
+\BOOKMARK [0][-]{chapter.5}{Introducci\363n}{}% 1
+\BOOKMARK [1][-]{section.6}{Motivaci\363n}{chapter.5}% 2
+\BOOKMARK [1][-]{section.7}{Planteamiento del trabajo}{chapter.5}% 3
+\BOOKMARK [1][-]{section.8}{Estructura del documento}{chapter.5}% 4
+\BOOKMARK [0][-]{chapter.9}{Objetivos y metodolog\355a}{}% 5
+\BOOKMARK [1][-]{section.10}{Objetivo general}{chapter.9}% 6
+\BOOKMARK [1][-]{section.11}{Objetivos espec\355ficos}{chapter.9}% 7
+\BOOKMARK [1][-]{section.12}{Metodolog\355a de trabajo}{chapter.9}% 8
+\BOOKMARK [1][-]{section.13}{Metodolog\355a del desarrollo}{chapter.9}% 9
+\BOOKMARK [0][-]{chapter.15}{Estado del Arte}{}% 10
+\BOOKMARK [1][-]{section.16}{Aprendizaje autom\341tico en la clasificaci\363n de tr\341fico}{chapter.15}% 11
+\BOOKMARK [1][-]{section.17}{Detecci\363n de anomal\355as sobre actividad de red}{chapter.15}% 12
+\BOOKMARK [1][-]{section.18}{Clustering}{chapter.15}% 13
+\BOOKMARK [0][-]{chapter.19}{Desarrollo}{}% 14
+\BOOKMARK [1][-]{section.20}{Presentaci\363n del escenario}{chapter.19}% 15
+\BOOKMARK [1][-]{section.23}{Extracci\363n y filtrado}{chapter.19}% 16
+\BOOKMARK [1][-]{section.28}{Preprocesado para el clustering}{chapter.19}% 17
+\BOOKMARK [1][-]{section.30}{An\341lisis de datos}{chapter.19}% 18
+\BOOKMARK [1][-]{section.35}{Selecci\363n de caracter\355sticas}{chapter.19}% 19
+\BOOKMARK [1][-]{section.36}{Parametrizaci\363n del algoritmo de clustering}{chapter.19}% 20
+\BOOKMARK [1][-]{section.38}{Evaluaci\363n experimental}{chapter.19}% 21
+\BOOKMARK [2][-]{subsection.39}{Ensayo A: K-Means con k=5, sin caracter\355sticas temporales}{section.38}% 22
+\BOOKMARK [2][-]{subsection.45}{Ensayo B: G-Means determina k=3}{section.38}% 23
+\BOOKMARK [2][-]{subsection.46}{Ensayo C: K-Means con k=5, fracciones temporales con agrupaci\363n semanal}{section.38}% 24
+\BOOKMARK [2][-]{subsection.47}{Ensayo D: K-Means con k=5, fracciones temporales con agrupaci\363n diaria}{section.38}% 25
+\BOOKMARK [0][-]{chapter.58}{Resultados}{}% 26
+\BOOKMARK [1][-]{section.59}{Composici\363n de los clusters}{chapter.58}% 27
+\BOOKMARK [1][-]{section.67}{Calidad del resultado}{chapter.58}% 28
+\BOOKMARK [0][-]{chapter.69}{Conclusiones y l\355neas futuras}{}% 29
+\BOOKMARK [1][-]{section.70}{Conclusiones}{chapter.69}% 30
+\BOOKMARK [1][-]{section.71}{L\355neas futuras}{chapter.69}% 31
+\BOOKMARK [0][-]{section*.72}{Bibliograf\355a}{}% 32
+\BOOKMARK [0][-]{section*.74}{Ap\351ndices}{}% 33
+\BOOKMARK [0][-]{appendix.75}{Ap\351ndice Datos de salida en Ensayo A: K-Means con k=5, sin caracter\355sticas temporales}{}% 34
+\BOOKMARK [0][-]{appendix.327}{Ap\351ndice Datos de salida en Ensayo B: G-Means determina k=3}{}% 35
+\BOOKMARK [0][-]{appendix.400}{Ap\351ndice Datos de salida en Ensayo C: K-Means con k=5, fracciones temporales con agrupaci\363n semanal}{}% 36
+\BOOKMARK [0][-]{appendix.503}{Ap\351ndice Datos de salida en Ensayo D: K-Means con k=5, fracciones temporales con agrupaci\363n diaria}{}% 37
+\BOOKMARK [1][-]{section.504}{Dataset del mi\351rcoles 20 de mayo}{appendix.503}% 38
+\BOOKMARK [1][-]{section.768}{Dataset del jueves 21 de mayo}{appendix.503}% 39
+\BOOKMARK [1][-]{section.1024}{Dataset del viernes 22 de mayo}{appendix.503}% 40
+\BOOKMARK [0][-]{appendix.1273}{Ap\351ndice C\363digo del preprocesado}{}% 41

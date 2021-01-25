@@ -1,6 +1,32 @@
-bigml/actionable*.py
-scripts/.ipynb_checkpoints/
-data*/
-.tmp/
-*.swp
-*.vim
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+
+# test cache
+.cache/*
+tests/__pycache__/*
+*.pytest_cache/
+
+# mkdocs documentation
+docs/site
+
+# Django stuff:
+*.log
+local_settings.py
+db.sqlite3
+db.sqlite3-journal
+
+# Scrapy stuff:
+.scrapy
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# Environments
+.env
+.venv
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/

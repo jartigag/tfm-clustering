@@ -1,7 +1,0 @@
-\chapter{Código del preprocesado}\label{app:preprocesado}
-
-Este es el \emph{script} con el que se transforman los vectores de características de sesiones (que ya se han extraído de los logs de firewall) en los datos agregados sobre los cuales se aplicará el \emph{clustering}.
-Básicamente, recorre todas las líneas de entrada (cada una es un vector de características) para agruparlas por IP origen y calcular las siguientes métricas por día: número de IPs destino únicas, protocolos usados, número de puertos origen únicos, número de puertos destino únicos, nivel de anomalía medio, nivel de amenaza medio, prioridad máxima, total de eventos, duración de sesión media, desviación típica de duración de sesión, número de sesiones activas en horas nocturas, número de sesiones activas en horas de trabajo y número de sesiones activas en horas después del trabajo.
-La parte más compleja es la asignación de sesiones según correspondan a una franja horaria u otra, pero el proceso se ha explicado en los comentarios y se han incluido ejemplos.
-
-\lstinputlisting[language=Python]{scripts/preprocess_clustering_dataset.py}

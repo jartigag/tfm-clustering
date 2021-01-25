@@ -1,8 +1,0 @@
-192.168.1.15: es server.mired.local. servidor smb
-10.20.15.43: está en "red de pruebas". siempre mismas dst_ip de azure, puertos 80 y 443. pocas conexiones cortas
-
-  
-
-# comentarios
-# sobre lo que sea
-192.168.1.1-Red Local: es el router.

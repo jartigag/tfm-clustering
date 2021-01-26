@@ -17,16 +17,16 @@
 
 import sys
 import pandas as pd
-import numpy as np
 #from sklearn import metrics
 from sklearn.cluster import KMeans
 from sklearn.preprocessing import StandardScaler
 #from datetime import datetime
 
+
 def clustering(dataset_file, kmeans_executions=30):
     df_data = pd.read_csv(dataset_file)
     scaler = StandardScaler()
-    X = scaler.fit_transform(df_data.loc[:,df_data.columns!="src_ip"])
+    X = scaler.fit_transform(df_data.loc[:, df_data.columns!="src_ip"])
 
     algo = KMeans(n_clusters=5, n_init=kmeans_executions)
     # KMeans params:
@@ -48,7 +48,7 @@ def clustering(dataset_file, kmeans_executions=30):
 
     df_data['cluster'] = pd.Series(algo.labels_)
     # sort clusters by size (from biggest to smallest):
-    df_centroids['size'] = df_data.groupby('cluster').size().to_frame('size').sort_values('size',ascending=False)
+    df_centroids['size'] = df_data.groupby('cluster').size().to_frame('size').sort_values('size', ascending=False)
 
     # assign meaningful names to clusters (mapping based just on empirical observations):
     mapping_dict = {}
@@ -83,19 +83,20 @@ def clustering(dataset_file, kmeans_executions=30):
 
     return df_data, df_centroids
 
+
 if __name__ == '__main__':
 
     dataset_filename = sys.argv[1]
     df_data, df_centroids = clustering(dataset_filename)
 
     # express size in percents:
-    df_centroids['size(%)'] = df_centroids['size'].transform( lambda x: 100*x/sum(x) )
+    df_centroids['size(%)'] = df_centroids['size'].transform(lambda x: 100*x/sum(x))
 
     # add tstamp
-    #tstamp=int(datetime.timestamp(datetime.strptime(sys.argv[1][-22:-12],"%Y-%m-%d"))) # add tstamp as first column
+    #tstamp=int(datetime.timestamp(datetime.strptime(sys.argv[1][-22:-12], "%Y-%m-%d"))) # add tstamp as first column
     #df_data.insert(loc=0, column='tstamp', value=tstamp)
     #df_centroids.insert(loc=0, column='tstamp', value=tstamp)
 
     # print all to csv files:
     df_data.to_csv(f"{dataset_filename.strip('csv')}labeled.csv", index=False)
-    df_centroids.sort_values('size(%)',ascending=False).round(2).to_csv(f"{dataset_filename.strip('csv')}centroids.csv", index_label="cluster")
+    df_centroids.sort_values('size(%)', ascending=False).round(2).to_csv(f"{dataset_filename.strip('csv')}centroids.csv", index_label="cluster")

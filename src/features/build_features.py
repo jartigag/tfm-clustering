@@ -98,5 +98,6 @@ for d in data:
     print( "{},{},{},{},{},{:.2f},{:.2f},{},{},{:.2f},{:.2f}".format( d,
         len(data[d]['dst_ip']),data[d]['proto'],len(data[d]['src_port']),len(data[d]['dst_port']),
         mean(data[d]['anom_level']),mean(data[d]['threat_level']),min(data[d]['max_prio']),sum(data[d]['count_events']),
-        mean(data[d]['duration']),stdev(data[d]['duration']) if len(data[d]['duration'])>1 else 0))
-        data[d]['slots']['night'],data[d]['slots']['work'],data[d]['slots']['afterwork']
+        mean(data[d]['duration']),stdev(data[d]['duration']) if len(data[d]['duration'])>1 else 0)
+        #data[d]['slots']['night'],data[d]['slots']['work'],data[d]['slots']['afterwork']
+    )

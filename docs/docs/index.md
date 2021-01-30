@@ -1,5 +1,7 @@
 # Caracterización de equipos informáticos mediante clustering en una red empresarial
 
+Repositorio: [https://github.com/jartigag/tfm-clustering](https://github.com/jartigag/tfm-clustering)
+
 > En la monitorización de redes informáticas a gran escala, resulta de alto interés
 conocer el comportamiento de sus equipos finales y detectar aquellos que puedan
 ser sospechosos. Sin embargo, clasificar a cada equipo según su actividad supone

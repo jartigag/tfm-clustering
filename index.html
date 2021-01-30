@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Caracterización de equipos informáticos mediante clustering en una red empresarial">
+    
+    
+    <link rel="shortcut icon" href="img/favicon.ico">
+
+    
+    <title>Home - tfm-clustering</title>
+    
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/v4-shims.css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/hack-font@3.3.0/build/web/hack.min.css">
+    <link href='//rsms.me/inter/inter.css' rel='stylesheet' type='text/css'>
+    <link href='//fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,700italic,400,300,600,700&subset=latin-ext,latin' rel='stylesheet' type='text/css'>
+    <link href="css/bootstrap-custom.min.css" rel="stylesheet">
+    <link href="css/base.min.css" rel="stylesheet">
+    <link href="css/cinder.min.css" rel="stylesheet">
+
+    
+        
+        <link rel="stylesheet" href="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/styles/github.min.css">
+        
+    
+    <link href="css/extra.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+            <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+        <![endif]-->
+
+    
+
+     
+</head>
+
+<body class="homepage" >
+
+    <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            
+
+            <!-- Main title -->
+
+            
+              <a class="navbar-brand" href=".">tfm-clustering</a>
+            
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+
+            <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                            <i class="fas fa-search"></i> Search
+                        </a>
+                    </li>
+                    <li>
+                        <a href="https://github.com/jartigag/tfm-clustering/edit/master/docs/docs/index.md"><i class="fab fa-github"></i> Edit on GitHub</a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+    <div class="container">
+        
+        
+        <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="first-level active"><a href="#caracterizacion-de-equipos-informaticos-mediante-clustering-en-una-red-empresarial">Caracterización de equipos informáticos mediante clustering en una red empresarial</a></li>
+        <li class="first-level "><a href="#indice-general">Índice general</a></li>
+            <li class="second-level"><a href="#1-introduccion">1. Introducción</a></li>
+                
+            <li class="second-level"><a href="#2-objetivos-y-metodologia">2. Objetivos y metodología</a></li>
+                
+            <li class="second-level"><a href="#3-estado-del-arte">3. Estado del arte</a></li>
+                
+                <li class="third-level"><a href="#31-aprendizaje-automatico-en-la-clasificacion-de-trafico">3.1. Aprendizaje automático en la clasificación de tráfico</a></li>
+                <li class="third-level"><a href="#32-deteccion-de-anomalias-sobre-actividad-de-red">3.2. Detección de anomalías sobre actividad de red</a></li>
+                <li class="third-level"><a href="#33-clustering">3.3. Clustering</a></li>
+            <li class="second-level"><a href="#4-desarrollo">4. Desarrollo</a></li>
+                
+            <li class="second-level"><a href="#5-resultados">5. Resultados</a></li>
+                
+            <li class="second-level"><a href="#6-conclusiones-y-lineas-futuras">6. Conclusiones y líneas futuras</a></li>
+                
+        <li class="first-level "><a href="#presentacion-de-la-defensa">Presentación de la defensa</a></li>
+    </ul>
+</div></div>
+        <div class="col-md-9" role="main">
+
+<h1 id="caracterizacion-de-equipos-informaticos-mediante-clustering-en-una-red-empresarial">Caracterización de equipos informáticos mediante clustering en una red empresarial</h1>
+<blockquote>
+<p>En la monitorización de redes informáticas a gran escala, resulta de alto interés
+conocer el comportamiento de sus equipos finales y detectar aquellos que puedan
+ser sospechosos. Sin embargo, clasificar a cada equipo según su actividad supone
+un importante ejercicio de síntesis. Además, es difícil obtener unas categorías
+útiles, sobre todo en el caso de las anomalías, ya que son desconocidas a priori.</p>
+<p>El presente trabajo aborda este reto haciendo uso de técnicas de clustering a
+partir de logs extraídos de firewalls. Con un muestreo del 5 %, que supone un
+millón de sesiones al día, se han distinguido 5 clases de comportamientos. Los
+comportamientos anómalos se han conseguido reunir en un solo cluster con menos
+de diez casos al día.</p>
+</blockquote>
+<p>Para conocer bien de todos los detalles, mejor leer la <a href="TFM.pdf">memoria en pdf</a>.</p>
+<h1 id="indice-general">Índice general</h1>
+<h2 id="1-introduccion">1. Introducción</h2>
+<p>La monitorización de la red informática en una gran empresa es un problema complejo por muchos factores. El más inmediato podría ser el alto volumen de conexiones que se producen, superior a varios millones diarios. Pero se suman otras muchas dificultades a la hora de procesar el tráfico de forma que se obtenga información útil para el analista y, en última instancia, para el cliente final: la gran variabilidad de comportamientos, la complejidad de sintetizar lo importante sin perder exactitud, el compromiso entre rapidez en la respuesta y certeza en su fiabilidad, el desconocimiento a priori de cómo se caracteriza un comportamiento anómalo, etc.</p>
+<p>Interesa buscar una solución a estos obstáculos porque las empresas quieren garantizar que los recursos de sus redes se gestionan de la manera más óptima posible. Además, es especialmente importante la seguridad de la red corporativa, esto es, protegerla de acciones no autorizadas u otras amenazas que puedan comprometer su disponibilidad o la integridad de los equipos que la componen.</p>
+<p>Equipos de seguridad como puedan ser los firewalls contribuyen de manera decisiva a esta protección, pero su funcionamiento basado en firmas no cubre todos los casos ante una intrusión. Sin embargo, sí generan una enorme cantidad de datos que, si se tratan adecuadamente, sirven para ampliar el alcance de las técnicas empleadas en materia de seguridad.</p>
+<p>Por ello, un sistema que modele el comportamiento normal de una red y detecte anomalías usando métodos estadísticos y de inteligencia artificial permitirá conocer mejor el contexto de dicha red e identificar comportamientos sospechosos que no se considerarían de otro modo.</p>
+<p>Las cuestiones planteadas para guiar esta investigación han sido:
+* Si podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red
+* Cuáles serían esas categorías
+* Si sereremos capaces de identificar comportamientos sospechosos en base a esta clasificación</p>
+<p>A través de estas cuestiones se inicia el estudio del problema, para cuya solución se propone obtener un modelo clasificador que distinga patrones de comportamiento normales y desviaciones respecto de la actividad normal. Este clasificador se realizará mediante una técnica de aprendizaje automático no supervisado como es el clustering (técnica que lleva a cabo una agrupación en categorías de manera natural, buscando características en común sin haber definido las clases previamente).
+El objetivo principal es localizar en la red interna orígenes de tráfico catalogable como extraño, lo que puede indicar un equipo infectado o mal configurado. La determinación de qué se sale de lo habitual dependerá de las particularidades de la red, algo difícil de concretar a priori y más aún de generalizar, razón por la cual el clustering (como etapa final tras un análisis y preprocesado de los datos adaptado al caso) se ha considerado una técnica idónea en esta tarea.</p>
+<h2 id="2-objetivos-y-metodologia">2. Objetivos y metodología</h2>
+<pre><code>#TODO
+</code></pre>
+<h2 id="3-estado-del-arte">3. Estado del arte</h2>
+<p>Referencias interesantes:</p>
+<h3 id="31-aprendizaje-automatico-en-la-clasificacion-de-trafico">3.1. Aprendizaje automático en la clasificación de tráfico</h3>
+<details>
+<p><a href="https://doi.org/10.1109/SURV.2008.080406">&quot;A survey of techniques for internet traffic classification using machine learning&quot; (H.T. Nguyen y G. Armitage, 2008)</a></p>
+<p><a href="https://doi.org/10.1007/978-3-662-12405-5_2">&quot;Why Should Machines Learn?&quot; (S. Herbert, 1983)</a></p>
+<p><a href="https://doi.org/10.1109/MNET.2012.6135854">&quot;Issues and future directions in traffic classification&quot; (A. Dainotti, A. Pescape y K.C. Claffy, 2012)</a></p>
+<p><a href="https://doi.org/10.1109/MNET.2011.5772055">&quot;Experiences of Internet traffic monitoring with tstat&quot; (A. Finamore et al., 2011)</a></p>
+<p><a href="https://doi.org/10.1145/1090191.1080119">&quot;BLINC: Multilevel Traffic Classification in the Dark&quot; (T. Karagiannis, K. Papagiannaki y M. Faloutsos, 2006)</a></p>
+</details>
+
+<h3 id="32-deteccion-de-anomalias-sobre-actividad-de-red">3.2. Detección de anomalías sobre actividad de red</h3>
+<details>
+<p><a href="https://doi.org/10.1109/TNSM.2019.2933358">&quot;A Survey on Big Data for Network Traffic Monitoring and Analysis&quot;, (A. D&#39;Alconzo et al., 2019)</a></p>
+<p><a href="https://doi.org/10.1186/s13174-018-0087-2">&quot;A Comprehensive Survey on Machine Learning for Networking: Evolution, Applications and Research Opportunities&quot;, (R. Boutaba et al., 2018)</a></p>
+<p><a href="https://doi.org/10.1016/j.cose.2008.08.003">&quot;Anomaly-based network intrusion detection: Techniques, systems and challenges&quot;, (P. García-Teodoro, 2009)</a></p>
+<p><a href="https://doi.org/10.1007/0-387-24230-9_2">&quot;Intrusion Detection: A Survey&quot;, (A. Lazarevic, 2005)</a></p>
+</details>
+
+<h3 id="33-clustering">3.3. Clustering</h3>
+<details>
+<p><a href="https://doi.org/10.7916/D8MP5904">&quot;Intrusion Detection with Unlabeled Data Using Clustering&quot; (L. Portnoy, 200)</a></p>
+<p><a href="https://doi.org/10.1016/j.patrec.2005.11.007">&quot;A clustering-based method for unsupervised intrusion detections&quot; (S. Jian et al., 2006)</a></p>
+<p><a href="https://doi.org/10.1007/978-3-540-24668-8_21">&quot;Flow Clustering Using Machine Learning Techniques&quot; (A. McGregor et al., 2004)</a></p>
+<p><a href="https://doi.org/10.1109/LCN.2005.35">&quot;Automated traffic classification and application identification using machine learning&quot; (S. Zander, T. Nguyen y G. Armitage, 2005)</a></p>
+<p><a href="https://doi.org/10.1145/1129582.1129589">&quot;Traffic Classification on the Fly&quot; (L. Bernaille et al., 2006)</a> y <a href="https://doi.org/10.1145/1368436.1368445">conti</a>-<a href="https://doi.org/  10.1007/978-3-540-71617-4_17">nuaciones</a></p>
+<p>"Unsupervised Anomaly Detection in Network Intrusion Detection Using Clusters" (K. Leung y C. Leckie, 2005)</p>
+<p><a href="https://doi.org/10.13140/RG.2.1.1847.9521">&quot;Next Generation Intrusion Detection Expert System (NIDES) Statistical Algorithms Rationale and Rationale for Proposed Resolver&quot; (H. Javitz et al., 1993)</a></p>
+<p><a href="https://doi.org/10.1109/SURV.2013.052213.00046">&quot;Network Anomaly Detection: Methods, Systems and Tools&quot; (M.H. Bhuyan, 2014)</a></p>
+<p><a href="https://doi.org/10.1007/978-3-642-30507-8_7">&quot;Unsupervised clustering approach for network anomaly detection&quot; (I. Syarif et al., 2012)</a></p>
+<p><a href="https://doi.org/  10.3844/jcssp.2010.363.368">&quot;Computational Complexity between K-Means and K-Medoids Clustering Algorithms for Normal and Uniform Distributions of Data Points&quot; (T. Velmurugan y T. Santhanam, 2010)</a></p>
+<p><a href="https://doi.org/10.14778/1920841.1921021">&quot;Distance-Based Outlier Detection: Consolidation and Renewed Bearing&quot; (G. H. Orair et al., 2010)</a></p>
+</details>
+
+<h2 id="4-desarrollo">4. Desarrollo</h2>
+<pre><code>#TODO
+</code></pre>
+<h2 id="5-resultados">5. Resultados</h2>
+<p>En septiembre/octubre se llevó el prototipo al escenario real. Se <a href="#TODO">adaptaron los scripts</a> y se obtuvieron las mismas 5 categorías:</p>
+<p><strong>1</strong>. En los equipos que corresponden a la categoría "<strong>comportamiento normal con muchas conexiones</strong>", el número de direcciones IPs destino únicas a las que se conectan está en el orden de varios cientos y casi siempre 2 puertos destino (los más frecuentes, 80 y 443) o 3.
+<img alt="" src="slides/many_cnxs.png" /></p>
+<p>⠀</p>
+<p><strong>2</strong>. Los equipos de categoría "<strong>comportamiento normal, pocas conexiones</strong>" se conectan a decenas de IPs destino, usando menos de 100 puertos origen y hacia 1-2 puertos destino.
+<img alt="" src="slides/few_cnxs.png" /></p>
+<p>⠀</p>
+<p><strong>3</strong>. En los clasificados como "<strong>sesiones UDP</strong>" lo más destacado es que la característica "protocolo" es mayor que 1, lo que significa que se usa UDP de forma notable (a diferencia de las categorías de comportamiento normal anteriores, donde este valor es más cercano a 0). También suele haber más de 2 puertos destino y las sesiones son más largas de media que las de las categorías anteriores.
+<img alt="" src="slides/udp.png" /></p>
+<p>⠀</p>
+<p><strong>4</strong>. La cuarta categoría suele identificarse como "<strong>conexiones largas</strong>" porque la duración media de sesión está en el orden de decenas e incluso centenas de miles de segundos (esto es, mantienen sesiones que superan el día de duración).
+<img alt="" src="slides/long_duration.png" /></p>
+<p>⠀</p>
+<p><strong>5</strong>. En el grupo denominado de las "<strong>anomalías</strong>", los valores son más extraños porque se compone de pocas instancias cuyas características son más extremas. Lo que más salta a la vista es que el número de eventos en estos casos es mucho mayor, y también el número de puertos origen (lo que indica que estos equipos mantienen una cantidad de sesiones mayor que el resto).
+<img alt="" src="slides/anom.png" /></p>
+<h2 id="6-conclusiones-y-lineas-futuras">6. Conclusiones y líneas futuras</h2>
+<ul>
+<li>Podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red.</li>
+<li>Los equipos de la categoría "anomalías" ciertamente se identifican con comportamientos sospechosos (aunque no necesariamente malintencionados).</li>
+<li>Esta aportación puede tener una aplicación práctica inmediata.</li>
+</ul>
+<h1 id="presentacion-de-la-defensa">Presentación de la defensa</h1>
+<p><a href="slides-tfm.pdf"><img alt="" src="slides/def.png" /></a></p></div>
+        
+        
+    </div>
+
+    
+      <footer class="col-md-12 text-center">
+          
+          
+            <hr>
+            <p>
+            <small>Project maintained by <a target=_blanks href="https://github.com/jartigag">@jartigag</a>.</small><br>
+            
+            <small>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</small>
+            </p>
+          
+
+          
+          
+      </footer>
+    
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap-3.0.3.min.js"></script>
+
+    
+    <script src="//cdn.jsdelivr.net/gh/highlightjs/cdn-release@9.18.0/build/highlight.min.js"></script>
+        
+    <script>hljs.initHighlightingOnLoad();</script>
+    
+
+    <script>var base_url = "."</script>
+    
+    <script src="js/base.js"></script>
+    <script src="search/main.js"></script>
+
+    <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal">
+                    <span aria-hidden="true">&times;</span>
+                    <span class="sr-only">Close</span>
+                </button>
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+    </body>
+
+</html>
+
+<!--
+MkDocs version : 1.1.2
+Build Date UTC : 2021-01-30 00:12:24.000831+00:00
+-->

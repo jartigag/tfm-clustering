@@ -1,11 +1,10 @@
 site_name: tfm-clustering
-site_description: caracterización de equipos informáticos mediante clustering en una red empresarial
-site_favicon: favicon.ico
+site_description: Caracterización de equipos informáticos mediante clustering en una red empresarial
 repo_url: https://github.com/jartigag/tfm-clustering
 edit_uri: edit/master/docs/docs
 copyright: Project maintained by <a target=_blanks href="https://github.com/jartigag">@jartigag</a>.
 theme: cinder
 extra_css:
   - css/extra.css
-pages:
+nav:
   - Home: index.md

@@ -1,4 +1,7 @@
-# -*- coding: utf-8 -*-
+#!/usr/bin/env python3
+#
+#usage: ./make_dataset.py ../../data/raw/database.sqlite ../../data/processed/matches.csv
+
 import click
 import logging
 from pathlib import Path
@@ -14,6 +17,8 @@ def main(input_filepath, output_filepath):
     """
     logger = logging.getLogger(__name__)
     logger.info('making final data set from raw data')
+    #TODO
+    logger.info('final data set done.')
 
 
 if __name__ == '__main__':

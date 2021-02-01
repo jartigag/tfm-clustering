@@ -1,13 +1,13 @@
 #!/usr/bin/env python3
 #
-#usage: ./src/models/predict_model.py data/processed/2020-09-22-dataset.csv
+#usage: ./src/models/predict_model.py data/processed/FORTINET_FIREWALL.aggmatrix.csv
 #exec time: 1s
 #output example:
-# $ head 2020-09-27-dataset.labeled.csv
-#src_ip,dst_ip,proto,src_port,dst_port,anom_level,threat_level,max_prio,count_events,avg_duration,stdev_duration,cluster
-#172.28.14.91,314,0,3553,4,0.05,0.0,4,11335,195.21,586.33,many_cnxs
-#172.28.15.88,285,2,3871,4,0.17,0.0,4,14571,213.67,4069.67,udp
-# $ column -ts, 2020-09-27-dataset.centroids.csv
+# $ head FORTINET_FIREWALL.aggmatrix.csv
+# src_ip,dst_ip,proto,src_port,dst_port,anom_level,threat_level,max_prio,count_events,avg_duration,stdev_duration,cluster
+# 10.253.15.238,98,0,4624,3,0.03,0.00,4,13111,151,184.49,2563.48
+# 172.24.82.135,293,1,3264,6,0.01,0.00,4,12951,210,321.74,710.02
+# $ column -ts, FORTINET_FIREWALL.centroids.csv
 #cluster        dst_ip  proto  src_port  dst_port  anom_level  threat_level  max_prio  count_events  avg_duration  stdev_duration  size  size(%)
 #few_cnxs       55.9    0.01   1779.96   2.11      0.2         0.0           4.0       4152.83       64.34         998.82          2083  51.88
 #many_cnxs      193.43  0.01   6356.54   2.87      0.1         0.0           3.98      26315.38      102.68        1348.81         1029  25.63
@@ -98,5 +98,5 @@ if __name__ == '__main__':
     #df_centroids.insert(loc=0, column='tstamp', value=tstamp)
 
     # print all to csv files:
-    df_data.to_csv(f"{dataset_filename.strip('csv')}labeled.csv", index=False)
-    df_centroids.sort_values('size(%)', ascending=False).round(2).to_csv(f"{dataset_filename.strip('csv')}centroids.csv", index_label="cluster")
+    df_data.to_csv(f"{dataset_filename.strip('.aggmatrix').strip('csv')}labeled.csv", index=False)
+    df_centroids.sort_values('size(%)', ascending=False).round(2).to_csv(f"{dataset_filename.strip('.aggmatrix').strip('csv')}centroids.csv", index_label="cluster")

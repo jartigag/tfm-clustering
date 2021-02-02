@@ -83,9 +83,7 @@ Referencias interesantes:
 
 ## 4. Desarrollo
 
-```
-#TODO
-```
+<a href="https://asciinema.org/a/388699"><img src="https://asciinema.org/a/388699.svg" /></a>
 
 ## 5. Resultados
 

@@ -83,7 +83,7 @@ Referencias interesantes:
 
 ## 4. Desarrollo
 
-<a href="https://asciinema.org/a/388699"><img src="https://asciinema.org/a/388699.svg" style="width: 100%" /></a>
+<script id="asciicast-388699" src="https://asciinema.org/a/388699.js" async></script>
 
 ## 5. Resultados
 

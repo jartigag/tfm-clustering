@@ -3,7 +3,7 @@ from src.models.predict_model import clustering
 
 
 @pytest.mark.parametrize("dataset, cluster_names", [
-    ("data/test/2020-09-27-aggmatrix.csv.anon", ['few_cnxs', 'many_cnxs', 'long_duration', 'udp', 'anom'])
+    ("data/test/FORTINET_FIREWALL.2020-09-27.aggmatrix.csv.anon", ['few_cnxs', 'many_cnxs', 'long_duration', 'udp', 'anom'])
 ])
 def test_clustering_tagging(dataset, cluster_names):
     df_data, df_centroids = clustering(dataset, kmeans_executions=50)

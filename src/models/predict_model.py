@@ -24,6 +24,10 @@ from sklearn.preprocessing import StandardScaler
 
 
 def clustering(dataset_file, kmeans_executions=30):
+    """ Given processed data in a csv file (from data/processed),
+        returns one dataframe with labeled data
+        and another dataframe with centroids.
+    """
     df_data = pd.read_csv(dataset_file)
     scaler = StandardScaler()
     X = scaler.fit_transform(df_data.loc[:, df_data.columns!="src_ip"])

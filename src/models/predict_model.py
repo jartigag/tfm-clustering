@@ -4,9 +4,9 @@
 #exec time: 1s
 #output example:
 # $ head FORTINET_FIREWALL.aggmatrix.csv
-# src_ip,dst_ip,proto,src_port,dst_port,anom_level,threat_level,max_prio,count_events,avg_duration,stdev_duration,cluster
-# 10.253.15.238,98,0,4624,3,0.03,0.00,4,13111,151,184.49,2563.48
-# 172.24.82.135,293,1,3264,6,0.01,0.00,4,12951,210,321.74,710.02
+# src_ip,dst_ip,proto,src_port,dst_port,anom_level,threat_level,max_prio,events,uniq_events,avg_duration,stdev_duration
+# 10.132.44.51-red0,178,0,4102,2,0.12,0.00,4,10656,7,137.86,472.89
+# 192.168.117.63-red1,150,0,2802,2,0.20,0.00,4,6536,7,148.42,308.92
 # $ column -ts, FORTINET_FIREWALL.centroids.csv
 #cluster        dst_ip  proto  src_port  dst_port  anom_level  threat_level  max_prio  count_events  avg_duration  stdev_duration  size  size(%)
 #few_cnxs       55.9    0.01   1779.96   2.11      0.2         0.0           4.0       4152.83       64.34         998.82          2083  51.88
@@ -88,19 +88,23 @@ def clustering(dataset_file, kmeans_executions=30):
     return df_data, df_centroids
 
 
+def print_dataframes(df_labeled_data, df_centroids, df_labeled_data_filename, df_centroids_filename):
+    # express size in percents:
+    df_centroids['size(%)'] = df_centroids['size'].transform(lambda x: 100*x/sum(x))
+
+    # print all to csv files:
+    df_labeled_data.to_csv(df_labeled_data_filename, index=False)
+    df_centroids.sort_values('size(%)', ascending=False).round(2).to_csv(df_centroids_filename, index_label="cluster")
+
+
 if __name__ == '__main__':
 
     dataset_filename = sys.argv[1]
-    df_data, df_centroids = clustering(dataset_filename)
-
-    # express size in percents:
-    df_centroids['size(%)'] = df_centroids['size'].transform(lambda x: 100*x/sum(x))
+    df_labeled_data, df_centroids = clustering(dataset_filename)
 
     # add tstamp
     #tstamp=int(datetime.timestamp(datetime.strptime(sys.argv[1][-22:-12], "%Y-%m-%d"))) # add tstamp as first column
     #df_data.insert(loc=0, column='tstamp', value=tstamp)
     #df_centroids.insert(loc=0, column='tstamp', value=tstamp)
 
-    # print all to csv files:
-    df_data.to_csv(f"{dataset_filename.strip('.aggmatrix').strip('csv')}labeled.csv", index=False)
-    df_centroids.sort_values('size(%)', ascending=False).round(2).to_csv(f"{dataset_filename.strip('.aggmatrix').strip('csv')}centroids.csv", index_label="cluster")
+    print_dataframes(df_labeled_data, df_centroids, dataset_filename)

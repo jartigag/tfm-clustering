@@ -5,7 +5,7 @@ sklearn
 # local package
 -e .
 
-# external requirements
+# cookiecutter requirements
 click
 mkdocs
 mkdocs-cinder

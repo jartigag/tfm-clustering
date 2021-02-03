@@ -83,7 +83,7 @@ Referencias interesantes:
 
 ## 4. Desarrollo
 
-<script id="asciicast-388699" src="https://asciinema.org/a/388699.js" async></script>
+<script id="asciicast-388891" src="https://asciinema.org/a/388891.js" async></script>
 
 ## 5. Resultados
 

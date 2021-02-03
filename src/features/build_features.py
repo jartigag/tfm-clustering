@@ -2,7 +2,7 @@
 #
 # for each src_ip, aggregate info and calc metrics from its session-features-vectors.
 #
-#usage: ./src/features/build_features.py data/interim/FORTINET_FIREWALL.featuresvector.csv > data/processed/FORTINET_FIREWALL.aggmatrix.csv
+#usage: ./src/features/build_features.py data/interim/FORTINET_FIREWALL.sessionfeaturesvectors.csv > data/processed/FORTINET_FIREWALL.aggmatrix.csv
 #exec time: 3m25s laptop (intel core i5-8265U @ 1.60GHz), 4m7s probe (intel xeon gold 6126 @ 2.60GHz)
 #output example:
 # $ head FORTINET_FIREWALL.aggmatrix.csv

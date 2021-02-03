@@ -3,7 +3,7 @@ tfm-clustering
 
 caracterización de equipos informáticos mediante clustering en una red empresarial
 
-<a href="https://asciinema.org/a/388699" target="_blank"><img src="https://asciinema.org/a/388699.svg" /></a>
+<a href="https://asciinema.org/a/388891" target="_blank"><img src="https://asciinema.org/a/388891.svg" /></a>
 
 Project Organization
 ------------

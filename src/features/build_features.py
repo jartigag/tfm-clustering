@@ -17,7 +17,7 @@ from statistics import mean, stdev
 import string
 
 
-def process(input_file,output_file=sys.stdout, time_slots=False):
+def process(input_file, output_file=sys.stdout, time_slots=False):
     """ Turns preprocessed data (from data/interim) into
         processed data (saved in data/processed), ready to be the model input.
     """
@@ -31,12 +31,12 @@ def process(input_file,output_file=sys.stdout, time_slots=False):
             for d in data:
                 d_slots = ''
                 if time_slots:
-                    d_slots = ",".join('',data[d]['slots']['night'],data[d]['slots']['work'],data[d]['slots']['afterwork'])
+                    d_slots = ",".join('', data[d]['slots']['night'], data[d]['slots']['work'], data[d]['slots']['afterwork'])
                 print( "{},{},{:d},{:d},{:d},{:.2f},{:.2f},{:d},{:d},{:d},{:.2f},{:.2f}{}".format( d,
-                        len(data[d]['dst_ip']),data[d]['proto'],len(data[d]['src_port']),len(data[d]['dst_port']),
-                        mean(data[d]['anom_level']),mean(data[d]['threat_level']),
-                        min(data[d]['max_prio']),sum(data[d]['count_events']),len(set(data[d]['events'])),
-                        mean(data[d]['duration']),stdev(data[d]['duration']) if len(data[d]['duration'])>1 else 0,
+                        len(data[d]['dst_ip']), data[d]['proto'], len(data[d]['src_port']), len(data[d]['dst_port']),
+                        mean(data[d]['anom_level']), mean(data[d]['threat_level']),
+                        min(data[d]['max_prio']), sum(data[d]['count_events']), len(set(data[d]['events'])),
+                        mean(data[d]['duration']), stdev(data[d]['duration']) if len(data[d]['duration'])>1 else 0,
                         d_slots
                     ), file = outf)
 
@@ -45,9 +45,8 @@ def process(input_file,output_file=sys.stdout, time_slots=False):
 
     if time_slots:
         #TODO: generalize
-        week_tstamps = [i for i in range(1589752800,                   1590357601,   60*60*8)]
-        #                               L18may00:00, so L25may00:00 is included^^, 8h step^^
-        days = ['18may', '19may', '20may', '21may', '22may', '23may', '24may', '25may']
+        week_tstamps = [i for i in range(1589752800, 1590357601, 60*60*8)]
+        #            L18may00:00, so L25may00:00 is included^^, 8h step^^
         slots = ['night', 'work', 'afterwork']
         #     00:00 - 08:00 - 16:00   -   00:00
 
@@ -126,6 +125,7 @@ def process(input_file,output_file=sys.stdout, time_slots=False):
             data[src_ip]['duration'].append(                                       int(r[0])-int(r[1]))
 
     print_data()
+
 
 if __name__ == '__main__':
     preprocessed_data = sys.argv[1]

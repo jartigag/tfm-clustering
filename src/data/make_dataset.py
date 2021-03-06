@@ -33,7 +33,8 @@ def main(input_filepath, output_filepath, dry_run):
 
         #TODO: extract tar.gz
 
-        #mawk -F"···" -v OFS=, {print $1,$2,$5"-"$6,$7,$9,$10,$11,$14,$15,$16,$17,$18} data/raw/FORTINET_FIREWALL.2021-01-26T070500 > data/interim/FORTINET_FIREWALL.2021-01-26T070500.sessionfeaturesvectors.csv
+        #mawk -F"···" -v OFS=, {print $1,$2,$5"-"$6,$7,$9,$10,$11,$14,$15,$16,$17,$18} data/raw/FORTINET_FIREWALL.2021-01-26T070500 \
+        #        > data/interim/FORTINET_FIREWALL.2021-01-26T070500.sessionfeaturesvectors.csv
         logger.info(f"({convert_bytes(f.stat().st_size)}) {f}")
         preprocess_output = f"{Path(input_filepath).parent/'interim'/f.stem}.sessionfeaturesvectors.csv.log" # f.stem is f.name without suffix
         preprocess_command = f'''
@@ -45,10 +46,11 @@ def main(input_filepath, output_filepath, dry_run):
 
         #TODO: logger.info(f"estimated RAM size needed: {x}")
 
-        #./src/features/build_features.py data/interim/FORTINET_FIREWALL.2021-01-26T070500.sessionfeaturesvectors.csv > data/processed/FORTINET_FIREWALL.2021-01-26T070500.aggmatrix.csv
+        #./src/features/build_features.py data/interim/FORTINET_FIREWALL.2021-01-26T070500.sessionfeaturesvectors.csv \
+        #        > data/processed/FORTINET_FIREWALL.2021-01-26T070500.aggmatrix.csv
         process_input = preprocess_output
         process_output = f"{Path(input_filepath).parent/'processed'/f.stem}.aggmatrix.csv.log"
-        logger = logging.getLogger(".".join([process.__module__,process.__name__]))
+        logger = logging.getLogger(".".join([process.__module__, process.__name__]))
         process_command = f'''
         ./src/features/build_features.py {process_input} \\
                 > {process_output}
@@ -59,13 +61,13 @@ def main(input_filepath, output_filepath, dry_run):
         #./src/models/predict_model.py data/processed/FORTINET_FIREWALL.2021-01-26T070500.aggmatrix.csv
         model_input = process_output
         #model_output =
-        logger = logging.getLogger(".".join([clustering.__module__,clustering.__name__]))
+        logger = logging.getLogger(".".join([clustering.__module__, clustering.__name__]))
         clustering_command = f'''
         ./src/models/predict_model.py {model_input}
         '''
         logger.info(clustering_command)
         if not dry_run: df_labeled_data, df_centroids = clustering(model_input)
-        logger = logging.getLogger(".".join([print_dataframes.__module__,print_dataframes.__name__]))
+        logger = logging.getLogger(".".join([print_dataframes.__module__, print_dataframes.__name__]))
         if not dry_run: print_dataframes(df_labeled_data, df_centroids, f"{model_input.replace('aggmatrix','labeled')}", f"{model_input.replace('aggmatrix','centroids')}")
 
     logger.info('final data set done.')

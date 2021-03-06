@@ -39,11 +39,13 @@ def clustering(dataset_file, kmeans_executions=30):
     #       Method for initialization:
     #       'k-means++' : selects initial cluster centers for k-mean clustering in a smart way to speed up convergence. See section Notes in k_init for more details.
     #       'random': choose n_clusters observations (rows) at random from data for the initial centroids.
-    #   ** "The k-means++ paper provides monte-carlo simulation results that show that k-means++ is both faster and provides a better performance, so there is no guarantee, but results may be better."
+    #   ** "The k-means++ paper provides monte-carlo simulation results that show that k-means++ is both faster and provides a better performance,
+    #       so there is no guarantee, but results may be better."
     #
     # - n_init. int, default=10
-    #       Number of time the k-means algorithm will be run with different centroid seeds. The final results will be the best output of n_init consecutive runs in terms of inertia.
-    clusters = algo.fit_predict(X)
+    #       Number of time the k-means algorithm will be run with different centroid seeds. The final results will be
+    #       the best output of n_init consecutive runs in terms of inertia.
+    algo.fit_predict(X) # this returns the clusters
 
     #print("Silhouette Coefficient: %0.2f" % metrics.silhouette_score(X, algo.labels_))
 

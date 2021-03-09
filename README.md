@@ -45,4 +45,31 @@ Project Organization
 
 --------
 
+# Results
+
+**1**. En los equipos que corresponden a la categoría "**comportamiento normal con muchas conexiones**", el número de direcciones IPs destino únicas a las que se conectan está en el orden de varios cientos y casi siempre 2 puertos destino (los más frecuentes, 80 y 443) o 3.
+![](docs/docs/slides/many_cnxs.png)
+
+⠀
+
+**2**. Los equipos de categoría "**comportamiento normal, pocas conexiones**" se conectan a decenas de IPs destino, usando menos de 100 puertos origen y hacia 1-2 puertos destino.
+![](docs/docs/slides/few_cnxs.png)
+
+⠀
+
+**3**. En los clasificados como "**sesiones UDP**" lo más destacado es que la característica "protocolo" es mayor que 1, lo que significa que se usa UDP de forma notable (a diferencia de las categorías de comportamiento normal anteriores, donde este valor es más cercano a 0). También suele haber más de 2 puertos destino y las sesiones son más largas de media que las de las categorías anteriores.
+![](docs/docs/slides/udp.png)
+
+⠀
+
+**4**. La cuarta categoría suele identificarse como "**conexiones largas**" porque la duración media de sesión está en el orden de decenas e incluso centenas de miles de segundos (esto es, mantienen sesiones que superan el día de duración).
+![](docs/docs/slides/long_duration.png)
+
+⠀
+
+**5**. En el grupo denominado de las "**anomalías**", los valores son más extraños porque se compone de pocas instancias cuyas características son más extremas. Lo que más salta a la vista es que el número de eventos en estos casos es mucho mayor, y también el número de puertos origen (lo que indica que estos equipos mantienen una cantidad de sesiones mayor que el resto).
+![](docs/docs/slides/anom.png)
+
+
+
 <p><small>Project based on the <a target="_blank" href="https://drivendata.github.io/cookiecutter-data-science/">cookiecutter data science project template</a>. #cookiecutterdatascience</small></p>

@@ -5,7 +5,7 @@ caracterización de equipos informáticos mediante clustering en una red empresa
 
 <a href="https://asciinema.org/a/388891" target="_blank"><img src="https://asciinema.org/a/388891.svg" /></a>
 
-Project Organization
+Organización del repositorio
 ------------
 
     ├── Makefile           <- Makefile with commands like `make data` or `make train`
@@ -45,7 +45,7 @@ Project Organization
 
 --------
 
-# Results
+# Resultados
 
 **1**. En los equipos que corresponden a la categoría "**comportamiento normal con muchas conexiones**", el número de direcciones IPs destino únicas a las que se conectan está en el orden de varios cientos y casi siempre 2 puertos destino (los más frecuentes, 80 y 443) o 3.
 ![](docs/docs/slides/many_cnxs.png)

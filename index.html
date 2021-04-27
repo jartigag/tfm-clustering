@@ -129,15 +129,29 @@ de diez casos al día.</p>
 <p>Interesa buscar una solución a estos obstáculos porque las empresas quieren garantizar que los recursos de sus redes se gestionan de la manera más óptima posible. Además, es especialmente importante la seguridad de la red corporativa, esto es, protegerla de acciones no autorizadas u otras amenazas que puedan comprometer su disponibilidad o la integridad de los equipos que la componen.</p>
 <p>Equipos de seguridad como puedan ser los firewalls contribuyen de manera decisiva a esta protección, pero su funcionamiento basado en firmas no cubre todos los casos ante una intrusión. Sin embargo, sí generan una enorme cantidad de datos que, si se tratan adecuadamente, sirven para ampliar el alcance de las técnicas empleadas en materia de seguridad.</p>
 <p>Por ello, un sistema que modele el comportamiento normal de una red y detecte anomalías usando métodos estadísticos y de inteligencia artificial permitirá conocer mejor el contexto de dicha red e identificar comportamientos sospechosos que no se considerarían de otro modo.</p>
-<p>Las cuestiones planteadas para guiar esta investigación han sido:
-* Si podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red
-* Cuáles serían esas categorías
-* Si sereremos capaces de identificar comportamientos sospechosos en base a esta clasificación</p>
+<p>Las cuestiones planteadas para guiar esta investigación han sido:</p>
+<ul>
+<li>
+<p>Si podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red.</p>
+</li>
+<li>
+<p>Cuáles serían esas categorías.</p>
+</li>
+<li>
+<p>Si sereremos capaces de identificar comportamientos sospechosos en base a esta clasificación.</p>
+</li>
+</ul>
 <p>A través de estas cuestiones se inicia el estudio del problema, para cuya solución se propone obtener un modelo clasificador que distinga patrones de comportamiento normales y desviaciones respecto de la actividad normal. Este clasificador se realizará mediante una técnica de aprendizaje automático no supervisado como es el clustering (técnica que lleva a cabo una agrupación en categorías de manera natural, buscando características en común sin haber definido las clases previamente).
 El objetivo principal es localizar en la red interna orígenes de tráfico catalogable como extraño, lo que puede indicar un equipo infectado o mal configurado. La determinación de qué se sale de lo habitual dependerá de las particularidades de la red, algo difícil de concretar a priori y más aún de generalizar, razón por la cual el clustering (como etapa final tras un análisis y preprocesado de los datos adaptado al caso) se ha considerado una técnica idónea en esta tarea.</p>
 <h2 id="2-objetivos-y-metodologia">2. Objetivos y metodología</h2>
-<pre><code>#TODO
-</code></pre>
+<ul>
+<li><strong>Procesado</strong> (en producción, diario):</li>
+</ul>
+<p><img alt="" src="diag.png" /></p>
+<ul>
+<li><strong>Dashboard</strong> (para monitorizar los resultados desde Grafana):</li>
+</ul>
+<p><img alt="" src="dashb.png" /></p>
 <h2 id="3-estado-del-arte">3. Estado del arte</h2>
 <p>Referencias interesantes:</p>
 <h3 id="31-aprendizaje-automatico-en-la-clasificacion-de-trafico">3.1. Aprendizaje automático en la clasificación de tráfico</h3>
@@ -305,5 +319,5 @@ El objetivo principal es localizar en la red interna orígenes de tráfico catal
 
 <!--
 MkDocs version : 1.1.2
-Build Date UTC : 2021-02-03 16:52:28.315165+00:00
+Build Date UTC : 2021-04-27 22:50:49.514103+00:00
 -->

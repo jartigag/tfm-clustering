@@ -29,18 +29,25 @@ Equipos de seguridad como puedan ser los firewalls contribuyen de manera decisiv
 Por ello, un sistema que modele el comportamiento normal de una red y detecte anomalías usando métodos estadísticos y de inteligencia artificial permitirá conocer mejor el contexto de dicha red e identificar comportamientos sospechosos que no se considerarían de otro modo.
 
 Las cuestiones planteadas para guiar esta investigación han sido:
-* Si podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red
-* Cuáles serían esas categorías
-* Si sereremos capaces de identificar comportamientos sospechosos en base a esta clasificación
+
+* Si podemos clasificar las direcciones IP de una gran red empresarial en categorías relevantes según su comportamiento de red.
+
+* Cuáles serían esas categorías.
+
+* Si sereremos capaces de identificar comportamientos sospechosos en base a esta clasificación.
 
 A través de estas cuestiones se inicia el estudio del problema, para cuya solución se propone obtener un modelo clasificador que distinga patrones de comportamiento normales y desviaciones respecto de la actividad normal. Este clasificador se realizará mediante una técnica de aprendizaje automático no supervisado como es el clustering (técnica que lleva a cabo una agrupación en categorías de manera natural, buscando características en común sin haber definido las clases previamente).
 El objetivo principal es localizar en la red interna orígenes de tráfico catalogable como extraño, lo que puede indicar un equipo infectado o mal configurado. La determinación de qué se sale de lo habitual dependerá de las particularidades de la red, algo difícil de concretar a priori y más aún de generalizar, razón por la cual el clustering (como etapa final tras un análisis y preprocesado de los datos adaptado al caso) se ha considerado una técnica idónea en esta tarea.
 
 ## 2. Objetivos y metodología
 
-```
-#TODO
-```
+- **Procesado** (en producción, diario):
+
+![](diag.png)
+
+- **Dashboard** (para monitorizar los resultados desde Grafana):
+
+![](dashb.png)
 
 ## 3. Estado del arte
 

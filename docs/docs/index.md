@@ -127,4 +127,6 @@ En septiembre/octubre se llevó el prototipo al escenario real. Se [adaptaron lo
 
 # Presentación de la defensa
 
-[![](slides/def.png)](slides-tfm.pdf)
+<a href="TFM.pdf">
+<img src="slides/def.png" width="100%">
+</a>
